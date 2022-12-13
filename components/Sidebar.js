@@ -43,7 +43,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
-      <Link href="/dashboard">
+      <Link  onClick={() => setActivePage("dashboard")} href="/dashboard">
         <Icon styles="w-[52px] h-[52px] bg-[#2c2f32]" imgUrl={logo} />
       </Link>
 

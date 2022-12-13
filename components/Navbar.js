@@ -5,18 +5,18 @@ import Image from "next/image";
 
 import { CustomButton } from "./";
 import { navlinks } from "../constants";
-import { useStateContext } from '../context';
+import { useStateContext } from "../context";
 import { logo, menu, search, thirdweb } from "../assets";
 
 const Navbar = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
-  const { connect, address, activePage,setActivePage } = useStateContext();
+  const { connect, address, activePage, setActivePage } = useStateContext();
 
   const router = useRouter();
   const push = () => {
-    setActivePage("uploadMedia")
-    router.push("/dashboard/uploadmedia")
-  }
+    setActivePage("uploadMedia");
+    router.push("/dashboard/uploadmedia");
+  };
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
@@ -44,11 +44,14 @@ const Navbar = () => {
           title={address ? "Upload" : "Connect"}
           styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
           handleClick={() => {
-            if (address) push()
+            if (address) push();
             else connect();
           }}
         />
-        <Link  onClick={() => setActivePage("profile")} href="/dashboard/profile">
+        <Link
+          onClick={() => setActivePage("profile")}
+          href="/dashboard/profile"
+        >
           <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             <Image
               width="50"
@@ -63,15 +66,17 @@ const Navbar = () => {
 
       {/* Small screen navigation */}
       <div className="sm:hidden flex justify-between items-center relative">
-        <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
-          <Image
-            width="50"
-            height="50"
-            src={logo}
-            alt="user"
-            className="w-[60%] h-[60%] object-contain"
-          />
-        </div>
+        <Link onClick={() => setActivePage("dashboard")} href="/dashboard">
+          <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+            <Image
+              width="50"
+              height="50"
+              src={logo}
+              alt="user"
+              className="w-[60%] h-[60%] object-contain"
+            />
+          </div>
+        </Link>
 
         <Image
           width="50"
@@ -111,7 +116,9 @@ const Navbar = () => {
                 />
                 <p
                   className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-                    activePage === link.name ? "text-[#1dc071]" : "text-[#808191]"
+                    activePage === link.name
+                      ? "text-[#1dc071]"
+                      : "text-[#808191]"
                   }`}
                 >
                   {link.name}
@@ -123,7 +130,7 @@ const Navbar = () => {
           <div className="flex mx-4">
             <CustomButton
               btnType="button"
-              title={address ? "Create a campaign" : "Connect"}
+              title={address ? "Upload" : "Connect"}
               styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
               handleClick={() => {
                 if (address) push();
