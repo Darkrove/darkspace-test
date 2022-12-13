@@ -14,7 +14,7 @@ const Home = () => {
         {files
           ? files.map((url, index) => (
               // <Image src={url} width="500" height="500" />
-              <a className="text-3xl text-white" href={url} target="_blank" key={index}>{url}</a>
+              <a className="text-lg text-white" href={url} target="_blank" key={index}>item 1</a>
             ))
           : "HELLO"}
       </div>
