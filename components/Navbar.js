@@ -16,6 +16,7 @@ const Navbar = () => {
   const push = () => {
     setActivePage("uploadMedia");
     router.push("/dashboard/uploadmedia");
+    setToggleDrawer(false);
   };
 
   return (
