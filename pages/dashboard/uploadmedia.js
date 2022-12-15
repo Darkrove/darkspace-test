@@ -1,66 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { useRouter } from "next/router";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 import { useStorageUpload } from "@thirdweb-dev/react";
 
-import { CustomButton, FormField, Loader } from "../../components"
+import { CustomButton, FormField, Loader } from "../../components";
 import { secure } from "../../assets";
 import { useStateContext } from "../../context";
 
 const uploadmedia = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { setFiles, setActivePage } = useStateContext();
+  const { setFiles, setActivePage, uploadFile } = useStateContext();
   const [form, setForm] = useState({
     filename: "",
     description: "",
     file: "",
     type: "",
     size: "",
+    hash: ""
   });
   const { mutateAsync: upload } = useStorageUpload();
 
   const handleFormFieldChange = (fieldName, e) => {
-    setForm({ ...form, [fieldName]: e.target.value });
+    setForm(state => ({...state, [fieldName]: e.target.value }));
   };
 
   const captureFile = (e) => {
     const file = e.target.files[0];
-    setForm({
-      ...form,
+    setForm(state => ({
+      ...state,
       file: file,
       type: file.type,
       filename: file.name,
       size: file.size,
+    }));
+  };
+
+  const uploadToIpfs = async () => {
+    const uploadUrl = await upload({
+      data: [form.file],
+      options: { uploadWithGatewayUrl: false, uploadWithoutDirectory: true },
     });
+    return uploadUrl;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // checkIfImage(file, async (exists) => {
     if (form.file) {
       setIsLoading(true);
-      const uploadUrl = await upload({
-        data: [form.file],
-        options: { uploadWithGatewayUrl: true, uploadWithoutDirectory: true },
-      });
-      // await createCampaign({
-      //   ...form,
-      //   target: ethers.utils.parseUnits(form.target, 18),
-      // });
+      const hashUrl = await uploadToIpfs();
+      await uploadFile({...form}, hashUrl[0].slice(7))
       setIsLoading(false);
-      console.log(uploadUrl);
-      setFiles(files => [...files, uploadUrl[0]])
-      setActivePage("dashboard")
+      setForm({...form, hash: hashUrl[0].slice(7)})
+      setFiles(files => [...files, hashUrl[0].slice(7)])
+      // console.table(form)
+      setActivePage("dashboard");
       router.push("/dashboard");
     } else {
       alert("Provide valid image");
       setForm({ ...form, image: "" });
     }
-    // });
-
-    console.log(form);
   };
 
   return (
@@ -81,7 +81,7 @@ const uploadmedia = () => {
             labelName="Media Name *"
             placeholder="Camera101.jpg"
             inputType="text"
-            disabled
+            // disabled
             value={form.filename}
             handleChange={(e) => handleFormFieldChange("filename", e)}
           />
