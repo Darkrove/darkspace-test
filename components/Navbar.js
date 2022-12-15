@@ -90,7 +90,7 @@ const Navbar = () => {
 
         <div
           className={`absolute top-[60px] right-0 left-0 bg-[#1c1c24] z-10 shadow-secondary py-4 ${
-            !toggleDrawer ? "-translate-y-[100vh]" : "translate-y-0"
+            !toggleDrawer ? "-translate-y-[200vh]" : "translate-y-0"
           } transition-all duration-700`}
         >
           <ul className="mb-4">
