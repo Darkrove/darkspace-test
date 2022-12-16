@@ -13,9 +13,9 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0xE9db9c0A26E74f1C700e75b05079E6C4C5bb34D5"
+    "0xBFb3f1E00f18362f6FDe98c74a69C971F9ab6717"
   );
-  const { mutateAsync: uploadFile } = useContractWrite(contract, "uploadFile");
+  const { mutateAsync: createFile, isLoading } = useContractWrite(contract, "createFile")
 
   const address = useAddress();
   const connect = useMetamask();
@@ -25,12 +25,12 @@ export const StateContextProvider = ({ children }) => {
 
   const publishFile = async (form, __hash) => {
     try {
-      const data = await uploadFile([
-        __hash,
-        form.size,
-        form.type,
+      const data = await createFile([
         form.filename,
         form.description,
+        form.size,
+        form.type,
+        __hash,
       ]);
 
       console.warn("contract call success", data);
@@ -39,58 +39,35 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
-  const retrieveFiles = async () => {
-    const data = await contract.call("files",2)
-    // console.table(data)
+  const getFiles = async () => {
+    const data = await contract.call("getFiles")
+    // console.warn(data)
     if (data.length > 0) {
-      const parsedFiles = {
-        owner: data.uploader,
-        name: data.fileName,
-        description: data.fileDescription,
-        type: data.fileType,
-        size: data.fileSize.toNumber(),
-        hash: data.fileHash,
-        uploadTime: data.uploadTime.toNumber(),
-        pId: data.fileId.toNumber(),
-      };
+      const parsedFiles = data.map((file, i) => ({
+        owner: file.owner,
+        name: file.name,
+        description: file.description,
+        type: file.fileType,
+        size: file.size.toNumber(),
+        hash: file.hash,
+        uploadTime: file.uploadTime.toNumber(),
+        pId: file.id.toNumber(),
+      }));
+      // console.warn(parsedFiles)
       return parsedFiles;
     } else {
       return null
     }
   };
 
-  const getUserCampaigns = async () => {
-    const allCampaigns = await getCampaigns();
+  const getUserFiles = async () => {
+    const allFiles = await getFiles();
 
-    const filteredCampaigns = allCampaigns.filter(
-      (campaign) => campaign.owner === address
+    const filteredFiles = allFiles.filter(
+      (file) => file.owner === address
     );
 
-    return filteredCampaigns;
-  };
-
-  const donate = async (pId, amount) => {
-    const data = await contract.call("donateToCampaign", pId, {
-      value: ethers.utils.parseEther(amount),
-    });
-
-    return data;
-  };
-
-  const getDonations = async (pId) => {
-    const donations = await contract.call("getDonators", pId);
-    const numberOfDonations = donations[0].length;
-
-    const parsedDonations = [];
-
-    for (let i = 0; i < numberOfDonations; i++) {
-      parsedDonations.push({
-        donator: donations[0][i],
-        donation: ethers.utils.formatEther(donations[1][i].toString()),
-      });
-    }
-
-    return parsedDonations;
+    return filteredFiles;
   };
 
   return (
@@ -100,10 +77,8 @@ export const StateContextProvider = ({ children }) => {
         connect,
         contract,
         uploadFile: publishFile,
-        retrieveFiles,
-        getUserCampaigns,
-        donate,
-        getDonations,
+        getFiles,
+        getUserFiles,
         activePage,
         setActivePage,
         files,
