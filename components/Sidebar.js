@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 
 import { navlinks } from "../constants";
-import { logo, sun } from "../assets";
-import { useStateContext } from "../context"
+import { logo, sun, logout } from "../assets";
+import { useStateContext } from "../context";
 
 const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
   <div
@@ -38,12 +38,12 @@ const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
 
 const Sidebar = () => {
   // const [activePage, setactivePage] = useState("dashboard");
-  const { activePage, setActivePage, disconnect } = useStateContext()
-  const router = useRouter()
+  const { activePage, setActivePage, disconnect, address } = useStateContext();
+  const router = useRouter();
 
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
-      <Link  onClick={() => setActivePage("dashboard")} href="/dashboard">
+      <Link onClick={() => setActivePage("dashboard")} href="/dashboard">
         <Icon styles="w-[52px] h-[52px] bg-[#2c2f32]" imgUrl={logo} />
       </Link>
 
@@ -56,13 +56,17 @@ const Sidebar = () => {
               activePage={activePage}
               handleClick={() => {
                 if (!link.disabled) {
-                  if(link.name === "logout") {disconnect}
                   setActivePage(link.name);
                   router.push(link.link);
                 }
               }}
             />
           ))}
+          {address ? (
+            <Icon styles="grayscale hover:grayscale-0" name="logout" imgUrl={logout} handleClick={disconnect} />
+          ) : (
+            ""
+          )}
         </div>
 
         <Icon styles="bg-[#1c1c24] shadow-secondary" imgUrl={sun} />

@@ -7,11 +7,39 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import { CustomButton } from "./";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
-import { logo, menu, search, thirdweb } from "../assets";
+import { logo, menu, search, thirdweb, logout } from "../assets";
+
+const Row = ({ styles, name, imgUrl, activePage, handleClick }) => {
+  return (
+    <li
+      key={name}
+      className={`flex p-4 ${activePage === name && "bg-[#3a3a43]"}`}
+      onClick={handleClick}
+    >
+      <Image
+        width="50"
+        height="50"
+        src={imgUrl}
+        alt={name}
+        className={`w-[24px] h-[24px] object-contain ${
+          activePage === name ? "grayscale-0" : "grayscale"
+        }`}
+        c
+      />
+      <p
+        className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
+          activePage === name ? "text-[#1dc071]" : "text-[#808191]"
+        }`}
+      >
+        {name}
+      </p>
+    </li>
+  );
+};
 
 const Navbar = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
-  const { connect, address, activePage, setActivePage } = useStateContext();
+  const { connect, address, activePage, setActivePage, disconnect } = useStateContext();
 
   const router = useRouter();
   const push = () => {
@@ -50,7 +78,11 @@ const Navbar = () => {
             else connect();
           }}
         /> */}
-        <ConnectWallet className="rounded-[100px]" accentColor="#1c1c24" colorMode="dark" />
+        <ConnectWallet
+          className="rounded-[100px]"
+          accentColor="#1dc071"
+          colorMode="dark"
+        />
         <Link
           onClick={() => setActivePage("profile")}
           href="/dashboard/profile"
@@ -97,37 +129,17 @@ const Navbar = () => {
         >
           <ul className="mb-4">
             {navlinks.map((link) => (
-              <li
-                key={link.name}
-                className={`flex p-4 ${
-                  activePage === link.name && "bg-[#3a3a43]"
-                }`}
-                onClick={() => {
+              <Row
+                {...link}
+                activePage={activePage}
+                handleClick={() => {
                   setActivePage(link.name);
                   setToggleDrawer(false);
                   router.push(link.link);
                 }}
-              >
-                <Image
-                  width="50"
-                  height="50"
-                  src={link.imgUrl}
-                  alt={link.name}
-                  className={`w-[24px] h-[24px] object-contain ${
-                    activePage === link.name ? "grayscale-0" : "grayscale"
-                  }`}c
-                />
-                <p
-                  className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-                    activePage === link.name
-                      ? "text-[#1dc071]"
-                      : "text-[#808191]"
-                  }`}
-                >
-                  {link.name}
-                </p>
-              </li>
+              />
             ))}
+            {address ? <Row name="logout" imgUrl={logout} handleClick={disconnect}/> : ""}
           </ul>
 
           <div className="flex mx-4">
