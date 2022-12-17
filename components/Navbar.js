@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 import { CustomButton } from "./";
 import { navlinks } from "../constants";
@@ -21,7 +22,7 @@ const Navbar = () => {
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
-      <div className="border-solid border-2 border-[#4acd8d] lg:flex-1 flex flex-row lg:max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px] ">
+      <div className=" lg:flex-1 flex flex-row lg:max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px] ">
         <input
           type="text"
           placeholder="Search for images"
@@ -40,7 +41,7 @@ const Navbar = () => {
       </div>
 
       <div className="sm:flex hidden flex-row justify-end gap-4">
-        <CustomButton
+        {/* <CustomButton
           btnType="button"
           title={address ? "Upload" : "Connect"}
           styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
@@ -48,7 +49,8 @@ const Navbar = () => {
             if (address) push();
             else connect();
           }}
-        />
+        /> */}
+        <ConnectWallet className="rounded-[100px]" accentColor="#1c1c24" colorMode="dark" />
         <Link
           onClick={() => setActivePage("profile")}
           href="/dashboard/profile"
@@ -129,7 +131,7 @@ const Navbar = () => {
           </ul>
 
           <div className="flex mx-4">
-            <CustomButton
+            {/* <CustomButton
               btnType="button"
               title={address ? "Upload" : "Connect"}
               styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
@@ -137,7 +139,8 @@ const Navbar = () => {
                 if (address) push();
                 else connect();
               }}
-            />
+            /> */}
+            <ConnectWallet accentColor="#1dc071" colorMode="dark" />
           </div>
         </div>
       </div>

@@ -3,8 +3,8 @@ import {
   useAddress,
   useContract,
   useMetamask,
+  useDisconnect,
   useContractWrite,
-  useContractRead,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
@@ -19,6 +19,7 @@ export const StateContextProvider = ({ children }) => {
 
   const address = useAddress();
   const connect = useMetamask();
+  const disconnect = useDisconnect();
 
   const [activePage, setActivePage] = useState("dashboard");
   const [files, setFiles] = useState([]);
@@ -75,6 +76,7 @@ export const StateContextProvider = ({ children }) => {
       value={{
         address,
         connect,
+        disconnect,
         contract,
         uploadFile: publishFile,
         getFiles,

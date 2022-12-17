@@ -38,7 +38,7 @@ const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
 
 const Sidebar = () => {
   // const [activePage, setactivePage] = useState("dashboard");
-  const { activePage, setActivePage } = useStateContext()
+  const { activePage, setActivePage, disconnect } = useStateContext()
   const router = useRouter()
 
   return (
@@ -56,6 +56,7 @@ const Sidebar = () => {
               activePage={activePage}
               handleClick={() => {
                 if (!link.disabled) {
+                  if(link.name === "logout") {disconnect}
                   setActivePage(link.name);
                   router.push(link.link);
                 }
