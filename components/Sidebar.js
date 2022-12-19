@@ -18,18 +18,20 @@ const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
   >
     {!activePage ? (
       <Image
-        width="50"
-        height="50"
+        width={50}
+        height={50}
         src={imgUrl}
         alt="logo"
+        loading="lazy"
         className="w-1/2 h-1/2"
       />
     ) : (
       <Image
-        width="50"
-        height="50"
+        width={50}
+        height={50}
         src={imgUrl}
         alt="logo"
+        loading="lazy"
         className={`w-1/2 h-1/2 ${activePage !== name && "grayscale"}`}
       />
     )}
@@ -63,7 +65,12 @@ const Sidebar = () => {
             />
           ))}
           {address ? (
-            <Icon styles="grayscale hover:grayscale-0" name="logout" imgUrl={logout} handleClick={disconnect} />
+            <Icon
+              styles="grayscale hover:grayscale-0"
+              name="logout"
+              imgUrl={logout}
+              handleClick={disconnect}
+            />
           ) : (
             ""
           )}

@@ -26,9 +26,9 @@ const DisplayFiles = ({ title, isLoading, files }) => {
 
         {!isLoading &&
           files.length > 0 &&
-          files.map((file) => (
+          files.map((file,id) => (
             <FileCard
-              key={file.id}
+              key={id}
               {...file}
             />
           ))}

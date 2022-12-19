@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { tagType, thirdweb } from "../assets";
@@ -14,16 +14,28 @@ const FileCard = ({
   uploadTime,
   handleClick,
 }) => {
+  const customLoader = ({ src, width, quality }) => {
+    return `https://s3.amazonaws.com/demo/image/${src}?w=${width}&q=${
+      quality || 75
+    }`;
+  };
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <div className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
-      <Image
-        src={`https://gateway.ipfscdn.io/ipfs/${hash}`}
-        alt="image"
-        width="500"
-        height="500"
-        className="w-full h-[158px] object-cover rounded-[15px]"
-      />
-
+      <div className="w-full overflow-hidden rounded-lg bg-gray-200">
+        <Image
+          src={`https://gateway.ipfscdn.io/ipfs/${hash}`}
+          alt="image"
+          width={400}
+          height={300}
+          loading="lazy"
+          onLoadingComplete={() => setIsLoading(false)}
+          className={
+            "duration-700 ease w-full h-[158px] object-cover rounded-[15px]" +
+            (isLoading ? "scale-110 grayscale blur-2xl" : "scale-100 blur-0 grayscale-0")
+          }
+        />
+      </div>
       <div className="flex flex-col p-4">
         <div className="flex flex-row items-center mb-[18px]">
           <img

@@ -17,8 +17,8 @@ const Row = ({ styles, name, imgUrl, activePage, handleClick }) => {
       onClick={handleClick}
     >
       <Image
-        width="50"
-        height="50"
+        width={50}
+        height={50}
         src={imgUrl}
         alt={name}
         className={`w-[24px] h-[24px] object-contain ${
@@ -59,9 +59,10 @@ const Navbar = () => {
 
         <div className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer">
           <Image
-            width="50"
-            height="50"
+            width={50}
+            height={50}
             src={search}
+            loading='lazy'
             alt="search"
             className="w-[15px] h-[15px] object-contain"
           />
@@ -89,8 +90,9 @@ const Navbar = () => {
         >
           <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             <Image
-              width="50"
-              height="50"
+              width={50}
+              height={50}
+              loading='lazy'
               src={thirdweb}
               alt="user"
               className="w-[60%] h-[60%] object-contain"
@@ -104,8 +106,9 @@ const Navbar = () => {
         <Link onClick={() => setActivePage("dashboard")} href="/dashboard">
           <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             <Image
-              width="50"
-              height="50"
+              width={50}
+              height={50}
+              loading='lazy'
               src={logo}
               alt="user"
               className="w-[60%] h-[60%] object-contain"
@@ -114,10 +117,11 @@ const Navbar = () => {
         </Link>
 
         <Image
-          width="50"
-          height="50"
+          width={50}
+          height={50}
           src={menu}
           alt="menu"
+          loading='lazy'
           className="w-[34px] h-[34px] object-contain cursor-pointer"
           onClick={() => setToggleDrawer((prev) => !prev)}
         />
