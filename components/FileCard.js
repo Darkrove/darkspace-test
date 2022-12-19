@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import { tagType, thirdweb } from "../assets";
+import { MediaModal } from "./";
+import { tagType, profile, userProfile } from "../assets";
+import { formatBytes, formatDate, shortenAddress } from "../utils";
 
 const FileCard = ({
   description,
@@ -19,6 +21,7 @@ const FileCard = ({
       quality || 75
     }`;
   };
+  const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   return (
     <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
@@ -30,14 +33,26 @@ const FileCard = ({
           height={300}
           loading="lazy"
           onLoadingComplete={() => setIsLoading(false)}
+          onClick={() => setShowModal(true)}
           className={
-            "duration-700 ease w-full h-[158px] object-cover rounded-[15px]" +
-            (isLoading ? "scale-110 grayscale blur-2xl" : "scale-100 blur-0 grayscale-0")
+            "duration-700 ease w-full h-[158px] object-cover rounded-[15px] hover:opacity-60 " +
+            (isLoading
+              ? "scale-110 grayscale blur-2xl"
+              : "scale-100 blur-0 grayscale-0")
           }
         />
       </div>
+      {showModal && (
+        <MediaModal
+          id={pId}
+          setOpenModal={setShowModal}
+          src={`https://ipfs.io/ipfs/${hash}`}
+          name={name}
+          username={shortenAddress(owner)}
+        />
+      )}
       <div className="flex flex-col p-4">
-        <div className="flex flex-row items-center mb-[18px]">
+        {/* <div className="flex flex-row items-center mb-[18px]">
           <img
             src={tagType}
             alt="tag"
@@ -46,46 +61,46 @@ const FileCard = ({
           <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[12px] text-[#808191]">
             Education
           </p>
-        </div>
+        </div> */}
 
         <div className="block">
           <h3 className="font-epilogue font-semibold text-[16px] text-white text-left leading-[26px] truncate">
             {name}
           </h3>
-          <p className="mt-[5px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate">
+          {/* <p className="mt-[5px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate">
             {description}
-          </p>
+          </p> */}
         </div>
 
-        {/* <div className="flex justify-between flex-wrap mt-[15px] gap-2">
-          <div className="flex flex-col">
+        <div className="flex justify-between flex-wrap mt-[15px] gap-2">
+          <div className="flex flex-col items-start">
             <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
-              {amountCollected}
+              File size
             </h4>
             <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
-              Raised of {target}
+              {formatBytes(size)}
             </p>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-end">
             <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
-              {remainingDays}
+              Upload time
             </h4>
             <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
-              Days Left
+              {formatDate(uploadTime)}
             </p>
           </div>
-        </div> */}
+        </div>
 
-        <div className="flex items-center mt-[20px] gap-[12px]">
-          <div className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-[#13131a]">
+        <div className="flex items-center justify-start mt-[20px] gap-[12px]">
+          <div className="w-[30px] h-[30px] overflow-hidden rounded-full flex justify-center items-center bg-[#13131a]">
             <img
-              src={thirdweb}
+              src={userProfile}
               alt="user"
-              className="w-1/2 h-1/2 object-contain"
+              className="w-[70%] h-[70%] mt-3 object-contain"
             />
           </div>
-          <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate">
-            by <span className="text-[#b2b3bd]">{owner}</span>
+          <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-[#808191] truncate">
+            by <span className="text-[#b2b3bd]">{shortenAddress(owner)}</span>
           </p>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import { CustomButton } from "./";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
-import { logo, menu, search, thirdweb, logout } from "../assets";
+import { logo, menu, search, userProfile, logout } from "../assets";
 
 const Row = ({ styles, name, imgUrl, activePage, handleClick }) => {
   return (
@@ -88,14 +88,14 @@ const Navbar = () => {
           onClick={() => setActivePage("profile")}
           href="/dashboard/profile"
         >
-          <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          <div className="w-[52px] h-[52px] overflow-hidden rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             <Image
               width={50}
               height={50}
               loading='lazy'
-              src={thirdweb}
+              src={userProfile}
               alt="user"
-              className="w-[60%] h-[60%] object-contain"
+              className="w-[80%] h-[80%] mt-3 object-contain"
             />
           </div>
         </Link>

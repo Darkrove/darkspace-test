@@ -11,7 +11,7 @@ const search = '/assets/search.svg';
 const menu = '/assets/menu.svg';
 const money = '/assets/money.svg';
 const loader = '/assets/loader.svg';
-const thirdweb = '/assets/thirdweb.png';
+const userProfile = '/assets/blank-profile.png';
 const secure = '/assets/secure.svg'
 
 export {
@@ -28,6 +28,6 @@ export {
   menu,
   money,
   loader,
-  thirdweb,
+  userProfile,
   secure,
 };
