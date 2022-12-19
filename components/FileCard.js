@@ -21,10 +21,10 @@ const FileCard = ({
   };
   const [isLoading, setIsLoading] = useState(true);
   return (
-    <div className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
-      <div className="w-full overflow-hidden rounded-[15px]">
+    <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
+      <div className="overflow-hidden rounded-[15px]">
         <Image
-          src={`https://gateway.ipfscdn.io/ipfs/${hash}`}
+          src={`https://ipfs.io/ipfs/${hash}`}
           alt="image"
           width={400}
           height={300}

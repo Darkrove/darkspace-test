@@ -11,7 +11,7 @@ const Home = () => {
 
   const fetchFiles = async () => {
     setIsLoading(true);
-    const data = await getUserFiles();
+    const data = await getFiles();
     setFiles(data);
     console.warn(data);
     setIsLoading(false);
