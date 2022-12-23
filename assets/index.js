@@ -1,32 +1,34 @@
-const dashboard = '/assets/dashboard.svg';
+const dashboard = '/assets/home-seyfdesigner.svg';
 const logo = '/assets/logo.svg';
-const logout = '/assets/logout.svg';
-const payment = '/assets/payment.svg';
-const profile = '/assets/profile.svg';
+const logout = '/assets/logout-seyfdesigner.svg';
+const folder = '/assets/folder-seyfdesigner.svg';
+const profile = '/assets/user-seyfdesigner.svg';
 const sun = '/assets/sun.svg';
-const createCampaign = '/assets/create-campaign.svg';
-const withdraw = '/assets/withdraw.svg';
-const tagType = '/assets/type.svg';
-const search = '/assets/search.svg';
-const menu = '/assets/menu.svg';
-const money = '/assets/money.svg';
+const upload = '/assets/upload-seyfdesigner.svg';
+const video = '/assets/video-seyfdesigner.svg';
+const clock = '/assets/clock-seyfdesigner.svg';
+const search = '/assets/search-seyfdesigner.svg';
+const menu = '/assets/menu-seyfdesigner.svg';
+const image = '/assets/image-seyfdesigner.svg';
 const loader = '/assets/loader.svg';
 const userProfile = '/assets/blank-profile.png';
-const secure = '/assets/secure.svg'
+const secure = '/assets/secure.svg';
+const verticalMenu = '/assets/vertical-menu.svg';
 
 export {
-  tagType,
-  createCampaign,
+  clock,
+  verticalMenu,
+  upload,
   dashboard,
   logo,
   logout,
-  payment,
+  folder,
   profile,
   sun,
-  withdraw,
+  video,
   search,
   menu,
-  money,
+  image,
   loader,
   userProfile,
   secure,

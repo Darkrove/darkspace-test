@@ -1,33 +1,47 @@
-import { createCampaign, dashboard, logout, payment, profile, withdraw } from '../assets';
+import { upload, dashboard, folder, profile, image, video, clock } from '../assets';
 
 export const navlinks = [
   {
     name: 'dashboard',
+    tip: 'Home',
     imgUrl: dashboard,
     link: '/dashboard',
   },
   {
-    name: 'uploadMedia',
-    imgUrl: createCampaign,
+    name: 'uploadmedia',
+    tip: 'Upload',
+    imgUrl: upload,
     link: '/dashboard/uploadmedia',
   },
   {
-    name: 'payment',
-    imgUrl: payment,
-    link: '/',
-    disabled: true,
+    name: 'files',
+    tip: 'Files',
+    imgUrl: folder,
+    link: '/dashboard/files',
   },
   {
-    name: 'withdraw',
-    imgUrl: withdraw,
-    link: '/',
-    disabled: true,
+    name: 'videos',
+    tip: 'Videos',
+    imgUrl: video,
+    link: '/dashboard/videos',
   },
   {
-    name: 'profile',
-    imgUrl: profile,
-    link: '/dashboard/profile',
+    name: 'photos',
+    tip: 'Photos',
+    imgUrl: image,
+    link: '/dashboard/photos',
   },
+  {
+    name: 'recent',
+    tip: 'Recent',
+    imgUrl: clock,
+    link: '/dashboard/recent',
+  },
+  // {
+  //   name: 'profile',
+  //   imgUrl: profile,
+  //   link: '/dashboard/profile',
+  // },
   // {
   //   name: 'logout',
   //   imgUrl: logout,

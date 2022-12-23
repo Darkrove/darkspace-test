@@ -1,9 +1,24 @@
 import React from "react";
 
 import { loader } from "../assets";
-import { FileCard } from "./"
- 
-const DisplayFiles = ({ title, isLoading, files }) => {
+import { FileCard } from "./";
+
+const DisplayFiles = ({ title, isLoading, files, address, user }) => {
+  const showStatus = () => {
+    if (!address && !isLoading && user) {
+      return (
+        <p className="font-epilogue font-semibold text-[14px] leading-[30px] text-[#818183]">
+          Wallet is not connected!! please connect your wallet 🙏 .
+        </p>
+      );
+    } else if (!isLoading && files.length === 0) {
+      return (
+        <p className="font-epilogue font-semibold text-[14px] leading-[30px] text-[#818183]">
+          You have not uploaded any files yet
+        </p>
+      );
+    }
+  };
   return (
     <div>
       <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">
@@ -18,20 +33,11 @@ const DisplayFiles = ({ title, isLoading, files }) => {
           />
         )}
 
-        {!isLoading && files.length === 0 && (
-          <p className="font-epilogue font-semibold text-[14px] leading-[30px] text-[#818183]">
-            You have not uploaded any files yet
-          </p>
-        )}
+        {showStatus()}
 
         {!isLoading &&
           files.length > 0 &&
-          files.map((file,id) => (
-            <FileCard
-              key={id}
-              {...file}
-            />
-          ))}
+          files.slice(0).reverse().map((file, id) => <FileCard key={id} {...file} user={user} />)}
       </div>
     </div>
   );

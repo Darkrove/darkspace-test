@@ -1,4 +1,5 @@
 import React, { useContext, createContext, useState } from "react";
+import { useRouter } from "next/router";
 import {
   useAddress,
   useContract,
@@ -6,8 +7,6 @@ import {
   useDisconnect,
   useContractWrite,
 } from "@thirdweb-dev/react";
-import { ethers } from "ethers";
-import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
 
 const StateContext = createContext();
 
@@ -16,12 +15,19 @@ export const StateContextProvider = ({ children }) => {
     "0xBFb3f1E00f18362f6FDe98c74a69C971F9ab6717"
   );
   const { mutateAsync: createFile, isLoading } = useContractWrite(contract, "createFile")
+  const router = useRouter()
+
+  const getPageName = () => {
+    const path = router.asPath
+    const result = path.split('/')
+    return result[result.length-1]
+  }
 
   const address = useAddress();
   const connect = useMetamask();
   const disconnect = useDisconnect();
 
-  const [activePage, setActivePage] = useState("dashboard");
+  const [activePage, setActivePage] = useState(getPageName());
   const [files, setFiles] = useState([]);
 
   const publishFile = async (form, __hash) => {

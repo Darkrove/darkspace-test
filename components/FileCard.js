@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 import { MediaModal } from "./";
-import { tagType, profile, userProfile } from "../assets";
+import { tagType, profile, userProfile, verticalMenu } from "../assets";
 import { formatBytes, formatDate, shortenAddress } from "../utils";
 
 const FileCard = ({
@@ -15,6 +15,7 @@ const FileCard = ({
   type,
   uploadTime,
   handleClick,
+  user,
 }) => {
   const customLoader = ({ src, width, quality }) => {
     return `https://s3.amazonaws.com/demo/image/${src}?w=${width}&q=${
@@ -25,7 +26,7 @@ const FileCard = ({
   const [isLoading, setIsLoading] = useState(true);
   return (
     <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
-      <div className="overflow-hidden rounded-[15px]">
+      <div className="relative overflow-hidden rounded-[15px]">
         <Image
           src={`https://ipfs.io/ipfs/${hash}`}
           alt="image"
@@ -41,6 +42,7 @@ const FileCard = ({
               : "scale-100 blur-0 grayscale-0")
           }
         />
+        <Image alt="menu" onClick={() => console.log("helllo")} className="fill-orange-90 absolute top-0 right-0 h-10 w-10 mt-1" src={verticalMenu} width={50} height={50}></Image>
       </div>
       {showModal && (
         <MediaModal
@@ -90,8 +92,8 @@ const FileCard = ({
             </p>
           </div>
         </div>
-
-        <div className="flex items-center justify-start mt-[20px] gap-[12px]">
+        {!user? (
+          <div className="flex items-center justify-start mt-[20px] gap-[12px]">
           <div className="w-[30px] h-[30px] overflow-hidden rounded-full flex justify-center items-center bg-[#13131a]">
             <img
               src={userProfile}
@@ -103,6 +105,9 @@ const FileCard = ({
             by <span className="text-[#b2b3bd]">{shortenAddress(owner)}</span>
           </p>
         </div>
+        ) : null }
+
+        
       </div>
     </div>
   );

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import React, {useState, useEffect} from "react";
 
 import { useStateContext } from "../../context";
+import { shortenAddress } from "../../utils";
 import { DisplayFiles } from "../../components";
 
-const Home = () => {
+const recent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
-  const { address, contract, getFiles } = useStateContext();
+  const { address, contract, getUserFiles } = useStateContext();
 
   const fetchFiles = async () => {
     setIsLoading(true);
-    const data = await getFiles();
+    const data = await getUserFiles();
     setFiles(data);
     setIsLoading(false);
   };
@@ -21,19 +21,16 @@ const Home = () => {
   }, [address, contract]);
 
   return (
-    <div className="scroll-smooth text-center">
-      <p className="text-white text-3xl font-bold sm:text-4xl md:text-4xl mb-5">
-        Dashboard 🦄
-      </p>
+    <div>
       <DisplayFiles
-        title="All files"
+        title="Recent uploads"
         isLoading={isLoading}
         files={files}
         address={address}
-        user={false}
+        user={true}
       />
     </div>
   );
 };
 
-export default Home;
+export default recent;

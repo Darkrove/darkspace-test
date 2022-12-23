@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { navlinks } from "../constants";
 import { logo, sun, logout } from "../assets";
 import { useStateContext } from "../context";
+import { ToolTip } from "./";
 
 const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
   <div
@@ -32,7 +33,9 @@ const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
         src={imgUrl}
         alt="logo"
         loading="lazy"
-        className={`w-1/2 h-1/2 ${activePage !== name && "grayscale"}`}
+        className={`w-1/2 h-1/2 hover:grayscale-0 ${
+          activePage !== name && "grayscale"
+        }`}
       />
     )}
   </div>
@@ -44,7 +47,7 @@ const Sidebar = () => {
   const router = useRouter();
 
   return (
-    <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
+    <div className="flex justify-between items-center flex-col sticky top-5 z-10 h-[93vh]">
       <Link onClick={() => setActivePage("dashboard")} href="/dashboard">
         <Icon styles="w-[52px] h-[52px] bg-[#2c2f32]" imgUrl={logo} />
       </Link>
@@ -52,25 +55,29 @@ const Sidebar = () => {
       <div className="flex-1 flex flex-col justify-between items-center bg-[#1c1c24] rounded-[20px] w-[76px] py-4 mt-12">
         <div className="flex flex-col justify-center items-center gap-3">
           {navlinks.map((link) => (
-            <Icon
-              key={link.name}
-              {...link}
-              activePage={activePage}
-              handleClick={() => {
-                if (!link.disabled) {
-                  setActivePage(link.name);
-                  router.push(link.link);
-                }
-              }}
-            />
+            <ToolTip tip={link.tip}>
+              <Icon
+                key={link.name}
+                {...link}
+                activePage={activePage}
+                handleClick={() => {
+                  if (!link.disabled) {
+                    setActivePage(link.name);
+                    router.push(link.link);
+                  }
+                }}
+              />
+            </ToolTip>
           ))}
           {address ? (
-            <Icon
-              styles="grayscale hover:grayscale-0"
-              name="logout"
-              imgUrl={logout}
-              handleClick={disconnect}
-            />
+            <ToolTip tip="Logout">
+              <Icon
+                styles="grayscale hover:grayscale-0"
+                name="logout"
+                imgUrl={logout}
+                handleClick={disconnect}
+              />
+            </ToolTip>
           ) : (
             ""
           )}

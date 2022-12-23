@@ -27,7 +27,6 @@ export const formatBytes = (bytes, decimals = 2) => {
 
 export const formatDate = (epoch) => {
   const myDate = new Date( epoch*1000);
-  console.log(myDate)
   let dateStr = myDate.getFullYear() + "/" + (myDate.getMonth() + 1) + "/" + myDate.getDate() + " " + myDate.getHours() + ":" + myDate.getMinutes() + ":" + myDate.getSeconds()
   return dateStr.toString()
 }
