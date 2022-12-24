@@ -17,7 +17,7 @@ const ToolTip = ({children, tip}) => {
           {tooltipStatus == 3 && (
             <div
               role="tooltip"
-              className="z-50 -mt-[42px] w-auto absolute transition duration-150 ease-in-out left-0 ml-14 shadow-lg bg-[#1dc071] p-3 rounded-xl"
+              className="z-50 -mt-12 w-auto absolute transition duration-150 ease-in-out left-0 ml-14 shadow-lg bg-[#1dc071] p-3 rounded-xl"
             >
               <svg
                 className="absolute left-0 -ml-2 bottom-0 top-0 h-full"
