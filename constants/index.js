@@ -37,11 +37,12 @@ export const navlinks = [
     imgUrl: clock,
     link: '/dashboard/recent',
   },
-  // {
-  //   name: 'profile',
-  //   imgUrl: profile,
-  //   link: '/dashboard/profile',
-  // },
+  {
+    name: 'profile',
+    tip: 'Profile',
+    imgUrl: profile,
+    link: '/dashboard/profile',
+  },
   // {
   //   name: 'logout',
   //   imgUrl: logout,

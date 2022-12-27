@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 // import { ethers } from "ethers";
 import { useStorageUpload } from "@thirdweb-dev/react";
 
-import { CustomButton, FormField, Loader } from "../../components";
+import {
+  CustomButton,
+  FormField,
+  Loader,
+  DropFileInput,
+} from "../../components";
 import { secure } from "../../assets";
 import { useStateContext } from "../../context";
 
@@ -20,6 +25,10 @@ const uploadmedia = () => {
     hash: "",
   });
   const { mutateAsync: upload } = useStorageUpload();
+
+  const onFileChange = (files) => {
+    console.log(files);
+  };
 
   const handleFormFieldChange = (fieldName, e) => {
     setForm((state) => ({ ...state, [fieldName]: e.target.value }));
@@ -129,10 +138,21 @@ const uploadmedia = () => {
                 styles="bg-[#1dc071]"
               />
             </div>
+
+            <div className="box">
+            <h2 className="header">
+                React drop files input
+            </h2>
+            <DropFileInput
+                onFileChange={(files) => onFileChange(files)}
+            />
+        </div>
           </form>
         </div>
       ) : (
-        <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">connect your wallet 🦄</p>
+        <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
+          connect your wallet 🦄
+        </p>
       )}
 
       {/* <input directory="" webkitdirectory="" type="file" onChange={(e) => {console.log(e.target.files)}}/> */}

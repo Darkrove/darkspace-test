@@ -15,6 +15,18 @@ const userProfile = '/assets/blank-profile.png';
 const secure = '/assets/secure.svg';
 const verticalMenu = '/assets/vertical-menu.svg';
 
+const fileCSS = '/assets/file-css-solid-240.png';
+const filePdf = '/assets/file-pdf-solid-240.png';
+const filePng = '/assets/file-png-solid-240.png';
+const fileDefault = '/assets/file-blank-solid-240.png';
+
+export const ImageConfig = {
+    default: fileDefault,
+    pdf: filePdf,
+    png: filePng,
+    css: fileCSS
+}
+
 export {
   clock,
   verticalMenu,
