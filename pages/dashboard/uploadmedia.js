@@ -1,4 +1,5 @@
 import React, { useState, useReducer } from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 // import { ethers } from "ethers";
 import { useStorageUpload } from "@thirdweb-dev/react";
@@ -35,6 +36,7 @@ const uploadmedia = () => {
   };
 
   const captureFile = (e) => {
+    console.log(e)
     const file = e.target.files[0];
     setForm((state) => ({
       ...state,
@@ -92,12 +94,12 @@ const uploadmedia = () => {
                 labelName="Media Name *"
                 placeholder="Camera101.jpg"
                 inputType="text"
-                // disabled
                 value={form.filename}
+                required
                 handleChange={(e) => handleFormFieldChange("filename", e)}
               />
               <FormField
-                labelName="Description *"
+                labelName="Description"
                 placeholder="Write a title"
                 inputType="text"
                 value={form.title}
@@ -105,18 +107,11 @@ const uploadmedia = () => {
               />
             </div>
 
-            {/* <FormField
-          labelName="Story *"
-          placeholder="Write your story"
-          isTextArea
-          value={form.description}
-          handleChange={(e) => handleFormFieldChange("description", e)}
-        /> */}
-
             <FormField
-              labelName="Description *"
-              placeholder="Write a title"
+              labelName="File *"
+              placeholder=""
               inputType="file"
+              isFile
               handleChange={(e) => captureFile(e)}
             />
 
@@ -138,15 +133,6 @@ const uploadmedia = () => {
                 styles="bg-[#1dc071]"
               />
             </div>
-
-            <div className="box">
-            <h2 className="header">
-                React drop files input
-            </h2>
-            <DropFileInput
-                onFileChange={(files) => onFileChange(files)}
-            />
-        </div>
           </form>
         </div>
       ) : (
