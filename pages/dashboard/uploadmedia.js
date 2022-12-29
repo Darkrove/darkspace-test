@@ -130,7 +130,7 @@ const uploadmedia = () => {
               <CustomButton
                 btnType="submit"
                 title="Upload 🚀"
-                styles="bg-[#1dc071]"
+                styles="bg-[#1dc071] w-64"
               />
             </div>
           </form>

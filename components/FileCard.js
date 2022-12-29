@@ -24,11 +24,13 @@ const FileCard = ({
   };
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const gateways = ["ipfs.io","gateway.ipfs.io","cloudflare-ipfs.com","gateway.pinata.cloud"]
+
   return (
     <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
       <div className="relative overflow-hidden rounded-[15px]">
         <Image
-          src={`https://ipfs.io/ipfs/${hash}`}
+          src={`https://${gateways[Math.floor(Math.random() * gateways.length)]}/ipfs/${hash}`}
           alt="image"
           width={400}
           height={300}

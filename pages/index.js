@@ -22,7 +22,6 @@ const index = () => {
   };
 
   const setDarkTheme = () => {
-    console.warn("hello");
     localStorage.theme = "dark";
     setTheme("dark");
   };
@@ -41,8 +40,8 @@ const index = () => {
   };
 
   return (
-    <div>
-      <div className="h-screen w-full bg-gray-100 dark:bg-gray-800 flex justify-center items-center">
+    <div className="dark:bg-[#13131a] grid content-center">
+      <div className="h-screen w-full flex justify-center items-center">
         <div className="flex flex-col dark:bg-white bg-gray-800 text-gray-800 rounded-lg p-4 text-center">
           <h1 className="text-2xl font-bold dark:text-gray-800 text-white">
             Toggle Dark Mode
@@ -58,7 +57,7 @@ const index = () => {
         <button
           className="absolute bottom-5 left-5 w-10 h-10 rounded-full dark:text-gray-800 dark:bg-white bg-gray-800 flex justify-center items-center text-white"
           id="theme-toggle"
-          onClick={() => onOS()}
+          onClick={onOS}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
