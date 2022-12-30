@@ -14,6 +14,8 @@ const loader = '/assets/loader.svg';
 const userProfile = '/assets/blank-profile.png';
 const secure = '/assets/secure.svg';
 const verticalMenu = '/assets/vertical-menu.svg';
+const videoIcon = '/assets/video-icon.svg';
+const imageIcon = '/assets/image-icon.svg';
 
 const fileCSS = '/assets/file-css-solid-240.png';
 const filePdf = '/assets/file-pdf-solid-240.png';
@@ -44,4 +46,6 @@ export {
   loader,
   userProfile,
   secure,
+  videoIcon,
+  imageIcon
 };

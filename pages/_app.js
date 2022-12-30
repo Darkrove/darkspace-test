@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
+import { SessionProvider } from "next-auth/react"
 
 import "../styles/globals.css";
 import { Sidebar, Navbar, HomeNavbar } from "../components";
@@ -9,7 +10,7 @@ import { StateContextProvider } from "../context";
 // This is the chainId your dApp will work on.
 const activeChainId = ChainId.Goerli;
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     if (
       localStorage.theme === "dark" ||
@@ -33,7 +34,7 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </>
       )
-    } else if (router.pathname === "/login" ||
+    } else if (router.pathname === "/signin" ||
       router.pathname === "/signup") {
       return (
         <>
@@ -59,7 +60,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ThirdwebProvider desiredChainId={activeChainId}>
       <StateContextProvider>
-        {map()}
+        <SessionProvider session={session}>
+          {map()}
+        </SessionProvider>
       </StateContextProvider>
     </ThirdwebProvider>
   );

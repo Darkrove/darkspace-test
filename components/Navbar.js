@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { ConnectWallet } from "@thirdweb-dev/react";
+import { useSession, signOut } from "next-auth/react"
 
 import { CustomButton } from "./";
 import { navlinks } from "../constants";
@@ -38,6 +39,7 @@ const Row = ({ styles, name, imgUrl, activePage, handleClick }) => {
 };
 
 const Navbar = () => {
+  const { data: session } = useSession();
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const { connect, address, activePage, setActivePage, disconnect } = useStateContext();
 
@@ -93,9 +95,9 @@ const Navbar = () => {
               width={50}
               height={50}
               loading='lazy'
-              src={userProfile}
+              src={session? session.user.image : userProfile}
               alt="user"
-              className="w-[80%] h-[80%] mt-3 object-contain"
+              className="w-[100%] h-[100%] object-fill"
             />
           </div>
         </Link>

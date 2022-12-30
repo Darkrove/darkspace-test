@@ -1,4 +1,5 @@
 import React from "react";
+import { getSession } from "next-auth/react";
 
 const photos = () => {
   return (
@@ -11,3 +12,20 @@ const photos = () => {
 };
 
 export default photos;
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: { session }
+  }
+}

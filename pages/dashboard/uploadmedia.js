@@ -1,14 +1,13 @@
-import React, { useState, useReducer } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-// import { ethers } from "ethers";
+
 import { useStorageUpload } from "@thirdweb-dev/react";
 
 import {
   CustomButton,
   FormField,
   Loader,
-  DropFileInput,
 } from "../../components";
 import { secure } from "../../assets";
 import { useStateContext } from "../../context";
@@ -147,3 +146,20 @@ const uploadmedia = () => {
 };
 
 export default uploadmedia;
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: { session }
+  }
+}

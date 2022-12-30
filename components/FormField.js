@@ -11,7 +11,7 @@ const FormField = ({ labelName, required, placeholder, inputType, isFile, value,
         <div className="m-auto px-0 sm:px-0 w-full">
           <div className="relative group w-full h-[20rem] flex justify-center items-center">
             <div className="absolute inset-0 w-full h-full rounded-xl border-[#3a3a43] border-[1px] bg-transparent bg-opacity-80 shadow-2xl backdrop-blur-xl group-hover:bg-opacity-70 group-hover:border-[#1dc071] transition  duration-300"></div>
-            <input required value={value} onChange={handleChange} accept=".jpg, .jpeg .png, .svg .gif" className="relative z-10 opacity-0 h-full w-full cursor-pointer" type="file" name="bgfile" id="bgfile"></input>
+            <input required value={value} onChange={handleChange} accept=".jpg, .jpeg .png, .svg, .mp4, .mkv" className="relative z-10 opacity-0 h-full w-full cursor-pointer" type="file" name="bgfile" id="bgfile"></input>
             <div className="absolute top-0 right-0 bottom-0 left-0 w-full h-full m-auo flex items-center justify-center">
               <div className="space-y-6 text-center">
                 <Image src="/assets/file.png" className="sm:w-40 w-32 m-auto" alt="illustration" height={500} width={600} />

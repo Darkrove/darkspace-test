@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { getSession } from "next-auth/react";
 
 import { useStateContext } from "../../context";
 import { DisplayFiles } from "../../components";
@@ -37,3 +38,20 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps({ req }){
+  const session = await getSession({ req })
+
+  if(!session){
+    return {
+      redirect : {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: { session }
+  }
+}

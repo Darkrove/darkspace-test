@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { getSession } from "next-auth/react";
 
 import { useStateContext } from "../../context";
 import { shortenAddress } from "../../utils";
@@ -34,3 +35,20 @@ const recent = () => {
 };
 
 export default recent;
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: { session }
+  }
+}

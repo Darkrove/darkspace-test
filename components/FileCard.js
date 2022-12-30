@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 import { MediaModal } from "./";
-import { tagType, profile, userProfile, verticalMenu } from "../assets";
+import { tagType, profile, userProfile, verticalMenu, videoIcon, imageIcon } from "../assets";
 import { formatBytes, formatDate, shortenAddress } from "../utils";
+import { generateVideoThumbnailViaUrl } from "../utils/thumbnailGenerator"
 
 const FileCard = ({
   description,
@@ -18,19 +19,37 @@ const FileCard = ({
   user,
 }) => {
   const customLoader = ({ src, width, quality }) => {
-    return `https://s3.amazonaws.com/demo/image/${src}?w=${width}&q=${
-      quality || 75
-    }`;
+    return `https://s3.amazonaws.com/demo/image/${src}?w=${width}&q=${quality || 75
+      }`;
   };
+  const gateways = ["ipfs.io", "gateway.ipfs.io", "cloudflare-ipfs.com", "gateway.pinata.cloud"]
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const gateways = ["ipfs.io","gateway.ipfs.io","cloudflare-ipfs.com","gateway.pinata.cloud"]
+  const [thumbnail, setThumbnail] = useState(`https://${gateways[Math.floor(Math.random() * gateways.length)]}/ipfs/${hash}`);
+  const [fileSrc, setfileSrc] = useState(`https://${gateways[Math.floor(Math.random() * gateways.length)]}/ipfs/${hash}`);
+
+  const generateThumbnail = async () => {
+    try {
+      const res = await generateVideoThumbnailViaUrl(fileSrc, 2);
+      setThumbnail(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [firstUpdate, setFirstUpdate] = useState(true);
+
+  useEffect(() => {
+    if (firstUpdate && type === "video/mp4") {
+      generateThumbnail()
+      setFirstUpdate(false)
+    }
+  })
 
   return (
     <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
       <div className="relative overflow-hidden rounded-[15px]">
         <Image
-          src={`https://${gateways[Math.floor(Math.random() * gateways.length)]}/ipfs/${hash}`}
+          src={thumbnail}
           alt="image"
           width={400}
           height={300}
@@ -44,7 +63,7 @@ const FileCard = ({
               : "scale-100 blur-0 grayscale-0")
           }
         />
-        <Image alt="menu" onClick={() => console.log("helllo")} className="fill-orange-90 absolute top-0 right-0 h-10 w-10 mt-1" src={verticalMenu} width={50} height={50}></Image>
+        <Image alt="icon" className="fill-orange-90 absolute top-0 right-0 h-6 w-6 m-2" src={type === "video/mp4" ? videoIcon : imageIcon} width={50} height={50}></Image>
       </div>
       {showModal && (
         <MediaModal
@@ -52,6 +71,7 @@ const FileCard = ({
           setOpenModal={setShowModal}
           src={`https://ipfs.io/ipfs/${hash}`}
           name={name}
+          type={type}
           username={shortenAddress(owner)}
         />
       )}
@@ -94,25 +114,31 @@ const FileCard = ({
             </p>
           </div>
         </div>
-        {!user? (
+        {!user ? (
           <div className="flex items-center justify-start mt-[20px] gap-[12px]">
-          <div className="w-[30px] h-[30px] overflow-hidden rounded-full flex justify-center items-center bg-[#13131a]">
-            <img
-              src={userProfile}
-              alt="user"
-              className="w-[70%] h-[70%] mt-3 object-contain"
-            />
+            <div className="w-[30px] h-[30px] overflow-hidden rounded-full flex justify-center items-center bg-[#13131a]">
+              <img
+                src={userProfile}
+                alt="user"
+                className="w-[70%] h-[70%] mt-3 object-contain"
+              />
+            </div>
+            <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-[#808191] truncate">
+              by <span className="text-[#b2b3bd]">{shortenAddress(owner)}</span>
+            </p>
           </div>
-          <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-[#808191] truncate">
-            by <span className="text-[#b2b3bd]">{shortenAddress(owner)}</span>
-          </p>
-        </div>
-        ) : null }
+        ) : null}
 
-        
+
       </div>
     </div>
   );
 };
 
 export default FileCard;
+
+export async function getStaticProps(context) {
+  return {
+    props: {}, // will be passed to the page component as props
+  }
+}

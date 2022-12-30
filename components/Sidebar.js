@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/react"
 
 import { navlinks } from "../constants";
 import { logo, sun, logout } from "../assets";
@@ -42,7 +43,7 @@ const Icon = ({ styles, name, imgUrl, activePage, disabled, handleClick }) => (
 );
 
 const Sidebar = () => {
-  // const [activePage, setactivePage] = useState("dashboard");
+  const { data: session } = useSession();
   const { activePage, setActivePage, disconnect, address } = useStateContext();
   const router = useRouter();
 
@@ -69,13 +70,13 @@ const Sidebar = () => {
               />
             </ToolTip>
           ))}
-          {address ? (
+          {session ? (
             <ToolTip tip="Logout">
               <Icon
                 styles="grayscale hover:grayscale-0"
                 name="logout"
                 imgUrl={logout}
-                handleClick={disconnect}
+                handleClick={() => signOut()}
               />
             </ToolTip>
           ) : (
