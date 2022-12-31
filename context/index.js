@@ -52,7 +52,7 @@ export const StateContextProvider = ({ children }) => {
 
   const getFiles = async () => {
     const data = await contract.call("getFiles")
-    console.warn(data)
+    // console.warn(data)
     if (data.length > 0) {
       const parsedFiles = data.map((file, i) => ({
         owner: file.owner,
@@ -65,7 +65,7 @@ export const StateContextProvider = ({ children }) => {
         uploadTime: file.fileUploadTime.toNumber(),
         pid: file.id.toNumber(),
       }));
-      console.warn(parsedFiles)
+      // console.warn(parsedFiles)
       return parsedFiles;
     } else {
       return null
