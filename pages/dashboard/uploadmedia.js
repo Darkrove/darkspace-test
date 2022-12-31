@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { getSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-
-import { useStorageUpload } from "@thirdweb-dev/react";
+import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
 
 import {
   CustomButton,
@@ -14,6 +13,7 @@ import { useStateContext } from "../../context";
 
 const uploadmedia = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const { address, setFiles, setActivePage, uploadFile } = useStateContext();
   const [form, setForm] = useState({
@@ -88,6 +88,14 @@ const uploadmedia = () => {
             onSubmit={handleSubmit}
             className="w-full mt-[65px] flex flex-col gap-[30px]"
           >
+
+            <FormField
+              labelName="Media File *"
+              placeholder=""
+              inputType="file"
+              isFile
+              handleChange={(e) => captureFile(e)}
+            />
             <div className="flex flex-wrap gap-[40px]">
               <FormField
                 labelName="Media Name *"
@@ -106,14 +114,6 @@ const uploadmedia = () => {
               />
             </div>
 
-            <FormField
-              labelName="File *"
-              placeholder=""
-              inputType="file"
-              isFile
-              handleChange={(e) => captureFile(e)}
-            />
-
             <div className="w-full flex justify-start items-center p-4 bg-purple-600 h-[120px] rounded-[10px]">
               <img
                 src={secure}
@@ -128,10 +128,20 @@ const uploadmedia = () => {
             <div className="flex justify-center items-center mt-[40px]">
               <CustomButton
                 btnType="submit"
-                title="Upload 🚀"
+                title="Upload"
                 styles="bg-[#1dc071] w-64"
               />
             </div>
+            {/* <Web3Button
+              contractAddress="0x116ed4BF438F858E67E045459A51F9b90Fc3A21d"
+              accentColor="#1dc071"
+              colorMode="dark"
+              action={(contract) => {
+                contract.call("addFile", session?.user.name, session?.user.image, form.filename, form.size, form.type, form.hash)
+              }}
+            >
+              upload 
+            </Web3Button> */}
           </form>
         </div>
       ) : (

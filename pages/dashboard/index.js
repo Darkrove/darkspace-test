@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <div className="scroll-smooth text-center">
       <p className="text-white text-3xl font-bold sm:text-4xl md:text-4xl mb-5">
-        Dashboard 🦄
+        Global 🦄
       </p>
       <DisplayFiles
         title="All files"

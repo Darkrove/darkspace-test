@@ -26,8 +26,8 @@ const FormField = ({ labelName, required, placeholder, inputType, isFile, value,
                       <p className='text-white font-thin text-md'>mp4, mkv, webm</p>
                     </div>
                     <div className="">
-                      <p className='text-white font-bold'>Docu</p>
-                      <p className='text-white ffont-thin text-md'>pdf, docs, pptx</p>
+                      <p className='text-white font-bold'>Document</p>
+                      <p className='text-white ffont-thin text-md'>not supported yet!</p>
                     </div>
                 </div>
               </div>

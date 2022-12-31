@@ -11,8 +11,10 @@ const FileCard = ({
   hash,
   name,
   owner,
-  pId,
+  pid,
   size,
+  username,
+  profile,
   type,
   uploadTime,
   handleClick,
@@ -30,7 +32,7 @@ const FileCard = ({
 
   const generateThumbnail = async () => {
     try {
-      const res = await generateVideoThumbnailViaUrl(fileSrc, 2);
+      const res = await generateVideoThumbnailViaUrl(fileSrc, 3);
       setThumbnail(res);
     } catch (error) {
       console.log(error);
@@ -67,12 +69,12 @@ const FileCard = ({
       </div>
       {showModal && (
         <MediaModal
-          id={pId}
+          id={pid}
           setOpenModal={setShowModal}
           src={`https://ipfs.io/ipfs/${hash}`}
           name={name}
           type={type}
-          username={shortenAddress(owner)}
+          username={username}
         />
       )}
       <div className="flex flex-col p-4">
@@ -117,14 +119,16 @@ const FileCard = ({
         {!user ? (
           <div className="flex items-center justify-start mt-[20px] gap-[12px]">
             <div className="w-[30px] h-[30px] overflow-hidden rounded-full flex justify-center items-center bg-[#13131a]">
-              <img
-                src={userProfile}
+              <Image
+                src={profile}
                 alt="user"
-                className="w-[70%] h-[70%] mt-3 object-contain"
+                className="object-fill"
+                width={100}
+                height={100}
               />
             </div>
             <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-[#808191] truncate">
-              by <span className="text-[#b2b3bd]">{shortenAddress(owner)}</span>
+              by <span className="text-[#b2b3bd]">{username}</span>
             </p>
           </div>
         ) : null}

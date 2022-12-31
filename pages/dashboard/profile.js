@@ -15,10 +15,11 @@ const profile = () => {
         <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
           Welcome, 🦄 {session?.user.name}
         </p>
+        <p>{session?.user.image}</p>
         <div className="flex justify-center items-center mt-[40px]">
           <CustomButton
             btnType="submit"
-            title="Sign Out 🚀"
+            title="Sign Out"
             styles="bg-[#1dc071] w-64"
             handleClick={() => signOut()}
           />

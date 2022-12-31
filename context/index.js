@@ -1,5 +1,7 @@
 import React, { useContext, createContext, useState } from "react";
 import { useRouter } from "next/router";
+import { ethers } from "ethers"; 
+import Web3 from "web3"
 import {
   useAddress,
   useContract,
@@ -9,10 +11,12 @@ import {
 } from "@thirdweb-dev/react";
 
 const StateContext = createContext();
+const utils = ethers.utils
+const web3 = new Web3();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0xBFb3f1E00f18362f6FDe98c74a69C971F9ab6717"
+    "0xb8Ca9c51f57114410a8748E73817740c9E8Ab066"
   );
   const { mutateAsync: createFile, isLoading } = useContractWrite(contract, "createFile")
   const router = useRouter()
@@ -48,19 +52,20 @@ export const StateContextProvider = ({ children }) => {
 
   const getFiles = async () => {
     const data = await contract.call("getFiles")
-    // console.warn(data)
+    console.warn(data)
     if (data.length > 0) {
       const parsedFiles = data.map((file, i) => ({
         owner: file.owner,
-        name: file.name,
-        description: file.description,
-        type: file.fileType,
-        size: file.size.toNumber(),
-        hash: file.hash,
-        uploadTime: file.uploadTime.toNumber(),
-        pId: file.id.toNumber(),
+        username: web3.utils.toAscii(file.username).replace(/\0/g, ''),
+        profile: file.profile,
+        name: web3.utils.toAscii(file.fileName).replace(/\0/g, ''),
+        type: web3.utils.toAscii(file.fileType).replace(/\0/g, ''),
+        size: file.fileSize.toNumber(),
+        hash: file.fileHash,
+        uploadTime: file.fileUploadTime.toNumber(),
+        pid: file.id.toNumber(),
       }));
-      // console.warn(parsedFiles)
+      console.warn(parsedFiles)
       return parsedFiles;
     } else {
       return null
