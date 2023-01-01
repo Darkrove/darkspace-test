@@ -74,7 +74,7 @@ const FileCard = ({
           src={`https://ipfs.io/ipfs/${hash}`}
           name={name}
           type={type}
-          username={username}
+          username={username.toLowerCase()}
         />
       )}
       <div className="flex flex-col p-4">
@@ -128,7 +128,7 @@ const FileCard = ({
               />
             </div>
             <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-[#808191] truncate">
-              by <span className="text-[#b2b3bd]">{username}</span>
+              by <span className="text-[#b2b3bd]">{username.toLowerCase()}</span>
             </p>
           </div>
         ) : null}

@@ -16,6 +16,8 @@ const secure = '/assets/secure.svg';
 const verticalMenu = '/assets/vertical-menu.svg';
 const videoIcon = '/assets/video-icon.svg';
 const imageIcon = '/assets/image-icon.svg';
+const host = '/assets/host-seyfdesigner.svg';
+const rocket = '/assets/rock-seyfdesigner.svg';
 
 const fileCSS = '/assets/file-css-solid-240.png';
 const filePdf = '/assets/file-pdf-solid-240.png';
@@ -47,5 +49,7 @@ export {
   userProfile,
   secure,
   videoIcon,
-  imageIcon
+  imageIcon,
+  host,
+  rocket
 };

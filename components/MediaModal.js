@@ -37,7 +37,7 @@ export default function MediaModal({ id, setOpenModal, src, name, type, username
             <div className="sm:flex">
               <div className="text-center">
                 <h4 className="text-sm text-left xl:text-lg font-medium text-[#808191]">
-                  By @{username}
+                  by @{username}
                 </h4>
                 {type === "video/mp4"
                   ? (

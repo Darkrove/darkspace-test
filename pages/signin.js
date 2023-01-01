@@ -16,7 +16,7 @@ export const Button = ({ img, title, handle }) => {
 const login = () => {
     const { data: session } = useSession();
     async function signInWithGithub() {
-        signIn("github", { callbackUrl: "https://darkspace-test.vercel.app/dashboard" });
+        signIn("github", { callbackUrl: "http://localhost:3000/dashboard" });
     }
     async function signInWithGoogle() {
         signIn("google", { callbackUrl: "http://localhost:3000/dashboard" });

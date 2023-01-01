@@ -18,7 +18,6 @@ const uploadmedia = () => {
   const { address, setFiles, setActivePage, uploadFile } = useStateContext();
   const [form, setForm] = useState({
     filename: "",
-    description: "",
     file: "",
     type: "",
     size: "",
@@ -26,16 +25,11 @@ const uploadmedia = () => {
   });
   const { mutateAsync: upload } = useStorageUpload();
 
-  const onFileChange = (files) => {
-    console.log(files);
-  };
-
   const handleFormFieldChange = (fieldName, e) => {
     setForm((state) => ({ ...state, [fieldName]: e.target.value }));
   };
 
   const captureFile = (e) => {
-    console.log(e)
     const file = e.target.files[0];
     setForm((state) => ({
       ...state,
@@ -60,7 +54,7 @@ const uploadmedia = () => {
     if (form.file) {
       setIsLoading(true);
       const hashUrl = await uploadToIpfs();
-      await uploadFile({ ...form }, hashUrl[0].slice(7));
+      await uploadFile({ ...form }, hashUrl[0].slice(7), session?.user.name, session?.user.image);
       setIsLoading(false);
       setForm({ ...form, hash: hashUrl[0].slice(7) });
       setFiles((files) => [...files, hashUrl[0].slice(7)]);
@@ -75,7 +69,7 @@ const uploadmedia = () => {
 
   return (
     <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       {address ? (
         <div>
           <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3a3a43] rounded-[10px]">
@@ -105,13 +99,6 @@ const uploadmedia = () => {
                 required
                 handleChange={(e) => handleFormFieldChange("filename", e)}
               />
-              <FormField
-                labelName="Description"
-                placeholder="Write a title"
-                inputType="text"
-                value={form.title}
-                handleChange={(e) => handleFormFieldChange("description", e)}
-              />
             </div>
 
             <div className="w-full flex justify-start items-center p-4 bg-purple-600 h-[120px] rounded-[10px]">
@@ -126,12 +113,14 @@ const uploadmedia = () => {
             </div>
 
             <div className="flex justify-center items-center mt-[40px]">
-              <CustomButton
+                <CustomButton
                 btnType="submit"
                 title="Upload"
                 styles="bg-[#1dc071] w-64"
+                status={isLoading}
               />
             </div>
+
             {/* <Web3Button
               contractAddress="0x116ed4BF438F858E67E045459A51F9b90Fc3A21d"
               accentColor="#1dc071"

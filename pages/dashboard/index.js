@@ -8,11 +8,11 @@ import { DisplayFiles } from "../../components";
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
-  const { address, contract, getFiles } = useStateContext();
+  const { address, contract, getPublicFiles } = useStateContext();
 
   const fetchFiles = async () => {
     setIsLoading(true);
-    const data = await getFiles();
+    const data = await getPublicFiles();
     setFiles(data);
     setIsLoading(false);
   };

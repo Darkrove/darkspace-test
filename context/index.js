@@ -1,6 +1,5 @@
 import React, { useContext, createContext, useState } from "react";
 import { useRouter } from "next/router";
-import { ethers } from "ethers"; 
 import Web3 from "web3"
 import {
   useAddress,
@@ -10,15 +9,15 @@ import {
   useContractWrite,
 } from "@thirdweb-dev/react";
 
+import { padString, unpadString } from "../utils"
+
 const StateContext = createContext();
-const utils = ethers.utils
-const web3 = new Web3();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0xb8Ca9c51f57114410a8748E73817740c9E8Ab066"
+    "0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B"
   );
-  const { mutateAsync: createFile, isLoading } = useContractWrite(contract, "createFile")
+  const { mutateAsync: addFile, isLoading } = useContractWrite(contract, "addFile")
   const router = useRouter()
 
   const getPageName = () => {
@@ -33,17 +32,17 @@ export const StateContextProvider = ({ children }) => {
 
   const [activePage, setActivePage] = useState(getPageName());
   const [files, setFiles] = useState([]);
-
-  const publishFile = async (form, __hash) => {
+  
+  const publishFile = async (form, __hash, __username, __profile) => {
     try {
-      const data = await createFile([
-        form.filename,
-        form.description,
+      const data = await addFile([
+        padString(__username),
+        __profile,
+        padString(form.filename),
         form.size,
-        form.type,
+        padString(form.type),
         __hash,
       ]);
-
       console.warn("contract call success", data);
     } catch (error) {
       console.log("contract call failure", error);
@@ -52,25 +51,48 @@ export const StateContextProvider = ({ children }) => {
 
   const getFiles = async () => {
     const data = await contract.call("getFiles")
-    // console.warn(data)
     if (data.length > 0) {
       const parsedFiles = data.map((file, i) => ({
         owner: file.owner,
-        username: web3.utils.toAscii(file.username).replace(/\0/g, ''),
+        username: unpadString(file.username),
         profile: file.profile,
-        name: web3.utils.toAscii(file.fileName).replace(/\0/g, ''),
-        type: web3.utils.toAscii(file.fileType).replace(/\0/g, ''),
+        name: unpadString(file.fileName),
+        type: unpadString(file.fileType),
         size: file.fileSize.toNumber(),
         hash: file.fileHash,
         uploadTime: file.fileUploadTime.toNumber(),
         pid: file.id.toNumber(),
       }));
       // console.warn(parsedFiles)
-      return parsedFiles;
+      return parsedFiles
+
     } else {
       return null
     }
   };
+
+  const getPublicFiles = async () => {
+    const data = await contract.call("getPublicFiles")
+    if (data.length > 0) {
+      const parsedFiles = data.map((file, i) => ({
+        owner: file.owner,
+        username: unpadString(file.username),
+        profile: file.profile,
+        name: unpadString(file.fileName),
+        type: unpadString(file.fileType),
+        size: file.fileSize.toNumber(),
+        hash: file.fileHash,
+        uploadTime: file.fileUploadTime.toNumber(),
+        pid: file.id.toNumber(),
+      }));
+      // console.warn(parsedFiles)
+      return parsedFiles.filter(file => file.hash !== "")
+
+    } else {
+      return null
+    }
+  };
+  
 
   const getUserFiles = async () => {
     const allFiles = await getFiles();
@@ -90,7 +112,7 @@ export const StateContextProvider = ({ children }) => {
         disconnect,
         contract,
         uploadFile: publishFile,
-        getFiles,
+        getPublicFiles,
         getUserFiles,
         activePage,
         setActivePage,
