@@ -18,6 +18,13 @@ const videoIcon = '/assets/video-icon.svg';
 const imageIcon = '/assets/image-icon.svg';
 const host = '/assets/host-seyfdesigner.svg';
 const rocket = '/assets/rock-seyfdesigner.svg';
+const download = '/assets/download-seyfdesigner.svg';
+const url = '/assets/url-seyfdesigner.svg';
+const link = '/assets/link-seyfdesigner.svg';
+const copy = '/assets/copy-seyfdesigner.svg';
+const info = '/assets/info-seyfdesigner.svg';
+const share = '/assets/share-seyfdesigner.svg';
+const remove = '/assets/delete-seyfdesigner.svg';
 
 const fileCSS = '/assets/file-css-solid-240.png';
 const filePdf = '/assets/file-pdf-solid-240.png';
@@ -51,5 +58,12 @@ export {
   videoIcon,
   imageIcon,
   host,
-  rocket
+  rocket,
+  download,
+  url,
+  link,
+  share,
+  copy,
+  info,
+  remove
 };

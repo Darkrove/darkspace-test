@@ -17,7 +17,8 @@ export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     "0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B"
   );
-  const { mutateAsync: addFile, isLoading } = useContractWrite(contract, "addFile")
+  const { mutateAsync: addFile } = useContractWrite(contract, "addFile")
+  const { mutateAsync: updateFileStatus } = useContractWrite(contract, "updateFileStatus")
   const router = useRouter()
 
   const getPageName = () => {
@@ -49,6 +50,15 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
+  const updateFile = async (_index, _status) => {
+    try {
+      const data = await updateFileStatus([ _index, _status ]);
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  }
+
   const getFiles = async () => {
     const data = await contract.call("getFiles")
     if (data.length > 0) {
@@ -62,6 +72,7 @@ export const StateContextProvider = ({ children }) => {
         hash: file.fileHash,
         uploadTime: file.fileUploadTime.toNumber(),
         pid: file.id.toNumber(),
+        status: file.fileStatus
       }));
       // console.warn(parsedFiles)
       return parsedFiles
@@ -73,6 +84,7 @@ export const StateContextProvider = ({ children }) => {
 
   const getPublicFiles = async () => {
     const data = await contract.call("getPublicFiles")
+    console.log(data)
     if (data.length > 0) {
       const parsedFiles = data.map((file, i) => ({
         owner: file.owner,
@@ -84,6 +96,7 @@ export const StateContextProvider = ({ children }) => {
         hash: file.fileHash,
         uploadTime: file.fileUploadTime.toNumber(),
         pid: file.id.toNumber(),
+        status: file.fileStatus
       }));
       // console.warn(parsedFiles)
       return parsedFiles.filter(file => file.hash !== "")
@@ -93,15 +106,16 @@ export const StateContextProvider = ({ children }) => {
     }
   };
   
-
   const getUserFiles = async () => {
     const allFiles = await getFiles();
 
     const filteredFiles = allFiles.filter(
       (file) => file.owner === address
     );
-
-    return filteredFiles;
+    const fileResponse = filteredFiles.filter(
+      (item) => item.status !== "delete"
+    )
+    return fileResponse;
   };
 
   return (
@@ -112,6 +126,7 @@ export const StateContextProvider = ({ children }) => {
         disconnect,
         contract,
         uploadFile: publishFile,
+        updateFile,
         getPublicFiles,
         getUserFiles,
         activePage,

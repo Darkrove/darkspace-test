@@ -12,6 +12,7 @@ const activeChainId = ChainId.Goerli;
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
+    import('preline')
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&

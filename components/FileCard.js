@@ -75,6 +75,7 @@ const FileCard = ({
           name={name}
           type={type}
           username={username.toLowerCase()}
+          user={user}
         />
       )}
       <div className="flex flex-col p-4">
