@@ -45,12 +45,13 @@ export default function MediaModal({
         console.log(err);
       });
   };
-  const handleClick = ({title, url}) => {
+  const shareFile = (title, url) => {
+    console.log(url)
     if ("share" in navigator) {
       navigator
         .share({
           title: title,
-          text: "Checkout this file!",
+          text: "Checkout this file 🔥🚀",
           url: url,
         })
         .then(() => {
@@ -126,7 +127,7 @@ export default function MediaModal({
                         Copy link
                       </button>
                       <button
-                        onClick={()=>handleClick(name, src)}
+                        onClick={() => shareFile(name, src)}
                         class="w-full flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                         href="#"
                       >
