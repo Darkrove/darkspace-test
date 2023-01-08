@@ -25,18 +25,7 @@ const copy = '/assets/copy-seyfdesigner.svg';
 const info = '/assets/info-seyfdesigner.svg';
 const share = '/assets/share-seyfdesigner.svg';
 const remove = '/assets/delete-seyfdesigner.svg';
-
-const fileCSS = '/assets/file-css-solid-240.png';
-const filePdf = '/assets/file-pdf-solid-240.png';
-const filePng = '/assets/file-png-solid-240.png';
-const fileDefault = '/assets/file-blank-solid-240.png';
-
-export const ImageConfig = {
-    default: fileDefault,
-    pdf: filePdf,
-    png: filePng,
-    css: fileCSS
-}
+const ethereum = '/assets/ethereum.org.svg';
 
 export {
   clock,
@@ -65,5 +54,6 @@ export {
   share,
   copy,
   info,
-  remove
+  remove,
+  ethereum
 };

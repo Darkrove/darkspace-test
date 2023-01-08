@@ -101,7 +101,7 @@ const uploadmedia = () => {
               />
             </div>
 
-            <div className="w-full flex justify-start items-center p-4 bg-purple-600 h-[120px] rounded-[10px]">
+            <div className="w-full flex justify-start items-center p-4 bg-violet-700 h-[120px] rounded-[10px]">
               <img
                 src={secure}
                 alt="secure"
@@ -116,7 +116,7 @@ const uploadmedia = () => {
                 <CustomButton
                 btnType="submit"
                 title="Upload"
-                styles="bg-[#1dc071] w-64"
+                styles="bg-violet-500 w-64"
                 status={isLoading}
               />
             </div>

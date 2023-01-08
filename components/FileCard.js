@@ -19,6 +19,7 @@ const FileCard = ({
   uploadTime,
   handleClick,
   user,
+  status
 }) => {
   const customLoader = ({ src, width, quality }) => {
     return `https://s3.amazonaws.com/demo/image/${src}?w=${width}&q=${quality || 75
@@ -76,6 +77,7 @@ const FileCard = ({
           type={type}
           username={username.toLowerCase()}
           user={user}
+          status={status}
         />
       )}
       <div className="flex flex-col p-4">

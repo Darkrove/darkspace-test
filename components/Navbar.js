@@ -10,10 +10,10 @@ import { navlinks } from "../constants";
 import { useStateContext } from "../context";
 import { logo, menu, search, userProfile, logout } from "../assets";
 
-const Row = ({ styles, name, imgUrl, activePage, handleClick }) => {
+const Row = ({ id, styles, name, imgUrl, activePage, handleClick }) => {
   return (
     <li
-      key={name}
+      key={id}
       className={`flex p-4 ${activePage === name && "bg-[#3a3a43]"}`}
       onClick={handleClick}
     >
@@ -29,7 +29,7 @@ const Row = ({ styles, name, imgUrl, activePage, handleClick }) => {
       />
       <p
         className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-          activePage === name ? "text-[#1dc071]" : "text-[#808191]"
+          activePage === name ? "text-violet-500" : "text-[#808191]"
         }`}
       >
         {name}
@@ -59,7 +59,7 @@ const Navbar = () => {
           className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none"
         />
 
-        <div className="w-[72px] h-full rounded-[20px] bg-[#1dc071] flex justify-center items-center cursor-pointer">
+        <div className="w-[72px] h-full rounded-[20px] bg-violet-500 flex justify-center items-center cursor-pointer">
           <Image
             width={50}
             height={50}
@@ -75,7 +75,7 @@ const Navbar = () => {
         {/* <CustomButton
           btnType="button"
           title={address ? "Upload" : "Connect"}
-          styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
+          styles={address ? "bg-violet-500" : "bg-[#8c6dfd]"}
           handleClick={() => {
             if (address) push();
             else connect();
@@ -83,7 +83,7 @@ const Navbar = () => {
         /> */}
         <ConnectWallet
           className="rounded-[100px]"
-          accentColor="#1dc071"
+          accentColor="#8B5CF6"
           colorMode="dark"
         />
         <Link
@@ -136,6 +136,7 @@ const Navbar = () => {
           <ul className="mb-4">
             {navlinks.map((link) => (
               <Row
+                id={link.name}
                 {...link}
                 activePage={activePage}
                 handleClick={() => {
@@ -152,13 +153,13 @@ const Navbar = () => {
             {/* <CustomButton
               btnType="button"
               title={address ? "Upload" : "Connect"}
-              styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
+              styles={address ? "bg-violet-500" : "bg-[#8c6dfd]"}
               handleClick={() => {
                 if (address) push();
                 else connect();
               }}
             /> */}
-            <ConnectWallet accentColor="#1dc071" colorMode="dark" />
+            <ConnectWallet accentColor="#8B5CF6" colorMode="dark" />
           </div>
         </div>
       </div>

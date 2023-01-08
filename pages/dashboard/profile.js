@@ -19,7 +19,7 @@ const profile = () => {
           <CustomButton
             btnType="submit"
             title="Sign Out"
-            styles="bg-[#1dc071] w-64"
+            styles="bg-violet-500 w-64"
             handleClick={() => signOut()}
           />
         </div>

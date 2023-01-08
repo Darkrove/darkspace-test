@@ -58,7 +58,7 @@ const Sidebar = () => {
           {navlinks.map((link, index) => (
             <ToolTip tip={link.tip}>
               <Icon
-                key={index}
+                key={link.name}
                 {...link}
                 activePage={activePage}
                 handleClick={() => {

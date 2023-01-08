@@ -26,7 +26,7 @@ const recent = () => {
       <DisplayFiles
         title="Recent uploads"
         isLoading={isLoading}
-        files={files}
+        files={files.filter(file => file.type !== "directory")}
         address={address}
         user={true}
       />

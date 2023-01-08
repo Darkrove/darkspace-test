@@ -34,14 +34,14 @@ export const StateContextProvider = ({ children }) => {
   const [activePage, setActivePage] = useState(getPageName());
   const [files, setFiles] = useState([]);
   
-  const publishFile = async (form, __hash, __username, __profile) => {
+  const publishFile = async (filename, type, size, __hash, __username, __profile) => {
     try {
       const data = await addFile([
         padString(__username),
         __profile,
-        padString(form.filename),
-        form.size,
-        padString(form.type),
+        padString(filename),
+        size,
+        padString(type),
         __hash,
       ]);
       console.warn("contract call success", data);
@@ -118,6 +118,14 @@ export const StateContextProvider = ({ children }) => {
     return fileResponse;
   };
 
+  const getUserVideo = async () => {
+    const allFiles = await getUserFiles();
+    const fileResponse = allFiles.filter(
+      (item) => item.type !== "video/mp4"
+    )
+    return fileResponse;
+  }
+
   return (
     <StateContext.Provider
       value={{
@@ -133,6 +141,7 @@ export const StateContextProvider = ({ children }) => {
         setActivePage,
         files,
         setFiles,
+        getUserVideo
       }}
     >
       {children}
