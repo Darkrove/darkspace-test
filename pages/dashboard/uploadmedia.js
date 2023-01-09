@@ -15,7 +15,7 @@ const uploadmedia = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { address, setFiles, setActivePage, uploadFile } = useStateContext();
+  const { address, contract, setFiles, setActivePage, uploadFile } = useStateContext();
   const [form, setForm] = useState({
     filename: "",
     file: "",
@@ -51,7 +51,7 @@ const uploadmedia = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.file) {
+    if (form.file && contract) {
       setIsLoading(true);
       const hashUrl = await uploadToIpfs();
       await uploadFile({ ...form }, hashUrl[0].slice(7), session?.user.name, session?.user.image);

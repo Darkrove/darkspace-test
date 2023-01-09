@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState } from "react";
 import { useRouter } from "next/router";
-import Web3 from "web3"
+import Web3 from "web3";
 import {
   useAddress,
   useContract,
@@ -9,7 +9,7 @@ import {
   useContractWrite,
 } from "@thirdweb-dev/react";
 
-import { padString, unpadString } from "../utils"
+import { padString, unpadString } from "../utils";
 
 const StateContext = createContext();
 
@@ -17,15 +17,18 @@ export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     "0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B"
   );
-  const { mutateAsync: addFile } = useContractWrite(contract, "addFile")
-  const { mutateAsync: updateFileStatus } = useContractWrite(contract, "updateFileStatus")
-  const router = useRouter()
+  const { mutateAsync: addFile } = useContractWrite(contract, "addFile");
+  const { mutateAsync: updateFileStatus } = useContractWrite(
+    contract,
+    "updateFileStatus"
+  );
+  const router = useRouter();
 
   const getPageName = () => {
-    const path = router.asPath
-    const result = path.split('/')
-    return result[result.length-1]
-  }
+    const path = router.asPath;
+    const result = path.split("/");
+    return result[result.length - 1];
+  };
 
   const address = useAddress();
   const connect = useMetamask();
@@ -33,8 +36,15 @@ export const StateContextProvider = ({ children }) => {
 
   const [activePage, setActivePage] = useState(getPageName());
   const [files, setFiles] = useState([]);
-  
-  const publishFile = async (filename, type, size, __hash, __username, __profile) => {
+
+  const publishFile = async (
+    filename,
+    type,
+    size,
+    __hash,
+    __username,
+    __profile
+  ) => {
     try {
       const data = await addFile([
         padString(__username),
@@ -52,15 +62,15 @@ export const StateContextProvider = ({ children }) => {
 
   const updateFile = async (_index, _status) => {
     try {
-      const data = await updateFileStatus([ _index, _status ]);
+      const data = await updateFileStatus([_index, _status]);
       console.info("contract call successs", data);
     } catch (err) {
       console.error("contract call failure", err);
     }
-  }
+  };
 
   const getFiles = async () => {
-    const data = await contract.call("getFiles")
+    const data = await contract.call("getFiles");
     if (data.length > 0) {
       const parsedFiles = data.map((file, i) => ({
         owner: file.owner,
@@ -72,19 +82,17 @@ export const StateContextProvider = ({ children }) => {
         hash: file.fileHash,
         uploadTime: file.fileUploadTime.toNumber(),
         pid: file.id.toNumber(),
-        status: file.fileStatus
+        status: file.fileStatus,
       }));
       // console.warn(parsedFiles)
-      return parsedFiles
-
+      return parsedFiles;
     } else {
-      return null
+      return null;
     }
   };
 
   const getPublicFiles = async () => {
-    const data = await contract.call("getPublicFiles")
-    console.log(data)
+    const data = await contract.call("getPublicFiles");
     if (data.length > 0) {
       const parsedFiles = data.map((file, i) => ({
         owner: file.owner,
@@ -96,35 +104,52 @@ export const StateContextProvider = ({ children }) => {
         hash: file.fileHash,
         uploadTime: file.fileUploadTime.toNumber(),
         pid: file.id.toNumber(),
-        status: file.fileStatus
+        status: file.fileStatus,
       }));
       // console.warn(parsedFiles)
-      return parsedFiles.filter(file => file.hash !== "")
-
+      return parsedFiles.filter((file) => file.hash !== "");
     } else {
-      return null
+      return null;
     }
   };
-  
+
   const getUserFiles = async () => {
     const allFiles = await getFiles();
 
     const filteredFiles = allFiles.filter(
-      (file) => file.owner === address
+      (file) => file.owner === address && file.status !== "delete"
     );
-    const fileResponse = filteredFiles.filter(
-      (item) => item.status !== "delete"
-    )
-    return fileResponse;
+    return filteredFiles;
   };
 
   const getUserVideo = async () => {
     const allFiles = await getUserFiles();
-    const fileResponse = allFiles.filter(
-      (item) => item.type !== "video/mp4"
-    )
+    const fileResponse = allFiles.filter((item) => item.type !== "video/mp4");
     return fileResponse;
-  }
+  };
+
+  const getFileStats = async () => {
+    const allFiles = await getUserFiles();
+    const webCount = allFiles.reduce(
+      (total, f) => (f.type === "directory" ? total + 1 : total + 0),
+      0
+    );
+    const imageCount = allFiles.reduce(
+      (total, f) => (f.type.split("/")[0] === "image" ? total + 1 : total + 0),
+      0
+    );
+    const videoCount = allFiles.reduce(
+      (total, f) => (f.type.split("/")[0] === "video" ? total + 1 : total + 0),
+      0
+    );
+    return [imageCount, videoCount, webCount]
+
+    // return {
+    //   web: webCount,
+    //   image: imageCount,
+    //   video: videoCount,
+    // };
+  };
 
   return (
     <StateContext.Provider
@@ -141,7 +166,8 @@ export const StateContextProvider = ({ children }) => {
         setActivePage,
         files,
         setFiles,
-        getUserVideo
+        getUserVideo,
+        getFileStats,
       }}
     >
       {children}

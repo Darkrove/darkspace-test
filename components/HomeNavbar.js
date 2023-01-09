@@ -11,7 +11,7 @@ const HomeNavbar = () => {
                     <div className="w-full px-6 flex justify-between lg:w-max md:px-0 z-30 mb-4">
                         <a href="#" ariaLabel="logo" className="flex space-x-2 items-center">
                             <Image src="/assets/logo.svg" className="w-12" alt="logo" width="144" height="133" />
-                            <span className="text-2xl font-bold text-black dark:text-white">Dark<span className="text-[#4acd8d]">Space</span></span>
+                            <span className="text-2xl font-bold text-black dark:text-white">Dark<span className="text-violet-500">Space</span></span>
                         </a>
 
                         <div className="flex items-center lg:hidden max-h-10">
@@ -30,30 +30,30 @@ const HomeNavbar = () => {
                         <div className="text-gray-600 lg:pr-4 w-full">
                             <ul className="tracking-wide font-medium  text-sm flex flex-col gap-y-6 lg:gap-y-0 lg:flex-row w-full">
                                 <li>
-                                    <a href="#" className="block md:px-4 transition dark:text-gray-300 dark:hover:text-[#4acd8d] text-gray-800">
+                                    <a href="#" className="block md:px-4 transition dark:text-gray-300 dark:hover:text-violet-500 text-gray-800">
                                         <span>Home</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" className="block md:px-4 transition dark:text-gray-300 dark:hover:text-[#4acd8d] text-gray-800">
+                                    <a href="#" className="block md:px-4 transition dark:text-gray-300 dark:hover:text-violet-500 text-gray-800">
                                         <span>Documentation</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" className="block md:px-4 transition dark:text-gray-300 dark:hover:text-[#4acd8d] text-gray-800">
+                                    <a href="#" className="block md:px-4 transition dark:text-gray-300 dark:hover:text-violet-500 text-gray-800">
                                         <span>About</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
-                        <div className="w-full min-w-max space-y-2 border-[#4acd8d] lg:space-y-0 sm:w-max lg:border-l dark:lg:border-[#4acd8d]">
+                        <div className="w-full min-w-max space-y-2 border-violet-500 lg:space-y-0 sm:w-max lg:border-l dark:lg:border-violet-500">
                             {/* <button type="button" className="w-full py-3 px-6 text-center rounded-full transition active:bg-yellow-200 dark:active:bg-gray-700 dark:focus:bg-gray-800 focus:bg-yellow-100 sm:w-max">
                                 <span className="block text-yellow-800 dark:text-white font-semibold text-sm">
                                     Sign up
                                 </span>
                             </button> */}
-                            <button onClick={() => Router.push("/signin")} type="button" className="ml-3 w-full py-3 px-6 text-center rounded-full transition bg-[#4acd8d] hover:bg-[#167e4c] active:opacity-80 focus:opacity-80 sm:w-max">
+                            <button onClick={() => Router.push("/signin")} type="button" className="ml-3 w-full py-3 px-6 text-center rounded-full transition bg-violet-500 hover:bg-violet-600 active:opacity-80 focus:opacity-80 sm:w-max">
                                 <span className="block text-white font-semibold text-sm">
                                     Signin
                                 </span>

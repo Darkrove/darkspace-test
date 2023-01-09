@@ -3,8 +3,11 @@ import React from "react";
 
 import { ethereum } from "../assets";
 import { formatBytes, formatDate, shortenAddress } from "../utils";
+import { useStateContext } from "../context";
 
 const DisplayTable = ({ title, isLoading, files, address, user }) => {
+  const { updateFile } = useStateContext();
+
   const showStatus = () => {
     if (!address && !isLoading && user) {
       return (
@@ -121,12 +124,12 @@ const DisplayTable = ({ title, isLoading, files, address, user }) => {
                             </a>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a
+                            <button
                               className="text-blue-500 hover:text-blue-700"
-                              href="#"
+                              onClick={() => updateFile(file.pid, "delete")}
                             >
                               delete
-                            </a>
+                            </button>
                           </td>
                         </tr>
                       ))}
