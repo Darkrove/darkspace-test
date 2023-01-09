@@ -16,10 +16,10 @@ export const Button = ({ img, title, handle }) => {
 const login = () => {
     const { data: session } = useSession();
     async function signInWithGithub() {
-        signIn("github", { callbackUrl: "http://localhost:3000/dashboard" });
+        signIn("github", { callbackUrl: "https://darkspace-test.vercel.app/dashboard" });
     }
     async function signInWithGoogle() {
-        signIn("google", { callbackUrl: "http://localhost:3000/dashboard" });
+        signIn("google", { callbackUrl: "https://darkspace-test.vercel.app/dashboard" });
     }
     return (
         <div className='dark:bg-[#13131a] min-h-screen grid content-center m-auto'>
