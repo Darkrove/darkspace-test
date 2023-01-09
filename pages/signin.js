@@ -32,7 +32,7 @@ const login = () => {
                                     <Image src="/assets/logo.svg" loading="lazy" className="w-10" width={10} height={10} alt="tailus logo" />
                                     <h2 className="mb-8 lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-bold text-gray-800 dark:text-white">
                                         Sign in to <br />
-                                        DarkSpace
+                                        Dark<span className="text-violet-500">Space</span>
                                     </h2>
                                     <p className="lg:text-2xl md:text-1xl text-xl font-semibold">Login or register to start accessing storage.</p>
                                 </div>
