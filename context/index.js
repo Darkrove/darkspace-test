@@ -14,14 +14,9 @@ import { padString, unpadString } from "../utils";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract(
-    "0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B"
-  );
+  const { contract } = useContract("0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B");
   const { mutateAsync: addFile } = useContractWrite(contract, "addFile");
-  const { mutateAsync: updateFileStatus } = useContractWrite(
-    contract,
-    "updateFileStatus"
-  );
+  const { mutateAsync: updateFileStatus } = useContractWrite(contract, "updateFileStatus");
   const router = useRouter();
 
   const getPageName = () => {
@@ -45,15 +40,14 @@ export const StateContextProvider = ({ children }) => {
     __username,
     __profile
   ) => {
+    const _username = padString(__username)
+    const _profile = __profile
+    const _filename = padString(filename)
+    const _filesize = size
+    const _filetype = padString(type)
+    const _filehash = __hash 
     try {
-      const data = await addFile([
-        padString(__username),
-        __profile,
-        padString(filename),
-        size,
-        padString(type),
-        __hash,
-      ]);
+      const data = await addFile([ _username, _profile, _filename, _filesize, _filetype, _filehash ]);
       console.warn("contract call success", data);
     } catch (error) {
       console.log("contract call failure", error);

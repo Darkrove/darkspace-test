@@ -146,7 +146,7 @@ const Navbar = () => {
                 }}
               />
             ))}
-            {address ? <Row name="logout" imgUrl={logout} handleClick={disconnect}/> : ""}
+            {session ? <Row name="logout" imgUrl={logout} handleClick={signOut()}/> : ""}
           </ul>
 
           <div className="flex mx-4">
