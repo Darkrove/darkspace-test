@@ -14,9 +14,17 @@ import { padString, unpadString } from "../utils";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract("0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B");
-  const { mutateAsync: addFile } = useContractWrite(contract, "addFile");
-  const { mutateAsync: updateFileStatus } = useContractWrite(contract, "updateFileStatus");
+  const { contract } = useContract(
+    "0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B"
+  );
+  const { mutateAsync: addFile, isLoading } = useContractWrite(
+    contract,
+    "addFile"
+  );
+  const { mutateAsync: updateFileStatus } = useContractWrite(
+    contract,
+    "updateFileStatus"
+  );
   const router = useRouter();
 
   const getPageName = () => {
@@ -40,17 +48,24 @@ export const StateContextProvider = ({ children }) => {
     __username,
     __profile
   ) => {
-    const _username = padString(__username)
-    const _profile = __profile
-    const _filename = padString(filename)
-    const _filesize = size
-    const _filetype = padString(type)
-    const _filehash = __hash 
+    const _username = padString(__username);
+    const _profile = __profile;
+    const _filename = padString(filename);
+    const _filesize = size;
+    const _filetype = padString(type);
+    const _filehash = __hash;
     try {
-      const data = await addFile([ _username, _profile, _filename, _filesize, _filetype, _filehash ]);
-      console.warn("contract call success", data);
-    } catch (error) {
-      console.log("contract call failure", error);
+      const data = await addFile([
+        _username,
+        _profile,
+        _filename,
+        _filesize,
+        _filetype,
+        _filehash,
+      ]);
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
     }
   };
 
@@ -136,7 +151,7 @@ export const StateContextProvider = ({ children }) => {
       (total, f) => (f.type.split("/")[0] === "video" ? total + 1 : total + 0),
       0
     );
-    return [imageCount, videoCount, webCount]
+    return [imageCount, videoCount, webCount];
 
     // return {
     //   web: webCount,

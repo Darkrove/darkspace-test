@@ -3,11 +3,7 @@ import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
 
-import {
-  CustomButton,
-  FormField,
-  Loader,
-} from "../../components";
+import { CustomButton, FormField, Loader } from "../../components";
 import { secure } from "../../assets";
 import { useStateContext } from "../../context";
 
@@ -15,7 +11,8 @@ const uploadmedia = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { address, contract, setFiles, setActivePage, uploadFile } = useStateContext();
+  const { address, contract, setFiles, setActivePage, uploadFile } =
+    useStateContext();
   const [form, setForm] = useState({
     filename: "",
     file: "",
@@ -51,10 +48,17 @@ const uploadmedia = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.file && contract) {
+    if (form.file) {
       setIsLoading(true);
       const hashUrl = await uploadToIpfs();
-      await uploadFile({ ...form }, hashUrl[0].slice(7), session?.user.name, session?.user.image);
+      await uploadFile(
+        form.filename,
+        form.type,
+        form.size,
+        hashUrl[0].slice(7),
+        session?.user.name,
+        session?.user.image
+      );
       setIsLoading(false);
       setForm({ ...form, hash: hashUrl[0].slice(7) });
       setFiles((files) => [...files, hashUrl[0].slice(7)]);
@@ -82,7 +86,6 @@ const uploadmedia = () => {
             onSubmit={handleSubmit}
             className="w-full mt-[65px] flex flex-col gap-[30px]"
           >
-
             <FormField
               labelName="Media File *"
               placeholder=""
@@ -113,7 +116,7 @@ const uploadmedia = () => {
             </div>
 
             <div className="flex justify-center items-center mt-[40px]">
-                <CustomButton
+              <CustomButton
                 btnType="submit"
                 title="Upload"
                 styles="bg-violet-500 w-64"
@@ -147,18 +150,18 @@ const uploadmedia = () => {
 export default uploadmedia;
 
 export async function getServerSideProps({ req }) {
-  const session = await getSession({ req })
+  const session = await getSession({ req });
 
   if (!session) {
     return {
       redirect: {
-        destination: '/signin',
-        permanent: false
-      }
-    }
+        destination: "/signin",
+        permanent: false,
+      },
+    };
   }
 
   return {
-    props: { session }
-  }
+    props: { session },
+  };
 }
