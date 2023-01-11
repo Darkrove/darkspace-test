@@ -65,6 +65,7 @@ const Sidebar = () => {
                   if (!link.disabled) {
                     setActivePage(link.name);
                     router.push(link.link);
+                    console.log(link)
                   }
                 }}
               />

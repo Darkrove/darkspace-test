@@ -9,10 +9,12 @@ import { DisplayFiles } from "../../components";
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
+  const [isToast, setIsToast] = useState(false)
   const { address, contract, getPublicFiles } = useStateContext();
 
   const fetchFiles = async () => {
     setIsLoading(true);
+    setIsToast(true)
     try {
       const data = await getPublicFiles();
       setFiles(data);
@@ -24,7 +26,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (contract) {
+    if (contract && !isToast) {
       toast.promise(
         fetchFiles(),
         {
@@ -47,7 +49,7 @@ const Home = () => {
         }
       );
     }
-  }, [address, contract]);
+  }, [contract]);
 
   return (
     <div className="scroll-smooth text-center">

@@ -53,14 +53,14 @@ const viewfiles = () => {
     console.log(myFiles);
     try {
       const cid = await client.storeDirectory(myFiles);
-      // await uploadFile(
-      //   folderName[0].toLowerCase(),
-      //   "directory",
-      //   size,
-      //   cid,
-      //   session?.user.name,
-      //   session?.user.image
-      // );
+      await uploadFile(
+        folderName[0].toLowerCase(),
+        "directory",
+        size,
+        cid,
+        session?.user.name,
+        session?.user.image
+      );
       console.log(cid);
       toast.success("Deployed successfully!", {
         duration: 7000,
