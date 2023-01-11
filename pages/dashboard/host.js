@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NFTStorage, File, Blob } from "nft.storage";
 import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
 import { useSession, getSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 import { FolderUpload, CustomButton, DisplayTable, Snackbar } from "../../components";
 import { useStateContext } from "../../context";
@@ -52,23 +53,52 @@ const viewfiles = () => {
     console.log(myFiles);
     try {
       const cid = await client.storeDirectory(myFiles);
-      await uploadFile(
-        folderName[0].toLowerCase(),
-        "directory",
-        size,
-        cid,
-        session?.user.name,
-        session?.user.image
-      );
+      // await uploadFile(
+      //   folderName[0].toLowerCase(),
+      //   "directory",
+      //   size,
+      //   cid,
+      //   session?.user.name,
+      //   session?.user.image
+      // );
       console.log(cid);
+      toast.success("Deployed successfully!", {
+        duration: 7000,
+        style: {
+          border: "0.5px solid #A855F7",
+          background: '#1c1c24',
+          borderRadius: '15px',
+          padding: "10px",
+          color: "#fff",
+        },
+        iconTheme: {
+          primary: "#A855F7",
+          secondary: "#fff",
+        },
+      });
     } catch (error) {
       console.log(error);
+      toast.success("Error occurred!", {
+        duration: 7000,
+        style: {
+          border: "0.5px solid #A855F7",
+          background: '#1c1c24',
+          borderRadius: '15px',
+          padding: "10px",
+          color: "#fff",
+        },
+        iconTheme: {
+          primary: "#A855F7",
+          secondary: "#fff",
+        },
+      });
     }
     setIsLoading(false);
   };
 
   return (
     <div>
+      <Toaster position="bottom-right" reverseOrder={true} />
       {/* <Snackbar/> */}
       <div className="bg-gray-700 rounded-[10px] sm:p-10 p-4">
         <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
@@ -76,10 +106,10 @@ const viewfiles = () => {
         </p>
       </div>
       <FolderUpload handleChange={handleChange} />
-      <div className="mt-5 flex flex-row justify-end">
+      <div className="mt-5 flex flex-row justify-center">
         <CustomButton
           btnType="submit"
-          styles="bg-violet-500 w-64"
+          styles="bg-violet-500 w-72"
           title="Deploy"
           handleClick={handleSubmit}
           status={isLoading}
@@ -107,19 +137,20 @@ const viewfiles = () => {
 };
 
 export default viewfiles;
-export async function getServerSideProps({ req }) {
-  const session = await getSession({ req });
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/signin",
-        permanent: false,
-      },
-    };
-  }
+// export async function getServerSideProps({ req }) {
+//   const session = await getSession({ req });
 
-  return {
-    props: { session },
-  };
-}
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/signin",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: { session },
+//   };
+// }

@@ -13,6 +13,20 @@ module.exports = {
       boxShadow: {
         secondary: '10px 10px 20px rgba(2, 2, 2, 0.25)',
       },
+      colors: {
+        toast: {
+          '50': '#FFF6DF',
+          '100': '#fdf7f1',
+          '200': '#F8EEDB',
+          '300': '#ebbf99',
+          '400': '#dea373',
+          '500': '#ce864f',
+          '600': '#A1724E',
+          '700': '#8c501c',
+          '800': '#5c340f',
+          '900': '#482307',
+        },
+      },
     },
   },
   darkMode: 'class',
