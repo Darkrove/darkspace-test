@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
+import toast, { Toaster } from "react-hot-toast";
 
 import { CustomButton, FormField, Loader } from "../../components";
 import { secure } from "../../assets";
@@ -13,13 +14,14 @@ const uploadmedia = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { address, contract, setFiles, setActivePage, uploadFile } =
     useStateContext();
-  const [form, setForm] = useState({
+  const initState = {
     filename: "",
     file: "",
     type: "",
     size: "",
     hash: "",
-  });
+  }
+  const [form, setForm] = useState({initState});
   const { mutateAsync: upload } = useStorageUpload();
 
   const handleFormFieldChange = (fieldName, e) => {
@@ -38,11 +40,16 @@ const uploadmedia = () => {
   };
 
   const uploadToIpfs = async () => {
-    const uploadUrl = await upload({
-      data: [form.file],
-      options: { uploadWithGatewayUrl: false, uploadWithoutDirectory: true },
-    });
-    return uploadUrl;
+    try {
+      const uploadUrl = await upload({
+        data: [form.file],
+        options: { uploadWithGatewayUrl: false, uploadWithoutDirectory: true },
+      });
+      return uploadUrl;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -51,6 +58,25 @@ const uploadmedia = () => {
     if (form.file) {
       setIsLoading(true);
       const hashUrl = await uploadToIpfs();
+      if (hashUrl.message) {
+        toast.error("Some error occurred!", {
+          duration: 7000,
+          style: {
+            border: "0.5px solid #ff5252",
+            background: "#1c1c24",
+            borderRadius: "15px",
+            padding: "10px",
+            color: "#fff",
+          },
+          iconTheme: {
+            primary: "#ff5252",
+            secondary: "#fff",
+          },
+        });
+        setIsLoading(false);
+        setForm(({...initState}));
+        return;
+      }
       await uploadFile(
         form.filename,
         form.type,
@@ -60,11 +86,25 @@ const uploadmedia = () => {
         session?.user.image
       );
       setIsLoading(false);
-      setForm({ ...form, hash: hashUrl[0].slice(7) });
-      setFiles((files) => [...files, hashUrl[0].slice(7)]);
+      setForm(({...initState}));
+      // setFiles((files) => [...files, hashUrl[0].slice(7)]);
+      toast.success("Uploaded successfully!", {
+        duration: 7000,
+        style: {
+          border: "0.5px solid #A855F7",
+          background: "#1c1c24",
+          borderRadius: "15px",
+          padding: "10px",
+          color: "#fff",
+        },
+        iconTheme: {
+          primary: "#A855F7",
+          secondary: "#fff",
+        },
+      });
       // console.table(form)
-      setActivePage("dashboard");
-      router.push("/dashboard");
+      // setActivePage("dashboard");
+      // router.push("/dashboard");
     } else {
       alert("Provide valid image");
       setForm({ ...form, image: "" });
@@ -73,6 +113,7 @@ const uploadmedia = () => {
 
   return (
     <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+      <Toaster position="bottom-right" reverseOrder={true} />
       {/* {isLoading && <Loader />} */}
       {address ? (
         <div>

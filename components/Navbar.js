@@ -66,7 +66,7 @@ const Navbar = () => {
             src={search}
             loading='lazy'
             alt="search"
-            className="w-[15px] h-[15px] object-contain"
+            className="w-[20px] h-[20px] object-contain"
           />
         </div>
       </div>

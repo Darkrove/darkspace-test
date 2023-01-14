@@ -2,56 +2,57 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
-import { unstable_getServerSession } from "next-auth/next"
+import { unstable_getServerSession } from "next-auth/next";
 
-import { authOptions } from "../api/auth/[...nextauth]"
+import { authOptions } from "../api/auth/[...nextauth]";
 import { useStateContext } from "../../context";
 import { DisplayFiles } from "../../components";
+import { fetchData } from "next-auth/client/_utils";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
-  const [isToast, setIsToast] = useState(false)
+  const [isToast, setIsToast] = useState(false);
   const { address, contract, getPublicFiles } = useStateContext();
 
   const fetchFiles = async () => {
-    setIsLoading(true);
-    setIsToast(true)
     try {
       const data = await getPublicFiles();
       setFiles(data);
     } catch (error) {
-      console.warn(error)
+      console.warn(error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (contract && !isToast) {
-      toast.promise(
-        fetchFiles(),
-        {
-          loading: "Loading...",
-          success: <b>Loaded successfully!</b>,
-          error: <b>Could not Load.</b>,
-        },
-        {
-          style: {
-            border: "0.5px solid #A855F7",
-            background: '#1c1c24',
-            borderRadius: '15px',
-            padding: "10px",
-            color: "#fff",
-          },
-          iconTheme: {
-            primary: "#A855F7",
-            secondary: "#fff",
-          },
-        }
-      );
+    if (contract) {
+      setIsLoading(true);
+      fetchFiles();
+      // toast.promise(
+      //   fetchFiles(),
+      //   {
+      //     loading: "Loading...",
+      //     success: <b>Loaded successfully!</b>,
+      //     error: <b>Could not Load.</b>,
+      //   },
+      //   {
+      //     style: {
+      //       border: "0.5px solid #A855F7",
+      //       background: "#1c1c24",
+      //       borderRadius: "15px",
+      //       padding: "10px",
+      //       color: "#fff",
+      //     },
+      //     iconTheme: {
+      //       primary: "#A855F7",
+      //       secondary: "#fff",
+      //     },
+      //   }
+      // );
     }
-  }, [contract]);
+  }, []);
 
   return (
     <div className="scroll-smooth text-center">
@@ -95,15 +96,15 @@ export async function getServerSideProps(context) {
     context.res,
     authOptions
   );
-  if(!session){
+  if (!session) {
     return {
-      redirect : {
-        destination: '/signin',
-        permanent: false
-      }
-    }
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
   }
   return {
-    props: {session}
+    props: { session },
   };
 }

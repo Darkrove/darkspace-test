@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { MediaRenderer } from "@thirdweb-dev/react";
+import toast, { Toaster } from "react-hot-toast";
 
 import { download, share, remove, link, copy, info } from "../assets";
 import { useStateContext } from "../context";
+import { MissingStaticPage } from "next/dist/shared/lib/utils";
 
 export default function MediaModal({
   id,
@@ -20,10 +22,29 @@ export default function MediaModal({
 
   const { updateFile } = useStateContext();
 
+  const showToast = (msg) => {
+    toast.success(msg, {
+      duration: 5000,
+      style: {
+        border: "0.5px solid #A855F7",
+        background: '#1c1c24',
+        borderRadius: '15px',
+        padding: "10px",
+        color: "#fff",
+      },
+      iconTheme: {
+        primary: "#A855F7",
+        secondary: "#fff",
+      },
+    });
+  }
+
   const copyToClipboard = (src) => {
     navigator.clipboard.writeText(src);
     setCopyStatus(true);
+    showToast("Copied!")
   };
+
   const downloadUsingFetch = async (HREF, name) => {
     // console.log(href);
     await fetch(HREF, {
@@ -39,6 +60,7 @@ export default function MediaModal({
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          showToast("Downloaded!")
         });
       })
       .catch((err) => {
@@ -46,7 +68,7 @@ export default function MediaModal({
       });
   };
   const shareFile = (title, url) => {
-    console.log(url)
+    console.log(url);
     if ("share" in navigator) {
       navigator
         .share({
@@ -65,6 +87,7 @@ export default function MediaModal({
 
   return (
     <>
+      <Toaster position="bottom-right" reverseOrder={true} />
       <div className="fixed inset-0 z-30 overflow-y-auto">
         <div
           className="fixed inset-0 w-full h-full bg-black opacity-80"
