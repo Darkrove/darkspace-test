@@ -16,6 +16,7 @@ const secure = '/assets/secure.svg';
 const verticalMenu = '/assets/vertical-menu.svg';
 const videoIcon = '/assets/video-icon.svg';
 const imageIcon = '/assets/image-icon.svg';
+const hostIcon = '/assets/host-icon.svg';
 const host = '/assets/host-seyfdesigner.svg';
 const rocket = '/assets/rock-seyfdesigner.svg';
 const download = '/assets/download-seyfdesigner.svg';
@@ -46,6 +47,7 @@ export {
   secure,
   videoIcon,
   imageIcon,
+  hostIcon,
   host,
   rocket,
   download,

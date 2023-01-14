@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
+import { unstable_getServerSession } from "next-auth/next"
 
+import { authOptions } from "../api/auth/[...nextauth]"
 import { useStateContext } from "../../context";
 import { DisplayFiles } from "../../components";
 
@@ -86,3 +88,22 @@ export default Home;
 //     props: { session }
 //   }
 // }
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if(!session){
+    return {
+      redirect : {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {session}
+  };
+}

@@ -22,14 +22,15 @@
     "fs": "^0.0.1-security",
     "fs-extra": "^11.1.0",
     "ipfs-core": "^0.17.0",
-    "next": "^13",
+    "next": "^13.1.2",
     "next-auth": "^4.18.7",
     "nft.storage": "^7.0.0",
     "preline": "^1.6.0",
-    "react": "^18.2",
-    "react-dom": "^18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "sharp": "^0.31.3",
+    "v8": "^0.1.0",
     "web3": "^1.8.1"
   },
   "devDependencies": {

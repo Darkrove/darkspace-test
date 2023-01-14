@@ -3,9 +3,9 @@ import { useSession, signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 
 import { useStateContext } from "../../context";
-import { CustomButton } from "../../components";
+import { CustomButton, StatsCard } from "../../components";
 import { shortenAddress } from "../../utils";
-import { image } from "../../assets";
+import { imageIcon, videoIcon, hostIcon } from "../../assets";
 
 const profile = () => {
   const { address, contract, getFileStats } = useStateContext();
@@ -28,7 +28,7 @@ const profile = () => {
   const fetchStats = async () => {
     setIsLoading(true);
     const counts = await getFileStats();
-    console.log(counts)
+    console.log(counts);
     setImageCount(counts[0]);
     setVideoCount(counts[1]);
     setWebCount(counts[2]);
@@ -81,7 +81,7 @@ const profile = () => {
               </div>
             </div>
           </header>
-          <div class=" border-t border-violet-500 p-4 md:py-8 ">
+          <div class="border-t border-violet-500 p-4">
             {isLoading && (
               <div className="flex items-center justify-center space-x-2">
                 <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -91,21 +91,13 @@ const profile = () => {
             )}
             {showStatus()}
             {!isLoading && address && (
-              <ul className="flex justify-around text-lg space-x-4 text-center text-white leading-snug">
-                <li>
-                  <span class="font-semibold text-white block">{imageCount? imageCount : 0}</span>
-                  images
-                </li>
-
-                <li>
-                  <span class="font-semibold text-white block">{videoCount? videoCount : 0}</span>
-                  videos
-                </li>
-                <li>
-                  <span class="font-semibold text-white block">{webCount? webCount : 0}</span>
-                  websites
-                </li>
-              </ul>
+              <div className="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
+                <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-3">
+                  <StatsCard icon={imageIcon} count={imageCount} title="Images"/>
+                  <StatsCard icon={videoIcon} count={videoCount} title="Videos"/>
+                  <StatsCard icon={hostIcon} count={webCount} title="Websites"/>
+                </div>
+              </div>
             )}
           </div>
         </div>

@@ -1,22 +1,33 @@
-import NextAuth from 'next-auth'
-import AppleProvider from 'next-auth/providers/apple'
-import GithubProvider from 'next-auth/providers/github'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth, { NextAuthOptions } from "next-auth";
+import AppleProvider from "next-auth/providers/apple";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     // OAuth authentication providers...
     AppleProvider({
       clientId: process.env.APPLE_ID,
-      clientSecret: process.env.APPLE_SECRET
+      clientSecret: process.env.APPLE_SECRET,
     }),
     GithubProvider({
       clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET,
     }),
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET
-    })
-  ]
-})
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
+    }),
+  ],
+  theme: {
+    colorScheme: "light",
+  },
+  callbacks: {
+    async jwt({ token }) {
+      token.userRole = "admin";
+      return token;
+    },
+  },
+};
+
+export default NextAuth(authOptions);
