@@ -16,7 +16,7 @@ const FormField = ({ labelName, required, placeholder, inputType, isFile, value,
               <div className="space-y-6 text-center">
                 <Image src="/assets/file.png" className="sm:w-40 w-32 m-auto" alt="illustration" height={500} width={600} />
                 <p className="text-gray-700 text-lg">Drag and drop a file or <label htmlFor="dragOver" title="Upload a file" className="relative z-1 cursor-pointer text-violet-500 block">Upload a file</label> </p>
-                <div className='columns-3 gap-5'>
+                <div className='columns-2 gap-5'>
                     <div className="">
                       <p className='text-white font-bold'>Image</p>
                       <p className='text-white font-thin text-md'>jpg, png, jpeg, svg, gif</p>
@@ -24,10 +24,6 @@ const FormField = ({ labelName, required, placeholder, inputType, isFile, value,
                     <div className="">
                       <p className='text-white font-bold'>Video</p>
                       <p className='text-white font-thin text-md'>mp4, mkv, webm</p>
-                    </div>
-                    <div className="">
-                      <p className='text-white font-bold'>Document</p>
-                      <p className='text-white ffont-thin text-md'>not supported yet!</p>
                     </div>
                 </div>
               </div>

@@ -9,7 +9,7 @@ import {
   useContractWrite,
 } from "@thirdweb-dev/react";
 
-import { padString, unpadString } from "../utils";
+import { padString, unpadString, formatDate } from "../utils";
 
 const StateContext = createContext();
 
@@ -139,6 +139,8 @@ export const StateContextProvider = ({ children }) => {
 
   const getFileStats = async () => {
     const allFiles = await getUserFiles();
+    const lastUpdate = formatDate(allFiles[0].uploadTime)
+
     const webCount = allFiles.reduce(
       (total, f) => (f.type === "directory" ? total + 1 : total + 0),
       0
@@ -151,7 +153,7 @@ export const StateContextProvider = ({ children }) => {
       (total, f) => (f.type.split("/")[0] === "video" ? total + 1 : total + 0),
       0
     );
-    return [imageCount, videoCount, webCount];
+    return [lastUpdate, imageCount, videoCount, webCount];
 
     // return {
     //   web: webCount,

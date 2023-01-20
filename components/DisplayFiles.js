@@ -3,7 +3,7 @@ import React from "react";
 import { loader } from "../assets";
 import { FileCard } from "./";
 
-const DisplayFiles = ({ title, isLoading, files, address, user }) => {
+const DisplayFiles = ({ children, title, subtitle, isLoading, files, address, user, style }) => {
   const showStatus = () => {
     if (!address && !isLoading && user) {
       return (
@@ -20,10 +20,15 @@ const DisplayFiles = ({ title, isLoading, files, address, user }) => {
     }
   };
   return (
-    <div>
-      <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">
-        {title} ({files?.length})
-      </h1>
+    <div className={`${style}`}>
+      <div>
+        <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
+          {title}
+        </h1>
+        <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
+          {subtitle} ({files?.length})
+        </p>
+      </div>
       {isLoading && (
         <div className="flex items-center justify-center space-x-2">
           <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -40,6 +45,7 @@ const DisplayFiles = ({ title, isLoading, files, address, user }) => {
             .reverse()
             .map((file, id) => <FileCard key={id} {...file} user={user} />)}
       </div>
+      {children}
     </div>
   );
 };

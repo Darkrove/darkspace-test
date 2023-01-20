@@ -3,20 +3,16 @@ import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { AppleLogo, GithubLogo, GoogleLogo } from "../assets/Icons";
 
-export const Button = ({ img, title, handle }) => {
+export const Button = ({ children, title, handle }) => {
   return (
     <button
       onClick={handle}
       className="group relative flex h-11 items-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white dark:before:bg-gray-600 dark:before:border-gray-600 before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 disabled:before:bg-gray-300 disabled:before:scale-100"
     >
       <span className="w-full relative flex justify-center items-center gap-3 text-base font-medium text-gray-600 dark:text-gray-100">
-        <Image
-          className="w-5 h-5"
-          src={`/assets/${img}.svg`}
-          width={5}
-          height={5}
-        />
+        {children}
         <span className="lg:text-base text-xs font-medium">{title}</span>
       </span>
     </button>
@@ -63,17 +59,31 @@ const login = () => {
                   </p>
                 </div>
                 <div className="mt-20 grid space-y-4">
-                  <Button
-                    img="google"
-                    title="Signin with Google"
-                    handle={signInWithGoogle}
-                  />
+                  <Button title="Signin with Google" handle={signInWithGoogle}>
+                    <GoogleLogo
+                      width={"1.5rem"}
+                      height={"1.5rem"}
+                      fill="#8b5cf6"
+                    />
+                  </Button>
                   <Button
                     img="github"
                     title="Signin with Github"
                     handle={signInWithGithub}
-                  />
-                  <Button img="apple" title="Signin with Apple" />
+                  >
+                    <GithubLogo
+                      width={"1.5rem"}
+                      height={"1.5rem"}
+                      fill="#8b5cf6"
+                    />
+                  </Button>
+                  <Button img="apple" title="Signin with Apple">
+                    <AppleLogo
+                      width={"1.5rem"}
+                      height={"1.5rem"}
+                      fill="#8b5cf6"
+                    />
+                  </Button>
                 </div>
                 <div className="mt-20 space-y-4 text-center text-gray-600 dark:text-gray-400 sm:-mb-8">
                   <p className="text-xs">

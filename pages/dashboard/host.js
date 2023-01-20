@@ -100,9 +100,12 @@ const viewfiles = () => {
     <div>
       <Toaster position="bottom-right" reverseOrder={true} />
       {/* <Snackbar/> */}
-      <div className="bg-gray-700 rounded-[10px] sm:p-10 p-4">
-        <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
-          host your static websites 🌎
+      <div>
+        <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
+          Website Hosting
+        </h1>
+        <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
+          Host your static websites freely
         </p>
       </div>
       <FolderUpload handleChange={handleChange} />

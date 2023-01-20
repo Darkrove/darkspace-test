@@ -20,8 +20,8 @@ const uploadmedia = () => {
     type: "",
     size: "",
     hash: "",
-  }
-  const [form, setForm] = useState({initState});
+  };
+  const [form, setForm] = useState({ initState });
   const { mutateAsync: upload } = useStorageUpload();
 
   const handleFormFieldChange = (fieldName, e) => {
@@ -74,7 +74,7 @@ const uploadmedia = () => {
           },
         });
         setIsLoading(false);
-        setForm(({...initState}));
+        setForm({ ...initState });
         return;
       }
       await uploadFile(
@@ -86,7 +86,7 @@ const uploadmedia = () => {
         session?.user.image
       );
       setIsLoading(false);
-      setForm(({...initState}));
+      setForm({ ...initState });
       // setFiles((files) => [...files, hashUrl[0].slice(7)]);
       toast.success("Uploaded successfully!", {
         duration: 7000,
@@ -112,20 +112,23 @@ const uploadmedia = () => {
   };
 
   return (
-    <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+    <div className="">
       <Toaster position="bottom-right" reverseOrder={true} />
       {/* {isLoading && <Loader />} */}
       {address ? (
         <div>
-          <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3a3a43] rounded-[10px]">
-            <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white">
-              Upload your media
+          <div>
+            <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
+              Upload Media
             </h1>
+            <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
+              Upload videos or images, and use free storage
+            </p>
           </div>
 
           <form
             onSubmit={handleSubmit}
-            className="w-full mt-[65px] flex flex-col gap-[30px]"
+            className="w-full mt-[20px] flex flex-col gap-[30px]"
           >
             <FormField
               labelName="Media File *"

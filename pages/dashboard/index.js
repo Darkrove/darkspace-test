@@ -16,52 +16,22 @@ const Home = () => {
   const { address, contract, getPublicFiles } = useStateContext();
 
   const fetchFiles = async () => {
-    try {
-      const data = await getPublicFiles();
-      setFiles(data);
-    } catch (error) {
-      console.warn(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    const data = await getPublicFiles();
+    setFiles(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (contract) {
-      setIsLoading(true);
-      fetchFiles();
-      // toast.promise(
-      //   fetchFiles(),
-      //   {
-      //     loading: "Loading...",
-      //     success: <b>Loaded successfully!</b>,
-      //     error: <b>Could not Load.</b>,
-      //   },
-      //   {
-      //     style: {
-      //       border: "0.5px solid #A855F7",
-      //       background: "#1c1c24",
-      //       borderRadius: "15px",
-      //       padding: "10px",
-      //       color: "#fff",
-      //     },
-      //     iconTheme: {
-      //       primary: "#A855F7",
-      //       secondary: "#fff",
-      //     },
-      //   }
-      // );
-    }
-  }, []);
+    if (contract) fetchFiles();
+  }, [address, contract]);
 
   return (
-    <div className="scroll-smooth text-center">
+    <div className="scroll-smooth">
       <Toaster position="bottom-right" reverseOrder={true} />
-      <p className="text-white text-3xl font-bold sm:text-4xl md:text-4xl mb-5">
-        Global 🦄
-      </p>
       <DisplayFiles
-        title="All files"
+        title="Global"
+        subtitle="All files"
         isLoading={isLoading}
         files={files}
         address={address}

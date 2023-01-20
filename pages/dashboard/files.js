@@ -22,13 +22,9 @@ const files = () => {
     }, [address, contract]);
     return (
         <div>
-            <div className="mb-4 bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-                <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
-                    files 🖼️
-                </p>
-            </div>
             <DisplayFiles
                 title="Files"
+                subtitle="All files"
                 isLoading={isLoading}
                 files={files.filter(file => file.type !== "directory")}
                 address={address}

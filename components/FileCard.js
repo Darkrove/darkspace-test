@@ -49,7 +49,7 @@ const FileCard = ({
   })
 
   return (
-    <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer">
+    <div className="sm:w-[230px] md:w-[250px] xl:w-[270px] 2xl:w-[295px] w-full rounded-[15px] bg-zinc-800 cursor-pointer">
       <div className="relative overflow-hidden rounded-[15px]">
         <Image
           src={thumbnail}
@@ -87,34 +87,34 @@ const FileCard = ({
             alt="tag"
             className="w-[17px] h-[17px] object-contain"
           />
-          <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[12px] text-[#808191]">
+          <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[12px] text-zinc-500">
             Education
           </p>
         </div> */}
 
         <div className="block">
-          <h3 className="font-epilogue font-medium text-[15px] text-white text-left leading-[26px] truncate">
+          <h3 className="font-epilogue font-medium text-[15px] text-zinc-200 text-left leading-[26px] truncate">
             {name}
           </h3>
-          {/* <p className="mt-[5px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate">
+          {/* <p className="mt-[5px] font-epilogue font-normal text-zinc-500 text-left leading-[18px] truncate">
             {description}
           </p> */}
         </div>
 
         <div className="flex justify-between flex-wrap mt-[15px] gap-2">
           <div className="flex flex-col items-start">
-            <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
+            <h4 className="font-epilogue font-semibold text-[14px] text-zinc-300 leading-[22px]">
               File size
             </h4>
-            <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
+            <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-zinc-500 sm:max-w-[120px] truncate">
               {formatBytes(size)}
             </p>
           </div>
           <div className="flex flex-col items-end">
-            <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
+            <h4 className="font-epilogue font-semibold text-[14px] text-zinc-300 leading-[22px]">
               Upload time
             </h4>
-            <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
+            <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-zinc-500 sm:max-w-[120px] truncate">
               {formatDate(uploadTime)}
             </p>
           </div>
@@ -130,8 +130,8 @@ const FileCard = ({
                 height={100}
               />
             </div>
-            <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-[#808191] truncate">
-              by <span className="text-[#b2b3bd]">{username.toLowerCase()}</span>
+            <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-zinc-500 truncate">
+              by <span className="text-zinc-300">{username.toLowerCase()}</span>
             </p>
           </div>
         ) : null}

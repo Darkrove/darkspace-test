@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
 
+import { authOptions } from "../api/auth/[...nextauth]";
 import { useStateContext } from "../../context";
-import { CustomButton, StatsCard } from "../../components";
+import { CustomButton, StatsCard, ProfileCard, Stats } from "../../components";
 import { shortenAddress } from "../../utils";
 import { imageIcon, videoIcon, hostIcon } from "../../assets";
 
@@ -11,9 +13,11 @@ const profile = () => {
   const { address, contract, getFileStats } = useStateContext();
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState()
   const [webCount, setWebCount] = useState();
   const [imageCount, setImageCount] = useState();
   const [videoCount, setVideoCount] = useState();
+  const [host, setHost] = useState();
 
   const showStatus = () => {
     if (!address && !isLoading) {
@@ -29,9 +33,18 @@ const profile = () => {
     setIsLoading(true);
     const counts = await getFileStats();
     console.log(counts);
-    setImageCount(counts[0]);
-    setVideoCount(counts[1]);
-    setWebCount(counts[2]);
+    setLastUpdate(counts[0])
+    setImageCount(counts[1]);
+    setVideoCount(counts[2]);
+    setWebCount(counts[3]);
+    const split = session?.user?.image?.split('/')
+    const host = split[2]?.split(".")[1]
+    console.log(host)
+    if (host === "githubusercontent") {
+      setHost("github")
+    } else if (host === "googleusercontent") {
+      setHost("google")
+    }
     setIsLoading(false);
   };
 
@@ -41,74 +54,21 @@ const profile = () => {
 
   return (
     <div>
-      <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-        <div class="lg:w-8/12 lg:mx-auto mb-8">
-          <header class="flex flex-wrap items-center p-4 md:py-8">
-            <div class="md:w-3/12 md:ml-16">
-              {/* <!-- profile image --> */}
-              <img
-                class="w-20 h-20 md:w-32 md:h-32 object-cover rounded-full
-                     border-2 border-violet-500 p-1"
-                src={session?.user.image}
-                alt="profile"
-              />
+      <div className="flex justify-center items-center flex-col rounded-[10px]">
+        <div className="w-full flex flex-col items-center relative">
+          <section className="flex flex-col w-full justify-between lg:mt-0 md:mt-0 prose prose-a:no-underline gap-6">
+            <div>
+              <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
+                Profile
+              </h1>
+              <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
+                Random stats and stuff related to you.
+              </p>
             </div>
-
-            {/* <!-- profile meta --> */}
-            <div class="w-8/12 md:w-7/12 ml-4">
-              <div class="md:flex md:flex-wrap md:items-center mb-4">
-                <h2 class="text-white text-center text-2xl sm:text-3xl md:text-4xl inline-block font-bold md:mr-2 mb-2 sm:mb-0">
-                  {session?.user.name}#🦄
-                </h2>
-
-                {/* <!-- badge --> */}
-                <span
-                  class="inline-block fas fa-certificate fa-lg text-blue-500 
-                               relative mr-6 text-xl transform -translate-y-2"
-                  aria-hidden="true"
-                >
-                  <i
-                    class="fas fa-check text-white text-xs absolute inset-x-0
-                               ml-1 mt-px"
-                  ></i>
-                </span>
-              </div>
-
-              <div>
-                <p className="text-xl font-semibold text-white">
-                  {session?.user.email}
-                </p>
-              </div>
-            </div>
-          </header>
-          <div class="border-t border-violet-500 p-4">
-            {isLoading && (
-              <div className="flex items-center justify-center space-x-2">
-                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-              </div>
-            )}
-            {showStatus()}
-            {!isLoading && address && (
-              <div className="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
-                <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-3">
-                  <StatsCard icon={imageIcon} count={imageCount} title="Images"/>
-                  <StatsCard icon={videoIcon} count={videoCount} title="Videos"/>
-                  <StatsCard icon={hostIcon} count={webCount} title="Websites"/>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex justify-center items-center mt-[40px] w-">
-          <CustomButton
-            btnType="submit"
-            title="Sign Out"
-            styles="bg-violet-500 w-80"
-            handleClick={() => signOut()}
-          />
+            <ProfileCard host={host} user={session?.user}/>
+            <Stats lastUpdate={lastUpdate} imageCount={imageCount} videoCount={videoCount} webCount={webCount}/>
+          </section>
+          {/* <Footer /> */}
         </div>
       </div>
     </div>
@@ -117,19 +77,21 @@ const profile = () => {
 
 export default profile;
 
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req });
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/signin",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: { session },
-//   };
-// }
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}
