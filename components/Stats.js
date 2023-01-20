@@ -46,7 +46,7 @@ export default function Stats({lastUpdate, imageCount, videoCount, webCount}) {
       link: "https://last.fm/user/asheeshh",
     },
     {
-      title: "Last upload",
+      title: "Last Upload",
       value: lastUpdate,
       link: "https://u.asrvd.me/share/DMvDSMzs/personal%20site",
     },
