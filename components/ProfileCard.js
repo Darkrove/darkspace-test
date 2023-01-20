@@ -17,7 +17,7 @@ export default function ProfileCard({host, user}) {
           className="text-zinc-400 text-xs lg:text-sm md:text-sm"
         >
           {host === 'github' && <GithubLogo className="inline-block mr-2 w-4 h-4" />}{" "}
-          {host === 'google' && <GithubLogo className="inline-block mr-2 w-4 h-4" />}{" "}
+          {host === 'google' && <GoogleLogo className="inline-block mr-2 w-4 h-4" />}{" "}
           
           {user?.email}
         </p>

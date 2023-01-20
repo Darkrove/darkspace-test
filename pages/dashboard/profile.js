@@ -13,7 +13,7 @@ const profile = () => {
   const { address, contract, getFileStats } = useStateContext();
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState()
+  const [lastUpdate, setLastUpdate] = useState();
   const [webCount, setWebCount] = useState();
   const [imageCount, setImageCount] = useState();
   const [videoCount, setVideoCount] = useState();
@@ -33,24 +33,26 @@ const profile = () => {
     setIsLoading(true);
     const counts = await getFileStats();
     console.log(counts);
-    setLastUpdate(counts[0])
+    setLastUpdate(counts[0]);
     setImageCount(counts[1]);
     setVideoCount(counts[2]);
     setWebCount(counts[3]);
-    const split = session?.user?.image?.split('/')
-    const host = split[2]?.split(".")[1]
-    console.log(host)
-    if (host === "githubusercontent") {
-      setHost("github")
-    } else if (host === "googleusercontent") {
-      setHost("google")
-    }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    if (contract) fetchStats();
-  }, [webCount, contract]);
+    if (address && contract) fetchStats();
+    if (session?.user?.email) {
+      const split = session?.user?.image?.split("/");
+      const host = split[2]?.split(".")[1];
+      console.log(host)
+      if (host === "githubusercontent") {
+        setHost("github");
+      } else if (host === "googleusercontent") {
+        setHost("google");
+      }
+    }
+  }, [address, contract]);
 
   return (
     <div>
@@ -65,8 +67,13 @@ const profile = () => {
                 Random stats and stuff related to you.
               </p>
             </div>
-            <ProfileCard host={host} user={session?.user}/>
-            <Stats lastUpdate={lastUpdate} imageCount={imageCount} videoCount={videoCount} webCount={webCount}/>
+            <ProfileCard host={host} user={session?.user} />
+            <Stats
+              lastUpdate={lastUpdate}
+              imageCount={imageCount}
+              videoCount={videoCount}
+              webCount={webCount}
+            />
           </section>
           {/* <Footer /> */}
         </div>
