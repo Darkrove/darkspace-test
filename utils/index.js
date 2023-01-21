@@ -12,7 +12,7 @@ export const checkIfImage = (url, callback) => {
 };
 
 export const shortenAddress = (address) => {
-  return `${address.slice(0, 7)}...${address.slice(address.length - 5)}`;
+  return `${address?.slice(0, 10)}...${address?.slice(address?.length - 8)}`;
 };
 
 export const formatBytes = (bytes, decimals = 2) => {

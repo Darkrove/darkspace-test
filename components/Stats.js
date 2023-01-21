@@ -2,6 +2,9 @@ import Link from "next/link";
 import { LinkLogo } from "../assets/Icons";
 import { useState, useEffect } from "react";
 import { useStateContext } from "../context";
+
+import { shortenAddress } from "../utils";
+
 export default function Stats({lastUpdate, imageCount, videoCount, webCount, address}) {
 
   const {setActivePage} = useStateContext();
@@ -37,7 +40,7 @@ export default function Stats({lastUpdate, imageCount, videoCount, webCount, add
     },
     {
       title: "Wallet Address",
-      value: address,
+      value: shortenAddress(address),
       link: "",
       active: "profile"
     },
