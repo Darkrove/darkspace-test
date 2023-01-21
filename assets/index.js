@@ -27,6 +27,7 @@ const info = '/assets/info-seyfdesigner.svg';
 const share = '/assets/share-seyfdesigner.svg';
 const remove = '/assets/delete-seyfdesigner.svg';
 const ethereum = '/assets/ethereum.org.svg';
+const heroLogo = '/assets/hero-geometry.webp';
 
 export {
   clock,
@@ -57,5 +58,6 @@ export {
   copy,
   info,
   remove,
-  ethereum
+  ethereum,
+  heroLogo
 };

@@ -5,7 +5,7 @@ const nextConfig = {
     forceSwcTransforms: true,
   },
   images: {
-    domains: ["avatars.githubusercontent.com","lh3.googleusercontent.com","ipfs.io","gateway.ipfs.io","cloudflare-ipfs.com","gateway.pinata.cloud","ipfs.eternum.io","dweb.link"],
+    domains: ["kitwind.io","avatars.githubusercontent.com","lh3.googleusercontent.com","ipfs.io","gateway.ipfs.io","cloudflare-ipfs.com","gateway.pinata.cloud","ipfs.eternum.io","dweb.link"],
   },
 };
 
