@@ -14,7 +14,7 @@ export const navlinks = [
     link: '/dashboard/host',
   },
   {
-    name: 'uploadmedia',
+    name: 'upload media',
     tip: 'Upload',
     imgUrl: upload,
     link: '/dashboard/uploadmedia',

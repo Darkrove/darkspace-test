@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { MediaModal } from "./";
 import { tagType, profile, userProfile, verticalMenu, videoIcon, imageIcon } from "../assets";
-import { formatBytes, formatDate, shortenAddress } from "../utils";
+import { formatBytes, formatDate, capitalizeFirstLetter } from "../utils";
 import { generateVideoThumbnailViaUrl } from "../utils/thumbnailGenerator"
 
 const FileCard = ({
@@ -81,24 +81,10 @@ const FileCard = ({
         />
       )}
       <div className="flex flex-col p-4">
-        {/* <div className="flex flex-row items-center mb-[18px]">
-          <img
-            src={tagType}
-            alt="tag"
-            className="w-[17px] h-[17px] object-contain"
-          />
-          <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[12px] text-zinc-500">
-            Education
-          </p>
-        </div> */}
-
         <div className="block">
           <h3 className="font-epilogue font-medium text-[15px] text-zinc-200 text-left leading-[26px] truncate">
             {name}
           </h3>
-          {/* <p className="mt-[5px] font-epilogue font-normal text-zinc-500 text-left leading-[18px] truncate">
-            {description}
-          </p> */}
         </div>
 
         <div className="flex justify-between flex-wrap mt-[15px] gap-2">
@@ -131,7 +117,7 @@ const FileCard = ({
               />
             </div>
             <p className="flex-1 text-left font-epilogue font-normal text-[12px] text-zinc-500 truncate">
-              by <span className="text-zinc-300">{username.toLowerCase()}</span>
+              by <span className="text-zinc-300">{capitalizeFirstLetter(username)}</span>
             </p>
           </div>
         ) : null}

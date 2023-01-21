@@ -27,7 +27,6 @@ export const formatBytes = (bytes, decimals = 2) => {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 };
 
-
 export const formatDate = (epoch) => {
   const myDate = new Date(epoch * 1000);
   let dateStr = myDate.getFullYear() + "/" + (myDate.getMonth() + 1) + "/" + myDate.getDate() + " " + myDate.getHours() + ":" + myDate.getMinutes() + ":" + myDate.getSeconds()
@@ -45,4 +44,13 @@ export const padString = (str) => {
 export const unpadString = (str) => {
   let res = web3.utils.toAscii(str)
   return res.replace(/\0/g, '')
+}
+
+export const capitalizeFirstLetter = (string) => {
+  if (string) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
+  } else {
+    return "Nan"
+  }
+  
 }

@@ -6,6 +6,7 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import { useSession, signOut } from "next-auth/react"
 
 import { CustomButton } from "./";
+import { capitalizeFirstLetter } from "../utils";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
 import { logo, menu, search, userProfile, logout } from "../assets";
@@ -32,7 +33,7 @@ const Row = ({ id, styles, name, imgUrl, activePage, handleClick }) => {
           activePage === name ? "text-violet-500" : "text-[#808191]"
         }`}
       >
-        {name}
+        {capitalizeFirstLetter(name)}
       </p>
     </li>
   );
