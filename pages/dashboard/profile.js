@@ -73,6 +73,7 @@ const profile = () => {
               imageCount={imageCount}
               videoCount={videoCount}
               webCount={webCount}
+              address={address}
             />
           </section>
           {/* <Footer /> */}

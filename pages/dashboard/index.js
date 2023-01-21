@@ -18,7 +18,7 @@ const Home = () => {
   const fetchFiles = async () => {
     setIsLoading(true);
     const data = await getPublicFiles();
-    setFiles(data);
+    setFiles(data.reverse());
     setIsLoading(false);
   };
 

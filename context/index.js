@@ -139,7 +139,8 @@ export const StateContextProvider = ({ children }) => {
 
   const getFileStats = async () => {
     const allFiles = await getUserFiles();
-    const lastUpdate = formatDate(allFiles[0]?.uploadTime)
+    const latest = allFiles.reverse()
+    const lastUpdate = formatDate(latest[0]?.uploadTime)
 
     const webCount = allFiles.reduce(
       (total, f) => (f.type === "directory" ? total + 1 : total + 0),

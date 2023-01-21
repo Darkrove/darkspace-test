@@ -42,7 +42,6 @@ const DisplayFiles = ({ children, title, subtitle, isLoading, files, address, us
           files.length > 0 &&
           files
             .slice(0)
-            .reverse()
             .map((file, id) => <FileCard key={id} {...file} user={user} />)}
       </div>
       {children}

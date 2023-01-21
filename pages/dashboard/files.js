@@ -26,7 +26,7 @@ const files = () => {
                 title="Files"
                 subtitle="All files"
                 isLoading={isLoading}
-                files={files.filter(file => file.type !== "directory")}
+                files={files.filter(file => file.type !== "directory").reverse()}
                 address={address}
                 user={true}
             />

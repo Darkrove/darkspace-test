@@ -3,29 +3,15 @@ import { getSession } from "next-auth/react";
 
 const photos = () => {
   return (
-    <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-      <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
-        photos 🖼️
+    <div>
+      <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
+        Photos
+      </h1>
+      <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
+        All photos (0)
       </p>
     </div>
   );
 };
 
 export default photos;
-
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req })
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/signin',
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   return {
-//     props: { session }
-//   }
-// }

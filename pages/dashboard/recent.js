@@ -32,7 +32,7 @@ const recent = () => {
         title="Recent Images"
         subtitle="Recent images"
         isLoading={isLoading}
-        files={files.filter((file) => file.type.split("/")[0] === "image").slice(0, 3)}
+        files={files.filter((file) => file.type.split("/")[0] === "image").reverse().slice(0, 3)}
         address={address}
         user={true}
       >
@@ -58,7 +58,7 @@ const recent = () => {
         title="Recent Videos"
         subtitle="Recent videos"
         isLoading={isLoading}
-        files={files.filter((file) => file.type.split("/")[0] === "video").slice(0, 3)}
+        files={files.filter((file) => file.type.split("/")[0] === "video").reverse().slice(0, 3)}
         address={address}
         user={true}
         style="mt-[20px]"
