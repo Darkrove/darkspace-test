@@ -23,7 +23,7 @@ export default function ProfileCard({host, user}) {
         </p>
         <div className="flex gap-2 lg:gap-4 md:gap-3 text-sm lg:text-base md:text-base dark:text-zinc-200 text-zinc-900 w-full">
           <p className="m-0">
-            {user?.name}
+            {user?.name?.toLowerCase()}
           </p>
         </div>
       </div>
