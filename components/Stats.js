@@ -46,19 +46,19 @@ export default function Stats({lastUpdate, imageCount, videoCount, webCount, add
     },
     {
       title: "Image Count",
-      value: `${imageCount}/ထ`,
+      value: `${imageCount} / ထ`,
       link: "/dashboard/photos",
       active: "photos",
     },
     {
       title: "Video Count",
-      value: `${videoCount}/ထ`,
+      value: `${videoCount} / ထ`,
       link: "/dashboard/videos",
       active: "videos",
     },
     {
       title: "Website Count",
-      value: `${webCount}/ထ`,
+      value: `${webCount} / ထ`,
       link: "/dashboard/host",
       active: "host",
     },

@@ -15,7 +15,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0xB6213DCaE1FdE9A5C4Fd9FB29f3dc90143908B4B"
+    "0xF59c8EbE7a730C02800C59010a998948c203EBDc"
   );
   const { mutateAsync: addFile, isLoading } = useContractWrite(
     contract,
@@ -39,6 +39,25 @@ export const StateContextProvider = ({ children }) => {
 
   const [activePage, setActivePage] = useState(getPageName());
   const [files, setFiles] = useState([]);
+
+
+  const getFileByHash = async (hash) => {
+    const data = await contract.call("getFileByHash", hash)
+    if (!data) return
+    const parsedFiles = data.map((file, i) => ({
+      owner: file.owner,
+      username: unpadString(file.username),
+      profile: file.profile,
+      name: unpadString(file.fileName),
+      type: unpadString(file.fileType),
+      size: file.fileSize.toNumber(),
+      hash: file.fileHash,
+      uploadTime: file.fileUploadTime.toNumber(),
+      pid: file.id.toNumber(),
+      status: file.fileStatus,
+    }));
+    return parsedFiles.filter((file) => file.hash !== "");
+  }
 
   const publishFile = async (
     filename,
@@ -124,7 +143,7 @@ export const StateContextProvider = ({ children }) => {
 
   const getUserFiles = async () => {
     const allFiles = await getFiles();
-
+    if (!allFiles) return 
     const filteredFiles = allFiles.filter(
       (file) => file.owner === address && file.status !== "delete"
     );
@@ -139,6 +158,7 @@ export const StateContextProvider = ({ children }) => {
 
   const getFileStats = async () => {
     const allFiles = await getUserFiles();
+    if (!allFiles) return
     const latest = allFiles.reverse()
     const lastUpdate = formatDate(latest[0]?.uploadTime)
 
@@ -155,12 +175,6 @@ export const StateContextProvider = ({ children }) => {
       0
     );
     return [lastUpdate, imageCount, videoCount, webCount];
-
-    // return {
-    //   web: webCount,
-    //   image: imageCount,
-    //   video: videoCount,
-    // };
   };
 
   return (
@@ -180,6 +194,7 @@ export const StateContextProvider = ({ children }) => {
         setFiles,
         getUserVideo,
         getFileStats,
+        getFileByHash
       }}
     >
       {children}

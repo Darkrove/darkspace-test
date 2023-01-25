@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from "next-auth/react";
 
 import "../styles/globals.css";
 import { Sidebar, Navbar, HomeNavbar } from "../components";
@@ -10,9 +11,23 @@ import { StateContextProvider } from "../context";
 // This is the chainId your dApp will work on.
 const activeChainId = ChainId.Goerli;
 
+const toastStyle = {
+  style: {
+    border: "0.5px solid #A855F7",
+    background: "#1c1c24",
+    borderRadius: "15px",
+    padding: "10px",
+    color: "#fff",
+  },
+  iconTheme: {
+    primary: "#A855F7",
+    secondary: "#fff",
+  },
+};
+
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
-    import('preline')
+    import("preline");
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
@@ -26,24 +41,24 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
 
   const map = () => {
-    if (router.pathname === "/" ||
+    if (
+      router.pathname === "/" ||
       router.pathname === "/about" ||
-      router.pathname === "/docs") {
+      router.pathname === "/docs"
+    ) {
       return (
         <>
           <HomeNavbar />
           <Component {...pageProps} />
         </>
-      )
-    } else if (router.pathname === "/signin" ||
-      router.pathname === "/signup") {
+      );
+    } else if (router.pathname === "/signin" || router.pathname === "/signup") {
       return (
         <>
           <Component {...pageProps} />
         </>
-      )
-    }
-    else {
+      );
+    } else {
       return (
         <div className="relative sm:-8 p-4 bg-zinc-900 min-h-screen flex flex-row">
           <div className="sm:flex hidden mr-10 relative">
@@ -54,15 +69,20 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <Component {...pageProps} />
           </div>
         </div>
-      )
+      );
     }
-  }
+  };
 
   return (
     <ThirdwebProvider desiredChainId={activeChainId}>
       <StateContextProvider>
         <SessionProvider session={session}>
           {map()}
+          <Toaster
+            position="bottom-right"
+            reverseOrder={true}
+            toastOptions={{ ...toastStyle, duration: 7000 }}
+          />
         </SessionProvider>
       </StateContextProvider>
     </ThirdwebProvider>

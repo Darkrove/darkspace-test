@@ -1,5 +1,6 @@
 import React from "react";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 const photos = () => {
   return (
@@ -15,3 +16,22 @@ const photos = () => {
 };
 
 export default photos;
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

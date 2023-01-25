@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
-import toast, { Toaster } from "react-hot-toast";
 import { unstable_getServerSession } from "next-auth/next";
+import toast from "react-hot-toast";
 
 import { authOptions } from "../api/auth/[...nextauth]";
 import { useStateContext } from "../../context";
@@ -18,7 +18,9 @@ const Home = () => {
   const fetchFiles = async () => {
     setIsLoading(true);
     const data = await getPublicFiles();
-    setFiles(data.reverse());
+    if(data) {
+      setFiles(data.reverse());
+    }
     setIsLoading(false);
   };
 
@@ -28,7 +30,6 @@ const Home = () => {
 
   return (
     <div className="scroll-smooth">
-      <Toaster position="bottom-right" reverseOrder={true} />
       <DisplayFiles
         title="Global"
         subtitle="All files"
@@ -42,23 +43,6 @@ const Home = () => {
 };
 
 export default Home;
-
-// export async function getServerSideProps({ req }){
-//   const session = await getSession({ req })
-
-//   if(!session){
-//     return {
-//       redirect : {
-//         destination: '/signin',
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   return {
-//     props: { session }
-//   }
-// }
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(

@@ -14,10 +14,10 @@ const profile = () => {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
-  const [webCount, setWebCount] = useState();
-  const [imageCount, setImageCount] = useState();
-  const [videoCount, setVideoCount] = useState();
-  const [host, setHost] = useState();
+  const [webCount, setWebCount] = useState(0);
+  const [imageCount, setImageCount] = useState(0);
+  const [videoCount, setVideoCount] = useState(0);
+  const [host, setHost] = useState(0);
 
   const showStatus = () => {
     if (!address && !isLoading) {
@@ -32,6 +32,7 @@ const profile = () => {
   const fetchStats = async () => {
     setIsLoading(true);
     const counts = await getFileStats();
+    if (!counts) return 
     console.log(counts);
     setLastUpdate(counts[0]);
     setImageCount(counts[1]);

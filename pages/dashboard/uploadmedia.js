@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
 import toast, { Toaster } from "react-hot-toast";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 import { CustomButton, FormField, Loader } from "../../components";
 import { secure } from "../../assets";
@@ -193,19 +195,21 @@ const uploadmedia = () => {
 
 export default uploadmedia;
 
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req });
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/signin",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: { session },
-//   };
-// }
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

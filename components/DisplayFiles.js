@@ -1,9 +1,18 @@
 import React from "react";
 
 import { loader } from "../assets";
-import { FileCard } from "./";
+import { FileCard, FileCardSkeleton } from "./";
 
-const DisplayFiles = ({ children, title, subtitle, isLoading, files, address, user, style }) => {
+const DisplayFiles = ({
+  children,
+  title,
+  subtitle,
+  isLoading,
+  files,
+  address,
+  user,
+  style,
+}) => {
   const showStatus = () => {
     if (!address && !isLoading && user) {
       return (
@@ -30,16 +39,14 @@ const DisplayFiles = ({ children, title, subtitle, isLoading, files, address, us
         </p>
       </div>
       {isLoading && (
-        <div className="flex items-center justify-center space-x-2">
-          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+        <div className="flex flex-wrap mt-[20px] gap-[26px]">
+          {[0,1,2,3,4,5].map((id) => <FileCardSkeleton />)}
         </div>
       )}
       {showStatus()}
       <div className="flex flex-wrap mt-[20px] gap-[26px]">
         {!isLoading &&
-          files.length > 0 &&
+          files?.length > 0 &&
           files
             .slice(0)
             .map((file, id) => <FileCard key={id} {...file} user={user} />)}

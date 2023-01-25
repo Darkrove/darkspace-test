@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 import { useStateContext } from "../../context";
 import { shortenAddress } from "../../utils";
@@ -18,7 +19,7 @@ const recent = () => {
     setIsLoading(true);
     console.log()
     const data = await getUserFiles();
-    setFiles(data);
+    if(data) setFiles(data);
     setIsLoading(false);
   };
 
@@ -32,12 +33,12 @@ const recent = () => {
         title="Recent Images"
         subtitle="Recent images"
         isLoading={isLoading}
-        files={files.filter((file) => file.type.split("/")[0] === "image").reverse().slice(0, 3)}
+        files={files?.filter((file) => file.type.split("/")[0] === "image").reverse().slice(0, 3)}
         address={address}
         user={true}
       >
         {address &&
-        files.filter((file) => file.type.split("/")[0] === "image").length >
+        files?.filter((file) => file.type.split("/")[0] === "image").length >
           0 ? (
           <Link
             href="/dashboard/files"
@@ -58,13 +59,13 @@ const recent = () => {
         title="Recent Videos"
         subtitle="Recent videos"
         isLoading={isLoading}
-        files={files.filter((file) => file.type.split("/")[0] === "video").reverse().slice(0, 3)}
+        files={files?.filter((file) => file.type.split("/")[0] === "video").reverse().slice(0, 3)}
         address={address}
         user={true}
         style="mt-[20px]"
       >
         {address &&
-        files.filter((file) => file.type.split("/")[0] === "video").length >
+        files?.filter((file) => file.type.split("/")[0] === "video").length >
           0 ? (
           <Link
             href="/dashboard/files"
@@ -87,19 +88,21 @@ const recent = () => {
 
 export default recent;
 
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req })
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/signin',
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   return {
-//     props: { session }
-//   }
-// }
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

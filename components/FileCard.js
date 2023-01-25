@@ -73,6 +73,7 @@ const FileCard = ({
           id={pid}
           setOpenModal={setShowModal}
           src={`https://ipfs.io/ipfs/${hash}`}
+          hash={hash}
           name={name}
           type={type}
           username={username.toLowerCase()}

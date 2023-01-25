@@ -15,7 +15,7 @@ const DisplayTable = ({ title, isLoading, files, address, user }) => {
           Wallet is not connected!! please connect your wallet 🙏
         </p>
       );
-    } else if (!isLoading && files?.length === 0) {
+    } else if (!isLoading || files?.length === 0) {
       return (
         <p className="flex items-center justify-center space-x-2 font-epilogue font-semibold text-[16px] leading-[30px] text-[#818183]">
           No files 😬
@@ -35,7 +35,7 @@ const DisplayTable = ({ title, isLoading, files, address, user }) => {
 
       {showStatus()}
 
-      {!isLoading && files.length > 0 && (
+      {!isLoading && files?.length > 0 && (
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">

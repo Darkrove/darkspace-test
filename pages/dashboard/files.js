@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 import { useStateContext } from "../../context";
 import { shortenAddress } from "../../utils";
@@ -13,7 +14,7 @@ const files = () => {
     const fetchFiles = async () => {
         setIsLoading(true);
         const data = await getUserFiles();
-        setFiles(data);
+        if (data) setFiles(data);
         setIsLoading(false);
     };
 
@@ -26,7 +27,7 @@ const files = () => {
                 title="Files"
                 subtitle="All files"
                 isLoading={isLoading}
-                files={files.filter(file => file.type !== "directory").reverse()}
+                files={files?.filter(file => file.type !== "directory").reverse()}
                 address={address}
                 user={true}
             />
@@ -36,19 +37,21 @@ const files = () => {
 
 export default files
 
-// export async function getServerSideProps({ req }) {
-//     const session = await getSession({ req })
-
-//     if (!session) {
-//         return {
-//             redirect: {
-//                 destination: '/signin',
-//                 permanent: false
-//             }
-//         }
-//     }
-
-//     return {
-//         props: { session }
-//     }
-// }
+export async function getServerSideProps(context) {
+    const session = await unstable_getServerSession(
+      context.req,
+      context.res,
+      authOptions
+    );
+    if (!session) {
+      return {
+        redirect: {
+          destination: "/signin",
+          permanent: false,
+        },
+      };
+    }
+    return {
+      props: { session },
+    };
+  }

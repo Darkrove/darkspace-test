@@ -1,4 +1,6 @@
 import React from "react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 const videos = () => {
   return (
@@ -14,3 +16,22 @@ const videos = () => {
 };
 
 export default videos;
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}
