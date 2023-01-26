@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 import { useStateContext } from "../../../context";
@@ -37,15 +38,17 @@ const index = (props) => {
         </div>
       ) : (
         <>
-          <div className="mt-[30px] flex lg:flex-row flex-col gap-5">
+          <div className="flex lg:flex-row flex-col gap-5">
             <div className="flex-[2] flex flex-col gap-[40px]">
               <div>
                 <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"></h4>
-                <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
-                  <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer">
-                    <img
+                <div className="flex flex-row items-center flex-wrap gap-[14px]">
+                  <div className="w-[45px] h-[45px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer">
+                    <Image
                       src={file?.profile}
                       alt="user"
+                      width={100}
+                      height={100}
                       className="object-fill rounded-full"
                     />
                   </div>
@@ -53,19 +56,18 @@ const index = (props) => {
                     <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
                       {file?.username}
                     </h4>
-                    <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">
-                      10 Campaigns
-                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
+          <div className="w-full flex md:flex-row flex-col mt-4 gap-[30px]">
             <div className="flex-1 flex-col">
-              <img
+              <Image
                 src={`https://ipfs.io/ipfs/${file?.hash}`}
                 alt="campaign"
+                width={800}
+                height={600}
                 className="w-full h-[410px] object-cover rounded-xl"
               />
             </div>
@@ -75,7 +77,7 @@ const index = (props) => {
             <CardBox title={"Hash"} value={file?.hash} />
             <CardBox title={"Size"} value={formatBytes(file?.size)} />
             <CardBox title={"Publish"} value={formatDate(file?.uploadTime)} />
-            <CardBox title={"Link"} value={"dfwefwefwefwefwef"} />
+            <CardBox title={"Link"} value={`https://ipfs.io/ipfs/${file?.hash}`} />
           </div>
         </>
       )}

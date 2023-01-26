@@ -61,10 +61,10 @@ const profile = () => {
         <div className="w-full flex flex-col items-center relative">
           <section className="flex flex-col w-full justify-between lg:mt-0 md:mt-0 prose prose-a:no-underline gap-6">
             <div>
-              <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
+              <h1 className="text-zinc-200 leading-none mb-3 text-[2.5rem] font-extrabold">
                 Profile
               </h1>
-              <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
+              <p className="text-zinc-400 m-0 leading-tight">
                 Random stats and stuff related to you.
               </p>
             </div>

@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from "../utils";
 
 export default function ProfileCard({host, user}) {
   return (
-    <div className="dark:bg-gradient-to-r dark:from-neutral-700 dark:to-zinc-700 bg-gradient-to-r from-neutral-200 to-zinc-200 rounded-lg shadow-xl p-4 flex justify-between gap-2">
+    <div className="bg-gradient-to-r from-neutral-700 to-zinc-700  rounded-lg shadow-xl p-4 flex justify-between gap-2">
       <div className="flex flex-col justify-between gap-2">
         <p
           // className={clsx({
@@ -23,7 +23,7 @@ export default function ProfileCard({host, user}) {
           
           {user?.email}
         </p>
-        <div className="flex gap-2 lg:gap-4 md:gap-3 text-sm lg:text-base md:text-base dark:text-zinc-200 text-zinc-900 w-full">
+        <div className="flex gap-2 lg:gap-4 md:gap-3 text-sm lg:text-base md:text-base text-zinc-200 w-full">
           <p className="m-0">
             {capitalizeFirstLetter(user?.name)}
           </p>

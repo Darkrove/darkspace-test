@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { AppleLogo, GithubLogo, GoogleLogo } from "../assets/Icons";
@@ -42,14 +43,14 @@ const login = () => {
             <div className="rounded-3xl border border-gray-100 dark:border-[#1c1c24] bg-white dark:bg-[#1c1c24] shadow-2xl shadow-gray-600/10 dark:shadow-none">
               <div className="p-8 py-12 sm:p-16">
                 <div className="space-y-4">
-                  <Image
+                 <Link href="/"><Image
                     src="/assets/logo.svg"
                     loading="lazy"
                     className="w-10"
                     width={10}
                     height={10}
-                    alt="tailus logo"
-                  />
+                    alt="logo"
+                  /></Link>
                   <h2 className="mb-8 lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-bold text-gray-800 dark:text-white">
                     Sign in to <br />
                     Dark<span className="text-violet-500">Space</span>
