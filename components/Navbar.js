@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { ConnectWallet } from "@thirdweb-dev/react";
-import { useSession, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react";
 
-import { CustomButton } from "./";
+import { CustomButton, UserDropdown } from "./";
 import { capitalizeFirstLetter } from "../utils";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
@@ -42,7 +42,8 @@ const Row = ({ id, styles, name, imgUrl, activePage, handleClick }) => {
 const Navbar = () => {
   const { data: session } = useSession();
   const [toggleDrawer, setToggleDrawer] = useState(false);
-  const { connect, address, activePage, setActivePage, disconnect } = useStateContext();
+  const { connect, address, activePage, setActivePage, disconnect } =
+    useStateContext();
 
   const router = useRouter();
   const push = () => {
@@ -65,7 +66,7 @@ const Navbar = () => {
             width={50}
             height={50}
             src={search}
-            loading='lazy'
+            loading="lazy"
             alt="search"
             className="w-[20px] h-[20px] object-contain"
           />
@@ -87,47 +88,53 @@ const Navbar = () => {
           accentColor="#8B5CF6"
           colorMode="dark"
         />
-        <Link
-          onClick={() => setActivePage("profile")}
-          href="/dashboard/profile"
-        >
-          <div className="w-[52px] h-[52px] overflow-hidden rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
-            <Image
+        <div className="w-[52px] h-[52px] overflow-hidden rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          {/* <Image
               width={50}
               height={50}
               loading='lazy'
               src={session? session.user.image : userProfile}
               alt="user"
               className="w-[100%] h-[100%] object-fill"
-            />
-          </div>
-        </Link>
+            /> */}
+          <UserDropdown onProfileClick={() => setActivePage("profile")} />
+        </div>
       </div>
 
       {/* Small screen navigation */}
       <div className="sm:hidden flex justify-between items-center relative">
+        <Image
+          width={50}
+          height={50}
+          src={menu}
+          alt="menu"
+          loading="lazy"
+          className="w-[34px] h-[34px] object-contain cursor-pointer"
+          onClick={() => setToggleDrawer((prev) => !prev)}
+        />
         <Link onClick={() => setActivePage("dashboard")} href="/dashboard">
           <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             <Image
               width={50}
               height={50}
-              loading='lazy'
+              loading="lazy"
               src={logo}
               alt="user"
               className="w-[60%] h-[60%] object-contain"
             />
           </div>
         </Link>
-
-        <Image
-          width={50}
-          height={50}
-          src={menu}
-          alt="menu"
-          loading='lazy'
-          className="w-[34px] h-[34px] object-contain cursor-pointer"
-          onClick={() => setToggleDrawer((prev) => !prev)}
-        />
+        <div className="w-[34px] h-[34px] overflow-hidden rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          {/* <Image
+              width={50}
+              height={50}
+              loading='lazy'
+              src={session? session.user.image : userProfile}
+              alt="user"
+              className="w-[100%] h-[100%] object-fill"
+            /> */}
+          <UserDropdown onProfileClick={() => setActivePage("profile")} />
+        </div>
 
         <div
           className={`absolute top-[60px] right-0 left-0 bg-[#1c1c24] z-10 shadow-secondary py-4 ${
@@ -147,7 +154,15 @@ const Navbar = () => {
                 }}
               />
             ))}
-            {session ? <Row name="logout" imgUrl={logout} handleClick={()=>signOut()}/> : ""}
+            {/* {session ? (
+              <Row
+                name="logout"
+                imgUrl={logout}
+                handleClick={() => signOut()}
+              />
+            ) : (
+              ""
+            )} */}
           </ul>
 
           <div className="flex mx-4">

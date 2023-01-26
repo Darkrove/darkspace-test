@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
+import { Provider as RWBProvider } from "react-wrap-balancer";
 
 import "../styles/globals.css";
 import { Sidebar, Navbar, HomeNavbar } from "../components";
@@ -77,12 +78,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <ThirdwebProvider desiredChainId={activeChainId}>
       <StateContextProvider>
         <SessionProvider session={session}>
-          {map()}
-          <Toaster
-            position="bottom-right"
-            reverseOrder={true}
-            toastOptions={{ ...toastStyle, duration: 7000 }}
-          />
+          <RWBProvider>
+            {map()}
+            <Toaster
+              position="bottom-right"
+              reverseOrder={true}
+              toastOptions={{ ...toastStyle, duration: 7000 }}
+            />
+          </RWBProvider>
         </SessionProvider>
       </StateContextProvider>
     </ThirdwebProvider>

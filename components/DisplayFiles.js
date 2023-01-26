@@ -40,7 +40,7 @@ const DisplayFiles = ({
       </div>
       {isLoading && (
         <div className="flex flex-wrap mt-[20px] gap-[26px]">
-          {[0,1,2,3,4,5].map((id) => <FileCardSkeleton />)}
+          {[0,1,2,3,4,5].map((id) => <FileCardSkeleton user={user}/>)}
         </div>
       )}
       {showStatus()}

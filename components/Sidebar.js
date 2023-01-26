@@ -72,7 +72,7 @@ const Sidebar = () => {
               />
             </ToolTip>
           ))}
-          {session ? (
+          {/* {session ? (
             <ToolTip tip="Logout">
               <Icon
                 styles="grayscale hover:grayscale-0"
@@ -83,7 +83,7 @@ const Sidebar = () => {
             </ToolTip>
           ) : (
             ""
-          )}
+          )} */}
         </div>
 
         <Icon styles="bg-zinc-800 shadow-secondary" imgUrl={sun} />
