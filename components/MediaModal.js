@@ -106,9 +106,9 @@ export default function MediaModal({
   return (
     <>
       <Toaster position="bottom-right" reverseOrder={true} />
-      <div className="fixed inset-0 z-30 overflow-y-auto">
+      <div className="fixed inset-0 z-50 overflow-y-auto">
         <div
-          className="fixed inset-0 w-full h-full bg-black opacity-80"
+          className="fixed inset-0 w-full h-full bg-zinc-700 bg-opacity-80"
           onClick={() => setOpenModal(false)}
         ></div>
         <div className="flex items-center min-h-screen px-4 py-8" id={id}>

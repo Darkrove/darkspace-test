@@ -16,7 +16,7 @@ export default function UserDropdown({onProfileClick}) {
 
   return (
     <motion.div
-      className="relative overflow-hidden inline-block text-left z-50"
+      className="relative overflow-hidden inline-block text-left z-30"
       {...FADE_IN_ANIMATION_SETTINGS}
     >
       <Popover
