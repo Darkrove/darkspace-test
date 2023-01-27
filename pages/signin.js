@@ -1,27 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { AppleLogo, GithubLogo, GoogleLogo } from "../assets/Icons";
+import { LoadingDots } from "../components/icons";
 
-export const Button = ({ children, title, handle }) => {
+export const Button = ({ children, title, handle, signinclicked }) => {
   return (
     <button
+      disabled={signinclicked}
       onClick={handle}
-      className="group relative flex h-11 items-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white dark:before:bg-gray-600 dark:before:border-gray-600 before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 disabled:before:bg-gray-300 disabled:before:scale-100"
+      className={`${
+        signinclicked && "cursor-not-allowed"
+      }group relative flex h-11 items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-white dark:before:bg-gray-600 dark:before:border-gray-600 before:border before:border-gray-200 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 disabled:before:bg-gray-300 disabled:before:scale-100`}
     >
-      <span className="w-full relative flex justify-center items-center gap-3 text-base font-medium text-gray-600 dark:text-gray-100">
-        {children}
-        <span className="lg:text-base text-xs font-medium">{title}</span>
-      </span>
+      {signinclicked ? (
+        <div className="flex justify-center items-center w-full">
+          <LoadingDots color="#808080" />
+        </div>
+      ) : (
+        <>
+          <span className="w-full relative flex justify-center items-center gap-3 text-base font-medium text-gray-600 dark:text-gray-100">
+            {children}
+            <span className="lg:text-base text-xs font-medium">{title}</span>
+          </span>
+        </>
+      )}
     </button>
   );
 };
 
 const login = () => {
   const { data: session } = useSession();
+  const [signInGoogleClicked, setSignInGooleClicked] = useState(false);
+  const [signInGithubClicked, setSignInGithubClicked] = useState(false);
+  const [signInClicked, setSignInClicked] = useState(false);
   const environment = process.env.NODE_ENV;
   const URL =
     environment === "development"
@@ -30,11 +45,14 @@ const login = () => {
   console.log(environment);
 
   async function signInWithGithub() {
+    setSignInGithubClicked(true);
     signIn("github", { callbackUrl: URL });
   }
   async function signInWithGoogle() {
+    setSignInGooleClicked(true);
     signIn("google", { callbackUrl: URL });
   }
+
   return (
     <div className="dark:bg-[#13131a] min-h-screen grid content-center m-auto">
       <div className="relative py-16">
@@ -43,14 +61,16 @@ const login = () => {
             <div className="rounded-3xl border border-gray-100 dark:border-[#1c1c24] bg-white dark:bg-[#1c1c24] shadow-2xl shadow-gray-600/10 dark:shadow-none">
               <div className="p-8 py-12 sm:p-16">
                 <div className="space-y-4">
-                 <Link href="/"><Image
-                    src="/assets/logo.svg"
-                    loading="lazy"
-                    className="w-10"
-                    width={10}
-                    height={10}
-                    alt="logo"
-                  /></Link>
+                  <Link href="/">
+                    <Image
+                      src="/assets/logo.svg"
+                      loading="lazy"
+                      className="w-10"
+                      width={10}
+                      height={10}
+                      alt="logo"
+                    />
+                  </Link>
                   <h2 className="mb-8 lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-bold text-gray-800 dark:text-white">
                     Sign in to <br />
                     Dark<span className="text-violet-500">Space</span>
@@ -60,7 +80,11 @@ const login = () => {
                   </p>
                 </div>
                 <div className="mt-20 grid space-y-4">
-                  <Button title="Signin with Google" handle={signInWithGoogle}>
+                  <Button
+                    title="Signin with Google"
+                    handle={signInWithGoogle}
+                    signinclicked={signInGoogleClicked}
+                  >
                     <GoogleLogo
                       width={"1.5rem"}
                       height={"1.5rem"}
@@ -71,6 +95,7 @@ const login = () => {
                     img="github"
                     title="Signin with Github"
                     handle={signInWithGithub}
+                    signinclicked={signInGithubClicked}
                   >
                     <GithubLogo
                       width={"1.5rem"}

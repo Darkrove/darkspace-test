@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import Head from "next/head";
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
@@ -27,6 +28,7 @@ const toastStyle = {
 };
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  const currentRoute = useRouter().pathname;
   useEffect(() => {
     import("preline");
     if (
@@ -61,13 +63,25 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       );
     } else {
       return (
-        <div className="relative sm:-8 p-4 bg-zinc-900 min-h-screen flex flex-row">
-          <div className="sm:flex hidden mr-10 relative">
-            <Sidebar />
-          </div>
-          <div className="flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5">
-            <Navbar />
-            <Component {...pageProps} />
+        <div>
+          <Head>
+            <title>
+              {currentRoute === "/dashboard"
+                ? "dashboard"
+                : `dashboard // ${currentRoute.split('/')[2]}`}
+            </title>
+            <meta name="description" content={"web3 storage provider"} />
+            <meta name="theme-color" content="#27272a" />
+            <meta property="og:site_name" content="darkspace" />
+          </Head>
+          <div className="relative sm:-8 p-4 bg-zinc-900 min-h-screen flex flex-row">
+            <div className="sm:flex hidden mr-10 relative">
+              <Sidebar />
+            </div>
+            <div className="flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5">
+              <Navbar />
+              <Component {...pageProps} />
+            </div>
           </div>
         </div>
       );
