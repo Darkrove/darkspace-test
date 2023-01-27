@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { Header } from "../components";
+import { Header, CtaSection } from "../components";
 
 const index = () => {
   const [theme, setTheme] = useState();
@@ -42,8 +42,8 @@ const index = () => {
   };
 
   return (
-    <div className="dark:bg-zinc-900 min-h-screen">
-      <Header />
+    <div className="bg-zinc-900 min-h-screen">
+      <CtaSection/>
     </div>
     //   <div className="h-screen w-full flex justify-center items-center">
     //     <div className="flex flex-col dark:bg-white bg-gray-800 text-gray-800 rounded-lg p-4 text-center">
