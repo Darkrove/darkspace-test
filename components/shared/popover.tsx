@@ -25,7 +25,7 @@ export default function Popover({
       )}
       {isDesktop && (
         <PopoverPrimitive.Root>
-          <PopoverPrimitive.Trigger className="inline-flex" asChild>
+          <PopoverPrimitive.Trigger className="" asChild>
             {children}
           </PopoverPrimitive.Trigger>
           <PopoverPrimitive.Content

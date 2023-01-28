@@ -41,6 +41,7 @@
     "web3": "^1.8.1"
   },
   "devDependencies": {
+    "@gradin/tailwindcss-skeleton-screen": "^1.0.2",
     "@types/react": "^18.0.27",
     "autoprefixer": "^10.4.13",
     "eslint": "8.11.0",

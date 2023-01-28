@@ -27,10 +27,22 @@ module.exports = {
           '900': '#482307',
         },
       },
+      container: {
+        center: true,
+      },
+      skeletonScreen: {
+        DEFAULT: {
+          baseColor: '#3f3f46',
+          movingColor: 'linear-gradient(to right, transparent 0%, #52525b 50%, transparent 100%)',
+          duration: '1s',
+          timing: 'linear',
+        },
+      },
     },
   },
   darkMode: 'class',
   plugins: [
     require('preline/plugin'),
+    require('@gradin/tailwindcss-skeleton-screen'),
   ],
 }

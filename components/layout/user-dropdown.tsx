@@ -23,7 +23,7 @@ export default function UserDropdown({onProfileClick}) {
         content={
           <div className="w-full rounded-md bg-zinc-800 p-2 sm:w-56">
             <Link
-              className="flex items-center justify-start text-zinc-200 space-x-2 relative w-full rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-zinc-600"
+              className="flex flex-row items-center justify-start text-zinc-200 space-x-2 relative w-full rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-zinc-600"
               href="/dashboard/profile"
               onClick={onProfileClick}
             >
@@ -38,7 +38,7 @@ export default function UserDropdown({onProfileClick}) {
               <p className="text-sm">Dashboard</p>
             </button> */}
             <button
-              className="relative flex w-full items-center justify-start text-zinc-200 space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-zinc-600"
+              className="relative flex flex-row w-full items-center justify-start text-zinc-200 space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-zinc-600"
               onClick={() => signOut({ redirect: true })}
             >
               <LogOut className="h-4 w-4" color="currentColor"/>
@@ -52,7 +52,7 @@ export default function UserDropdown({onProfileClick}) {
       >
         <button
           onClick={() => setOpenPopover(!openPopover)}
-          className="flex w-[100%] h-[100%] items-center justify-center overflow-hidden rounded-full transition-all duration-75 focus:outline-none active:scale-95"
+          className="flex flex-row w-[100%] h-[100%] items-center justify-center overflow-hidden rounded-full transition-all duration-75 focus:outline-none active:scale-95"
         >
           <Image
             alt={email}
