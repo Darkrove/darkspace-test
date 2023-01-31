@@ -7,6 +7,7 @@ import {
   useMetamask,
   useDisconnect,
   useContractWrite,
+  useBalance,
 } from "@thirdweb-dev/react";
 
 import { padString, unpadString, formatDate } from "../utils";
@@ -34,6 +35,7 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const address = useAddress();
+  const balance = useBalance();
   const connect = useMetamask();
   const disconnect = useDisconnect();
 
@@ -181,6 +183,7 @@ export const StateContextProvider = ({ children }) => {
     <StateContext.Provider
       value={{
         address,
+        balance,
         connect,
         disconnect,
         contract,

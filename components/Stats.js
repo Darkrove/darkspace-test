@@ -5,7 +5,7 @@ import { useStateContext } from "../context";
 
 import { shortenAddress } from "../utils";
 
-export default function Stats({lastUpdate, imageCount, videoCount, webCount, address}) {
+export default function Stats({lastUpdate, imageCount, videoCount, webCount, address, balance}) {
 
   const {setActivePage} = useStateContext();
 
@@ -33,14 +33,14 @@ export default function Stats({lastUpdate, imageCount, videoCount, webCount, add
 
   const statCards = [
     {
-      title: "My Age",
-      value: age,
+      title: "Wallet Address",
+      value: shortenAddress(address),
       link: "",
       active: "profile"
     },
     {
-      title: "Wallet Address",
-      value: shortenAddress(address),
+      title: "Wallet Balance",
+      value: `${parseFloat(balance?.data?.displayValue).toFixed(3)} ${" "} ${balance?.data?.symbol}`,
       link: "",
       active: "profile"
     },
@@ -85,7 +85,7 @@ export default function Stats({lastUpdate, imageCount, videoCount, webCount, add
                 rel="noreferrer"
                 onClick={()=>setActivePage(card.active)}
               >
-                {card.title} <LinkLogo className="w-4 h-4 fill-current" />
+                {card.title} <LinkLogo className="w-4 h-4" />
               </Link>
               <h3 className="text-zinc-900 dark:text-zinc-200 m-0">
                 {card.value || "-"}

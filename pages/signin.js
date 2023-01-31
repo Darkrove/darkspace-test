@@ -4,7 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { AppleLogo, GithubLogo, GoogleLogo } from "../assets/Icons";
+import { DiscordLogo, GithubLogo, GoogleLogo } from "../assets/Icons";
 import { LoadingDots } from "../components/icons";
 
 export const Button = ({ children, title, handle, signinclicked }) => {
@@ -36,6 +36,7 @@ const login = () => {
   const { data: session } = useSession();
   const [signInGoogleClicked, setSignInGooleClicked] = useState(false);
   const [signInGithubClicked, setSignInGithubClicked] = useState(false);
+  const [signInDiscordClicked, setSignInDiscordClicked] = useState(false);
   const [signInClicked, setSignInClicked] = useState(false);
   const environment = process.env.NODE_ENV;
   const URL =
@@ -51,6 +52,10 @@ const login = () => {
   async function signInWithGoogle() {
     setSignInGooleClicked(true);
     signIn("google", { callbackUrl: URL });
+  }
+  async function signInWithDiscord() {
+    setSignInDiscordClicked(true);
+    signIn("discord", { callbackUrl: URL });
   }
 
   return (
@@ -81,7 +86,7 @@ const login = () => {
                 </div>
                 <div className="mt-20 grid space-y-4">
                   <Button
-                    title="Signin with Google"
+                    title="Continue with Google"
                     handle={signInWithGoogle}
                     signinclicked={signInGoogleClicked}
                   >
@@ -93,7 +98,7 @@ const login = () => {
                   </Button>
                   <Button
                     img="github"
-                    title="Signin with Github"
+                    title="Continue with Github"
                     handle={signInWithGithub}
                     signinclicked={signInGithubClicked}
                   >
@@ -103,10 +108,15 @@ const login = () => {
                       fill="#8b5cf6"
                     />
                   </Button>
-                  <Button img="apple" title="Signin with Apple">
-                    <AppleLogo
-                      width={"1.5rem"}
-                      height={"1.5rem"}
+                  <Button
+                    img="apple"
+                    title="Continue with Discord"
+                    handle={signInWithDiscord}
+                    signinclicked={signInDiscordClicked}
+                  >
+                    <DiscordLogo
+                      width={"1.4rem"}
+                      height={"1.4rem"}
                       fill="#8b5cf6"
                     />
                   </Button>

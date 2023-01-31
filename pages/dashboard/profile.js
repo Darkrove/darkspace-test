@@ -10,7 +10,7 @@ import { shortenAddress } from "../../utils";
 import { imageIcon, videoIcon, hostIcon } from "../../assets";
 
 const profile = () => {
-  const { address, contract, getFileStats } = useStateContext();
+  const { address, balance, contract, getFileStats } = useStateContext();
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
@@ -51,6 +51,8 @@ const profile = () => {
         setHost("github");
       } else if (host === "googleusercontent") {
         setHost("google");
+      } else if (host === "discordapp") {
+        setHost("discord")
       }
     }
   }, [address, contract]);
@@ -75,6 +77,7 @@ const profile = () => {
               videoCount={videoCount}
               webCount={webCount}
               address={address}
+              balance={balance}
             />
           </section>
           {/* <Footer /> */}

@@ -1,25 +1,26 @@
-import { GoogleLogo, GithubLogo } from "../assets/Icons"
+import React, {useState, ueEffect} from "react";
+import { GoogleLogo, GithubLogo, DiscordLogo } from "../assets/Icons"
 import { capitalizeFirstLetter } from "../utils";
+import useOnlineStatus from "../lib/hooks/useOnlineStatus"
+import clsx from 'clsx';
 
 export default function ProfileCard({host, user}) {
+  const status = useOnlineStatus()
   return (
     <div className="bg-gradient-to-r from-neutral-700 to-zinc-700  rounded-lg shadow-xl p-4 flex justify-between gap-2">
       <div className="flex flex-col justify-between gap-2">
         <p
           // className={clsx({
-          //   "dark:text-zinc-400 text-zinc-600 m-0 text-xs lg:text-sm md:text-sm":
-          //     data?.discord_status === "offline" || !data?.discord_status,
-          //   "dark:text-green-400 text-green-600 m-0 text-xs lg:text-sm md:text-sm":
-          //     data?.discord_status === "online",
-          //   "dark:text-yellow-400 text-yellow-600 m-0 text-xs lg:text-sm md:text-sm":
-          //     data?.discord_status === "idle",
-          //   "dark:text-red-400 text-red-600 m-0 text-xs lg:text-sm md:text-sm":
-          //     data?.discord_status === "dnd",
+          //   "text-zinc-400 text-xs lg:text-sm md:text-sm":
+          //     status === "false",
+          //   "text-green-400 text-xs lg:text-sm md:text-sm":
+          //     status === "true",
           // })}
           className="text-zinc-400 text-xs lg:text-sm md:text-sm"
         >
-          {host === 'github' && <GithubLogo className="inline-block mr-2 w-4 h-4" />}{" "}
-          {host === 'google' && <GoogleLogo className="inline-block mr-2 w-4 h-4" />}{" "}
+          {host === 'github' && <GithubLogo className={`inline-block mr-2 w-4 h-4 ${status ? "text-green-400": "text-red-400"}`}/>}{" "}
+          {host === 'google' && <GoogleLogo className={`inline-block mr-2 w-4 h-4 ${status ? "text-green-400": "text-red-400"}`} />}{" "}
+          {host === 'discord' && <DiscordLogo className={`inline-block mr-2 w-4 h-4 ${status ? "text-green-400": "text-red-400"}`} />}{" "}
           
           {user?.email}
         </p>

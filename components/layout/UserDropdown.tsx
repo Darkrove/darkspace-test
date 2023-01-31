@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { User, LogOut } from "lucide-react";
 import Link from "next/link";
-import Popover from "../shared/popover";
+import Popover from "../shared/Popover";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FADE_IN_ANIMATION_SETTINGS } from "../../lib/constants";

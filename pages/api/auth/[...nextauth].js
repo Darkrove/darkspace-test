@@ -1,14 +1,14 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
-import AppleProvider from "next-auth/providers/apple";
+import DiscordProvider from "next-auth/providers/discord"
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   providers: [
     // OAuth authentication providers...
-    AppleProvider({
-      clientId: process.env.APPLE_ID,
-      clientSecret: process.env.APPLE_SECRET,
+    DiscordProvider({
+      clientId: process.env.NEXT_PUBLIC_DISCORD_ID,
+      clientSecret: process.env.NEXT_PUBLIC_DISCORD_SECRET,
     }),
     GithubProvider({
       clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
@@ -20,7 +20,7 @@ export const authOptions = {
     }),
   ],
   theme: {
-    colorScheme: "light",
+    colorScheme: "dark",
   },
   callbacks: {
     async jwt({ token }) {
