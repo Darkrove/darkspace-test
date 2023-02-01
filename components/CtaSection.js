@@ -1,5 +1,7 @@
 import { SafariMockup } from "../assets/Icons";
 import Balancer from "react-wrap-balancer";
+import Router from "next/router";
+
 export default function CtaSection() {
   return (
     <div className="bg-zinc-900 relative overflow-hidden isolate">
@@ -46,12 +48,12 @@ export default function CtaSection() {
               </Balancer>
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-              <a
-                href="#"
+              <button
+                onClick={() => Router.push("/signin")}
                 className="rounded-md bg-violet-500 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Join Now 🚀
-              </a>
+              </button>
               <a
                 href="#"
                 className="text-base font-semibold leading-7 text-white"
