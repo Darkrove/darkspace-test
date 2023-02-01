@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { unstable_getServerSession } from "next-auth/next";
+
 import { authOptions } from "../api/auth/[...nextauth]";
+import { useStateContext } from "../../context";
+import { DisplayFiles } from "../../components";
 
 const videos = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [files, setFiles] = useState([]);
+  const { address, contract, getUserFiles } = useStateContext();
+
+  const fetchFiles = async () => {
+    setIsLoading(true);
+    const data = await getUserFiles();
+    if (data) setFiles(data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (contract) fetchFiles();
+  }, [address, contract]);
   return (
     <div>
-      <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
-        Videos
-      </h1>
-      <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
-        All videos (0)
-      </p>
+      <DisplayFiles
+        title="Videos"
+        subtitle="All videos"
+        isLoading={isLoading}
+        files={files
+          ?.filter((file) => file.type.split("/")[0] === "video")
+          .reverse()}
+        address={address}
+        user={true}
+      />
     </div>
   );
 };

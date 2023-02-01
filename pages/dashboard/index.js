@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { getSession } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
-import toast from "react-hot-toast";
 
 import { authOptions } from "../api/auth/[...nextauth]";
 import { useStateContext } from "../../context";
 import { DisplayFiles } from "../../components";
-import { fetchData } from "next-auth/client/_utils";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
-  const [isToast, setIsToast] = useState(false);
   const { address, contract, getPublicFiles } = useStateContext();
 
   const fetchFiles = async () => {

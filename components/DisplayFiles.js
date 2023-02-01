@@ -16,8 +16,8 @@ const DisplayFiles = ({
   const showStatus = () => {
     if (!address && !isLoading && user) {
       return (
-        <p className="font-epilogue font-semibold text-[16px] leading-[30px] text-[#818183]">
-          Wallet is not connected!! please connect your wallet 🙏
+        <p className="font-epilogue font-semibold text-[16px] mt-2 leading-[30px] text-zinc-500">
+          Please connect your wallet 🙏
         </p>
       );
     } else if (!isLoading && files?.length === 0) {
@@ -40,7 +40,9 @@ const DisplayFiles = ({
       </div>
       {isLoading && (
         <div className="flex flex-wrap mt-[20px] gap-[26px]">
-          {[0,1,2,3,4,5].map((id) => <FileCardSkeleton user={user}/>)}
+          {[0, 1, 2, 3, 4, 5].map((id) => (
+            <FileCardSkeleton user={user} />
+          ))}
         </div>
       )}
       {showStatus()}

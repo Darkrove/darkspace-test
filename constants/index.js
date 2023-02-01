@@ -25,18 +25,18 @@ export const navlinks = [
     imgUrl: folder,
     link: '/dashboard/files',
   },
-  // {
-  //   name: 'videos',
-  //   tip: 'Videos',
-  //   imgUrl: video,
-  //   link: '/dashboard/videos',
-  // },
-  // {
-  //   name: 'photos',
-  //   tip: 'Photos',
-  //   imgUrl: image,
-  //   link: '/dashboard/photos',
-  // },
+  {
+    name: 'videos',
+    tip: 'Videos',
+    imgUrl: video,
+    link: '/dashboard/videos',
+  },
+  {
+    name: 'photos',
+    tip: 'Photos',
+    imgUrl: image,
+    link: '/dashboard/photos',
+  },
   {
     name: 'recent',
     tip: 'Recent',

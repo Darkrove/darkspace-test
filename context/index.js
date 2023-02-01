@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useState } from "react";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 import Web3 from "web3";
 import {
   useAddress,
@@ -84,8 +85,10 @@ export const StateContextProvider = ({ children }) => {
         _filetype,
         _filehash,
       ]);
+      toast.success("Uploaded")
       console.info("contract call successs", data);
     } catch (err) {
+      toast.error("Contract call failed")
       console.error("contract call failure", err);
     }
   };

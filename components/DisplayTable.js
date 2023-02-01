@@ -15,10 +15,10 @@ const DisplayTable = ({ title, isLoading, files, address, user }) => {
           Wallet is not connected!! please connect your wallet 🙏
         </p>
       );
-    } else if (!isLoading || files?.length === 0) {
+    } else if (!isLoading && files?.length === 0) {
       return (
         <p className="flex items-center justify-center space-x-2 font-epilogue font-semibold text-[16px] leading-[30px] text-[#818183]">
-          No files 😬
+          No deployment found 😬
         </p>
       );
     }

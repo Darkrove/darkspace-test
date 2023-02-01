@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]";
 
+import { authOptions } from "../api/auth/[...nextauth]";
 import { useStateContext } from "../../context";
-import { shortenAddress } from "../../utils";
 import { LeftFaceArrow } from "../../assets/Icons";
 import { DisplayFiles } from "../../components";
 
 const recent = () => {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const { address, contract, setActivePage, getUserFiles } = useStateContext();
@@ -41,8 +38,8 @@ const recent = () => {
         files?.filter((file) => file.type.split("/")[0] === "image").length >
           0 ? (
           <Link
-            href="/dashboard/files"
-            onClick={() => setActivePage("files")}
+            href="/dashboard/photos"
+            onClick={() => setActivePage("photos")}
             rel="noreferrer"
             className="flex group gap-2 mt-[10px] items-center duration-200 text-zinc-500 cursor-pointer no-underline dark:hover:text-zinc-400 hover:text-zinc-700"
           >
@@ -68,8 +65,8 @@ const recent = () => {
         files?.filter((file) => file.type.split("/")[0] === "video").length >
           0 ? (
           <Link
-            href="/dashboard/files"
-            onClick={() => setActivePage("files")}
+            href="/dashboard/videos"
+            onClick={() => setActivePage("videoss")}
             rel="noreferrer"
             className="flex group gap-2 mt-[10px] items-center duration-200 text-zinc-500 cursor-pointer no-underline dark:hover:text-zinc-400 hover:text-zinc-700"
           >

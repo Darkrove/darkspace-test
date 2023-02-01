@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
-import toast, { Toaster } from "react-hot-toast";
+import { useStorageUpload } from "@thirdweb-dev/react";
+import toast from "react-hot-toast";
 import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]";
 
+import { authOptions } from "../api/auth/[...nextauth]";
 import { CustomButton, FormField, Loader } from "../../components";
 import { secure } from "../../assets";
 import { useStateContext } from "../../context";
 
 const uploadmedia = () => {
-  const router = useRouter();
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { address, contract, setFiles, setActivePage, uploadFile } =
-    useStateContext();
+  const [isActive, setIsActive] = useState(false);
+  const { address, uploadFile } = useStateContext();
   const initState = {
     filename: "",
     file: "",
@@ -23,7 +21,7 @@ const uploadmedia = () => {
     size: "",
     hash: "",
   };
-  const [form, setForm] = useState({ initState });
+  const [form, setForm] = useState({...initState});
   const { mutateAsync: upload } = useStorageUpload();
 
   const handleFormFieldChange = (fieldName, e) => {
@@ -61,22 +59,9 @@ const uploadmedia = () => {
       setIsLoading(true);
       const hashUrl = await uploadToIpfs();
       if (hashUrl.message) {
-        toast.error("Some error occurred!", {
-          duration: 7000,
-          style: {
-            border: "0.5px solid #ff5252",
-            background: "#1c1c24",
-            borderRadius: "15px",
-            padding: "10px",
-            color: "#fff",
-          },
-          iconTheme: {
-            primary: "#ff5252",
-            secondary: "#fff",
-          },
-        });
         setIsLoading(false);
-        setForm({ ...initState });
+        toast.error("Upload failed")
+        setForm({ file: "", filename: "", type: "", hash: "", size: "" });
         return;
       }
       await uploadFile(
@@ -88,46 +73,34 @@ const uploadmedia = () => {
         session?.user.image
       );
       setIsLoading(false);
-      setForm({ ...initState });
-      // setFiles((files) => [...files, hashUrl[0].slice(7)]);
-      toast.success("Uploaded successfully!", {
-        duration: 7000,
-        style: {
-          border: "0.5px solid #A855F7",
-          background: "#1c1c24",
-          borderRadius: "15px",
-          padding: "10px",
-          color: "#fff",
-        },
-        iconTheme: {
-          primary: "#A855F7",
-          secondary: "#fff",
-        },
-      });
-      // console.table(form)
-      // setActivePage("dashboard");
-      // router.push("/dashboard");
+      setForm({ file: "", filename: "", type: "", hash: "", size: "" });
     } else {
       alert("Provide valid image");
       setForm({ ...form, image: "" });
     }
   };
 
+  useEffect(() => {
+    if (form.file) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  });
+
   return (
     <div className="">
-      <Toaster position="bottom-right" reverseOrder={true} />
       {/* {isLoading && <Loader />} */}
-      {address ? (
+      <div>
         <div>
-          <div>
-            <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
-              Upload Media
-            </h1>
-            <p className="dark:text-zinc-400 text-zinc-800 m-0 leading-tight">
-              Upload videos or images, and use free storage
-            </p>
-          </div>
-
+          <h1 className="text-zinc-200 leading-none mb-3 text-[2.5rem] font-extrabold">
+            Upload Media
+          </h1>
+          <p className="text-zinc-400 m-0 leading-tight">
+            Upload videos or images, and use free storage
+          </p>
+        </div>
+        {address ? (
           <form
             onSubmit={handleSubmit}
             className="w-full mt-[20px] flex flex-col gap-[30px]"
@@ -137,6 +110,8 @@ const uploadmedia = () => {
               placeholder=""
               inputType="file"
               isFile
+              value={form.filename}
+              isActive={isActive}
               handleChange={(e) => captureFile(e)}
             />
             <div className="flex flex-wrap gap-[40px]">
@@ -146,6 +121,7 @@ const uploadmedia = () => {
                 inputType="text"
                 value={form.filename}
                 required
+                isActive={isActive}
                 handleChange={(e) => handleFormFieldChange("filename", e)}
               />
             </div>
@@ -169,26 +145,13 @@ const uploadmedia = () => {
                 status={isLoading}
               />
             </div>
-
-            {/* <Web3Button
-              contractAddress="0x116ed4BF438F858E67E045459A51F9b90Fc3A21d"
-              accentColor="#1dc071"
-              colorMode="dark"
-              action={(contract) => {
-                contract.call("addFile", session?.user.name, session?.user.image, form.filename, form.size, form.type, form.hash)
-              }}
-            >
-              upload 
-            </Web3Button> */}
           </form>
-        </div>
-      ) : (
-        <p className="text-white text-center text-3xl font-bold sm:text-4xl md:text-5xl">
-          connect your wallet 🦄
-        </p>
-      )}
-
-      {/* <input directory="" webkitdirectory="" type="file" onChange={(e) => {console.log(e.target.files)}}/> */}
+        ) : (
+          <p className="font-epilogue font-semibold text-[16px] mt-2 leading-[30px] text-zinc-500">
+            Please connect your wallet 🙏
+          </p>
+        )}
+      </div>
     </div>
   );
 };

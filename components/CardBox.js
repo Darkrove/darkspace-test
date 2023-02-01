@@ -10,7 +10,7 @@ const CardBox = ({ icon, value, title }) => {
       <div
         className="text-zinc-400 flex gap-4 m-0 items-center"
       >
-        {title} <LinkLogo className="w-4 h-4 fill-current" />
+        {title} <LinkLogo className="w-4 h-4" />
       </div>
       <h3 className="text-zinc-200 m-0 truncate">
         {value || "-"}

@@ -21,7 +21,7 @@ export default function UserDropdown({onProfileClick}) {
     >
       <Popover
         content={
-          <div className="w-full rounded-md bg-zinc-800 p-2 sm:w-56">
+          <div className="w-full rounded-md bg-zinc-800 border-0 p-2 sm:w-56">
             <Link
               className="flex flex-row items-center justify-start text-zinc-200 space-x-2 relative w-full rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-zinc-600"
               href="/dashboard/profile"

@@ -31,7 +31,7 @@ export default function Popover({
           <PopoverPrimitive.Content
             sideOffset={4}
             align={align}
-            className="z-20 mt-2 animate-slide-up-fade items-center rounded-md bg-white drop-shadow-lg"
+            className="z-20 mt-2 animate-slide-up-fade items-center rounded-md drop-shadow-lg"
           >
             {content}
           </PopoverPrimitive.Content>

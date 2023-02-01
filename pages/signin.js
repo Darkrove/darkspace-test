@@ -43,7 +43,6 @@ const login = () => {
     environment === "development"
       ? process.env.NEXT_PUBLIC_DEVELOPMENT_URL
       : process.env.NEXT_PUBLIC_PRODUCTION_URL;
-  console.log(environment);
 
   async function signInWithGithub() {
     setSignInGithubClicked(true);
@@ -145,21 +144,21 @@ const login = () => {
 export default login;
 
 // Export the `session` prop to use sessions with Server Side Rendering
-// export async function getServerSideProps(context) {
-//   const session = await unstable_getServerSession(
-//     context.req,
-//     context.res,
-//     authOptions
-//   );
-//   if(session){
-//     return {
-//       redirect : {
-//         destination: '/dashboard',
-//         permanent: false
-//       }
-//     }
-//   }
-//   return {
-//     props: {session}
-//   };
-// }
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if(session){
+    return {
+      redirect : {
+        destination: '/dashboard',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {session}
+  };
+}
