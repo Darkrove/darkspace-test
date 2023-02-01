@@ -1,31 +1,14 @@
 import Link from "next/link";
-import { LinkLogo } from "../assets/Icons";
 import { useState, useEffect } from "react";
-import { useStateContext } from "../context";
 
+import { LinkLogo } from "../assets/Icons";
+import { useStateContext } from "../context";
 import { shortenAddress } from "../utils";
 
 export default function Stats({lastUpdate, imageCount, videoCount, webCount, address, balance}) {
 
   const {setActivePage} = useStateContext();
-
-  const diffCalc = () => {
-    const diff =
-      (new Date().getTime() - new Date("November 11, 2000").getTime()) /
-      1000 /
-      60 /
-      60 /
-      24 /
-      365;
-    return diff.toFixed(9);
-  };
-
-  const [age, setAge] = useState(diffCalc());
   const [mounted, setMounted] = useState(false);
-
-  setInterval(() => {
-    setAge(diffCalc());
-  }, 10);
 
   useEffect(() => {
     setMounted(true);

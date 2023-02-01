@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
+import { unstable_getServerSession } from "next-auth/next";
+
+import { authOptions } from "../../api/auth/[...nextauth]";
 
 import { useStateContext } from "../../../context";
 import { CountBox, CardBox } from "../../../components";
@@ -86,3 +89,21 @@ const index = (props) => {
 };
 
 export default index;
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

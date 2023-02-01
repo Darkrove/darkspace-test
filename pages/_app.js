@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { Analytics } from '@vercel/analytics/react';
 import Head from "next/head";
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
@@ -108,6 +109,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               reverseOrder={true}
               toastOptions={{ ...toastStyle, duration: 7000 }}
             />
+            <Analytics />
           </RWBProvider>
         </SessionProvider>
       </StateContextProvider>

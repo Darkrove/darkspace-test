@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { NFTStorage, File, Blob } from "nft.storage";
-import { useStorageUpload, Web3Button } from "@thirdweb-dev/react";
-import { useSession, getSession } from "next-auth/react";
-import toast, { Toaster } from "react-hot-toast";
+import { NFTStorage, File } from "nft.storage";
+import { useStorageUpload } from "@thirdweb-dev/react";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { unstable_getServerSession } from "next-auth/next";
+
+import { authOptions } from "../api/auth/[...nextauth]";
 
 import {
   FolderUpload,
@@ -20,6 +23,7 @@ const viewfiles = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const { address, contract, getUserFiles, uploadFile } = useStateContext();
 
   const fetchFiles = async () => {
@@ -29,12 +33,9 @@ const viewfiles = () => {
     setDataLoading(false);
   };
 
-  useEffect(() => {
-    if (contract) fetchFiles();
-  }, [address, contract]);
-
   const handleChange = (e) => {
     setSelectedFiles(e.target.files);
+    setIsActive(true);
   };
 
   const handleSubmit = async () => {
@@ -44,7 +45,7 @@ const viewfiles = () => {
     const myFiles = [];
 
     Array.from(selectedFiles).forEach((file) => {
-      const blob = new Blob([file]);
+      // const blob = new Blob([file]);
       const res = new File([file], file.name, { type: file.type });
       myFiles.push(res);
     });
@@ -53,6 +54,10 @@ const viewfiles = () => {
     console.log(myFiles);
     try {
       const cid = await client.storeDirectory(myFiles);
+      if (cid.message) {
+        setIsLoading(false);
+        toast.error("😵‍💫 Upload failed, \n please try again.");
+      }
       await uploadFile(
         folderName[0].toLowerCase(),
         "directory",
@@ -62,17 +67,25 @@ const viewfiles = () => {
         session?.user.image
       );
       console.log(cid);
-      toast.success("Deployed successfully!");
     } catch (error) {
       console.log(error);
-      toast.success("Error occurred!");
     }
+    setSelectedFiles([]);
+    setIsActive(false);
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    if (selectedFiles.length > 0) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+    if (contract) fetchFiles();
+  }, [address, contract, selectedFiles]);
+
   return (
     <div>
-      {/* <Snackbar/> */}
       <div>
         <h1 className="dark:text-zinc-200 text-zinc-900 leading-none mb-3 text-[2.5rem] font-extrabold">
           Website Hosting
@@ -81,27 +94,53 @@ const viewfiles = () => {
           Host your static websites freely
         </p>
       </div>
-      <FolderUpload handleChange={handleChange} />
-      <div className="mt-5 flex flex-row justify-center">
-        <CustomButton
-          btnType="submit"
-          styles="bg-violet-500 w-72"
-          title="Deploy"
-          handleClick={handleSubmit}
-          status={isLoading}
-        />
-      </div>
-      <div className="mt-5">
-        <DisplayTable
-          title=""
-          files={files?.filter((file) => file.type === "directory")}
-          address={address}
-          user={true}
-          isLoading={dataLoading}
-        />
-      </div>
+      {address ? (
+        <div>
+          <FolderUpload isActive={isActive} handleChange={handleChange} />
+          <div className="mt-5 flex flex-row justify-center">
+            <CustomButton
+              btnType="submit"
+              styles="bg-violet-500 w-72"
+              title="Deploy"
+              handleClick={handleSubmit}
+              status={isLoading}
+            />
+          </div>
+          <div className="mt-5">
+            <DisplayTable
+              title=""
+              files={files?.filter((file) => file.type === "directory")}
+              address={address}
+              user={true}
+              isLoading={dataLoading}
+            />
+          </div>
+        </div>
+      ) : (
+        <p className="font-epilogue font-semibold text-[16px] mt-2 leading-[30px] text-zinc-500">
+          Please connect your wallet 🙏
+        </p>
+      )}
     </div>
   );
 };
 
 export default viewfiles;
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

@@ -23,7 +23,7 @@ const CustomButton = ({ btnType, title, handleClick, styles, status, disabled })
           onClick={handleClick}
           disabled={disabled}
         >
-          ⚡ {title}
+          ⚡{" "}{title}
         </button>
       )}
     </>

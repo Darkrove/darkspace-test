@@ -60,7 +60,7 @@ const uploadmedia = () => {
       const hashUrl = await uploadToIpfs();
       if (hashUrl.message) {
         setIsLoading(false);
-        toast.error("Upload failed")
+        toast.error("😵‍💫 Upload failed, \n please try again.")
         setForm({ file: "", filename: "", type: "", hash: "", size: "" });
         return;
       }

@@ -85,10 +85,10 @@ export const StateContextProvider = ({ children }) => {
         _filetype,
         _filehash,
       ]);
-      toast.success("Uploaded")
+      toast.success("Congratulation 🎉✨, \nYour data is now on blockchain.")
       console.info("contract call successs", data);
     } catch (err) {
-      toast.error("Contract call failed")
+      toast.error("Oops 😵‍💫, \nGot some issues please try again.")
       console.error("contract call failure", err);
     }
   };
@@ -96,8 +96,10 @@ export const StateContextProvider = ({ children }) => {
   const updateFile = async (_index, _status) => {
     try {
       const data = await updateFileStatus([_index, _status]);
+      toast.success("Your data is updated 🎉✨.")
       console.info("contract call successs", data);
     } catch (err) {
+      toast.error("Oops 😵‍💫, \nGot some issues please try again.")
       console.error("contract call failure", err);
     }
   };
@@ -165,7 +167,7 @@ export const StateContextProvider = ({ children }) => {
     const allFiles = await getUserFiles();
     if (!allFiles) return
     const latest = allFiles.reverse()
-    const lastUpdate = formatDate(latest[0]?.uploadTime)
+    const lastUpdate = allFiles.length > 0 ? formatDate(latest[0]?.uploadTime) : "not uploaded yet"
 
     const webCount = allFiles.reduce(
       (total, f) => (f.type === "directory" ? total + 1 : total + 0),
