@@ -70,10 +70,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 ? "dashboard"
                 : `dashboard // ${currentRoute.split('/')[2]}`}
             </title>
+            <script async defer data-website-id="411c18c7-5acf-48b5-9276-6862e28bb56b" src="https://umami-production-c771.up.railway.app/umami.js"></script>
             <meta name="description" content={"web3 storage provider"} />
             <meta name="theme-color" content="#27272a" />
             <meta property="og:site_name" content="darkspace" />
-            <script async defer data-website-id="411c18c7-5acf-48b5-9276-6862e28bb56b" src="https://umami-production-c771.up.railway.app/umami.js"></script>
           </Head>
           <div className="relative sm:-8 p-4 bg-zinc-900 min-h-screen flex flex-row">
             <div className="sm:flex hidden mr-10 relative">
