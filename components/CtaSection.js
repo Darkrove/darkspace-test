@@ -2,6 +2,8 @@ import { SafariMockup } from "../assets/Icons";
 import Balancer from "react-wrap-balancer";
 import Router from "next/router";
 
+import styles from "../styles/Button.module.css"
+
 export default function CtaSection() {
   return (
     <div className="bg-zinc-900 relative overflow-hidden isolate">
@@ -50,16 +52,15 @@ export default function CtaSection() {
             <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
               <button
                 onClick={() => Router.push("/signin")}
-                className="rounded-md bg-violet-500 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className={`${styles.button} border border-violet-500 hover:border-transparent w-full duration-200 transition-all rounded-md bg-violet-500 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
               >
                 Join Now 🚀
               </button>
-              <a
-                href="#"
-                className="text-base font-semibold leading-7 text-white"
+              <button
+                className={`${styles.button} hover:border-transparent w-full rounded-md px-3.5 py-1.5 text-base font-semibold leading-7 text-white border border-violet-500`}
               >
                 Learn more <span aria-hidden="true">→</span>
-              </a>
+              </button>
             </div>
             <p className="mt-2 italic font-bold text-[13px] text-zinc-500">
               Completely free to use. No hidden fees.
