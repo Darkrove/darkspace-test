@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { unstable_getServerSession } from "next-auth/next";
 
+import { authOptions } from "../api/auth/[...nextauth]";
 import { useStateContext } from "../../context";
 import { DisplayFiles } from "../../components";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
-  const { address, contract, getFiles } = useStateContext();
+  const { address, contract, getPublicFiles } = useStateContext();
 
   const fetchFiles = async () => {
     setIsLoading(true);
-    const data = await getFiles();
-    setFiles(data);
+    const data = await getPublicFiles();
+    if(data) {
+      setFiles(data.reverse());
+    }
     setIsLoading(false);
   };
 
@@ -21,12 +24,10 @@ const Home = () => {
   }, [address, contract]);
 
   return (
-    <div className="scroll-smooth text-center">
-      <p className="text-white text-3xl font-bold sm:text-4xl md:text-4xl mb-5">
-        Dashboard 🦄
-      </p>
+    <div className="scroll-smooth">
       <DisplayFiles
-        title="All files"
+        title="Global"
+        subtitle="All files"
         isLoading={isLoading}
         files={files}
         address={address}
@@ -37,3 +38,22 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

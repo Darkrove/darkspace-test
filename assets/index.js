@@ -14,6 +14,20 @@ const loader = '/assets/loader.svg';
 const userProfile = '/assets/blank-profile.png';
 const secure = '/assets/secure.svg';
 const verticalMenu = '/assets/vertical-menu.svg';
+const videoIcon = '/assets/video-icon.svg';
+const imageIcon = '/assets/image-icon.svg';
+const hostIcon = '/assets/host-icon.svg';
+const host = '/assets/host-seyfdesigner.svg';
+const rocket = '/assets/rock-seyfdesigner.svg';
+const download = '/assets/download-seyfdesigner.svg';
+const url = '/assets/url-seyfdesigner.svg';
+const link = '/assets/link-seyfdesigner.svg';
+const copy = '/assets/copy-seyfdesigner.svg';
+const info = '/assets/info-seyfdesigner.svg';
+const share = '/assets/share-seyfdesigner.svg';
+const remove = '/assets/delete-seyfdesigner.svg';
+const ethereum = '/assets/ethereum.org.svg';
+const heroLogo = '/assets/hero-geometry.webp';
 
 export {
   clock,
@@ -32,4 +46,18 @@ export {
   loader,
   userProfile,
   secure,
+  videoIcon,
+  imageIcon,
+  hostIcon,
+  host,
+  rocket,
+  download,
+  url,
+  link,
+  share,
+  copy,
+  info,
+  remove,
+  ethereum,
+  heroLogo
 };

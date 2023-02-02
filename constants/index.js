@@ -1,4 +1,4 @@
-import { upload, dashboard, folder, profile, image, video, clock } from '../assets';
+import { upload, dashboard, folder, host, rocket, profile, image, video, clock } from '../assets';
 
 export const navlinks = [
   {
@@ -8,7 +8,13 @@ export const navlinks = [
     link: '/dashboard',
   },
   {
-    name: 'uploadmedia',
+    name: 'host',
+    tip: 'Hosting',
+    imgUrl: rocket,
+    link: '/dashboard/host',
+  },
+  {
+    name: 'upload media',
     tip: 'Upload',
     imgUrl: upload,
     link: '/dashboard/uploadmedia',
@@ -37,11 +43,12 @@ export const navlinks = [
     imgUrl: clock,
     link: '/dashboard/recent',
   },
-  // {
-  //   name: 'profile',
-  //   imgUrl: profile,
-  //   link: '/dashboard/profile',
-  // },
+  {
+    name: 'profile',
+    tip: 'Profile',
+    imgUrl: profile,
+    link: '/dashboard/profile',
+  },
   // {
   //   name: 'logout',
   //   imgUrl: logout,

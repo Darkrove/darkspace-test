@@ -12,3 +12,7 @@ const Loader = () => {
 }
 
 export default Loader
+
+// Your Space is getting created...
+
+// Please hold on, this could take several seconds to complete.
