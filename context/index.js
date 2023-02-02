@@ -96,7 +96,7 @@ export const StateContextProvider = ({ children }) => {
   const updateFile = async (_index, _status) => {
     try {
       const data = await updateFileStatus([_index, _status]);
-      toast.success("Your data is updated 🎉✨.")
+      toast.success("Your data is updated 🎉✨")
       console.info("contract call successs", data);
     } catch (err) {
       toast.error("Oops 😵‍💫, \nGot some issues please try again.")

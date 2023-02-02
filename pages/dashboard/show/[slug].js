@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useContract, useContractRead } from "@thirdweb-dev/react";
+import { MediaRenderer } from "@thirdweb-dev/react";
 import { unstable_getServerSession } from "next-auth/next";
 
 import { authOptions } from "../../api/auth/[...nextauth]";
-
 import { useStateContext } from "../../../context";
-import { CountBox, CardBox } from "../../../components";
+import { LadyLoader, CardBox } from "../../../components";
 import { capitalizeFirstLetter, formatDate, formatBytes } from "../../../utils";
 
 const index = (props) => {
@@ -16,7 +15,6 @@ const index = (props) => {
   const { address, contract, getFileByHash } = useStateContext();
   const router = useRouter();
   const { slug } = router.query;
-
   const fetchFile = async () => {
     try {
       const data = await getFileByHash(slug);
@@ -35,13 +33,11 @@ const index = (props) => {
     <div>
       {isLoading ? (
         <div className="flex items-center justify-center space-x-2">
-          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+         <LadyLoader/>
         </div>
       ) : (
         <>
-          <div className="flex lg:flex-row flex-col gap-5">
+          <div div className="flex lg:flex-row flex-col gap-5">
             <div className="flex-[2] flex flex-col gap-[40px]">
               <div>
                 <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"></h4>
@@ -66,21 +62,40 @@ const index = (props) => {
           </div>
           <div className="w-full flex md:flex-row flex-col mt-4 gap-[30px]">
             <div className="flex-1 flex-col">
-              <Image
-                src={`https://ipfs.io/ipfs/${file?.hash}`}
-                alt="campaign"
-                width={800}
-                height={600}
-                className="w-full h-[410px] object-cover rounded-xl"
-              />
+              {file.type.split("/")[0] === "video" ? (
+                <video
+                  controls
+                  controlsList="nodownload"
+                  preload="auto"
+                  autoPlay
+                  playsInline
+                  loop
+                  src={`https://ipfs.io/ipfs/${file?.hash}`}
+                  alt="image"
+                  className="w-full h-[410px] object-cover rounded-xl"
+                />
+              ) : (
+                <Image
+                  src={`https://ipfs.io/ipfs/${file?.hash}`}
+                  alt="image"
+                  width={800}
+                  height={600}
+                  className="w-full h-[410px] object-cover rounded-xl"
+                />
+              )}
             </div>
           </div>
           <div className="mt-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
             <CardBox title={"Name"} value={file?.name} />
-            <CardBox title={"Hash"} value={file?.hash} />
+            <CardBox title={"Id"} value={`F${file?.pid}`} />
+            <CardBox title={"Hash"} value={file?.hash} copyIcon/>
             <CardBox title={"Size"} value={formatBytes(file?.size)} />
             <CardBox title={"Publish"} value={formatDate(file?.uploadTime)} />
-            <CardBox title={"Link"} value={`https://ipfs.io/ipfs/${file?.hash}`} />
+            <CardBox
+              title={"Link"}
+              value={`https://ipfs.io/ipfs/${file?.hash}`}
+              copyIcon
+            />
           </div>
         </>
       )}
@@ -104,6 +119,6 @@ export async function getServerSideProps(context) {
     };
   }
   return {
-    props: { session },
+    props: { session, query: context.query },
   };
 }

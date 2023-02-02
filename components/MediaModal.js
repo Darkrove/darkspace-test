@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { MediaRenderer } from "@thirdweb-dev/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Router from "next/router";
+import { useSession } from "next-auth/react";
+
 import { download, share, remove, link, copy, info } from "../assets";
 import { useStateContext } from "../context";
-import { MissingStaticPage } from "next/dist/shared/lib/utils";
 
 export default function MediaModal({
   id,
@@ -18,49 +18,24 @@ export default function MediaModal({
   user,
   status,
 }) {
+  const { data: session } = useSession();
   const [isLoading, setLoading] = useState(true);
   const [copyStatus, setCopyStatus] = useState(false);
 
   const { updateFile } = useStateContext();
 
-  const toastStyle = {
-    style: {
-      border: "0.5px solid #A855F7",
-      background: "#1c1c24",
-      borderRadius: "15px",
-      padding: "10px",
-      color: "#fff",
-    },
-    iconTheme: {
-      primary: "#A855F7",
-      secondary: "#fff",
-    },
-  }
-
-  const updateStatus = (id, status) => {
-    const saveStatus = async(id, status) => {
-      try {
-        await updateFile(id, status)
-      } catch (error) {
-        console.log(error)
-      }
-    };
-    toast.promise(saveStatus(id, status), {
-      loading: "Saving...",
-      success: <b>Status updated!</b>,
-      error: <b>Could not processed.</b>,
-    },
-    toastStyle);
-  };
-
-  const showToast = (msg) => {
-    toast.success(msg, {...toastStyle, duration: 5000});
+  const updateStatus = async (id, status) => {
+    try {
+      await updateFile(id, status);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const copyToClipboard = (src) => {
     navigator.clipboard.writeText(src);
     setCopyStatus(true);
-    showToast("Copied!");
+    toast.success("Copied!");
   };
 
   const downloadUsingFetch = async (HREF, name) => {
@@ -78,7 +53,7 @@ export default function MediaModal({
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          showToast("Downloaded!");
+          toast.success("Downloaded!");
         });
       })
       .catch((err) => {
@@ -91,7 +66,7 @@ export default function MediaModal({
       navigator
         .share({
           title: title,
-          text: "Checkout this file 🔥🚀\n",
+          text: `${session?.user?.name} shared something with you 🔥🚀\n`,
           url: url,
         })
         .then(() => {
@@ -105,7 +80,6 @@ export default function MediaModal({
 
   return (
     <>
-      <Toaster position="bottom-right" reverseOrder={true} />
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div
           className="fixed inset-0 w-full h-full bg-zinc-700 bg-opacity-80"
@@ -202,7 +176,7 @@ export default function MediaModal({
                           </span>
                           {status === "public" ? (
                             <button
-                              onClick={() => updateStatus(id, "private")}
+                              onClick={() => updateFile(id, "private")}
                               class="w-full flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                               href="#"
                             >
@@ -217,7 +191,7 @@ export default function MediaModal({
                             </button>
                           ) : (
                             <button
-                              onClick={() => updateStatus(id, "public")}
+                              onClick={() => updateFile(id, "public")}
                               class="w-full flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                               href="#"
                             >
